@@ -21,6 +21,7 @@ public class GreetingController {
     public String greetingSubmit(@ModelAttribute Greeting greeting, Model model) {
         model.addAttribute("greeting", greeting);
         return "result";
+        //Hola
     }
 
 }
