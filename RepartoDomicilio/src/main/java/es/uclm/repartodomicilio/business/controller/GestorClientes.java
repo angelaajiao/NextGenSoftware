@@ -1,15 +1,15 @@
-package es.uclm.repartodomicilio.business.controller;
+/*package es.uclm.repartodomicilio.business.controller;
 
 import es.uclm.repartodomicilio.business.entity.*;
-/*
+
 public class GestorClientes {
-   // RestauranteDAO restauranteDAO;
+    RestauranteDAO restauranteDAO;
 
     /**
      *
      * @param zona
      */
-  /*  public List<Restaurante> buscarRestaurante(CodigoPostal zona) {
+   /* public List<Restaurante> buscarRestaurante(CodigoPostal zona) {
         // TODO - implement GestorClientes.buscarRestaurante
         throw new UnsupportedOperationException();
     }
@@ -28,7 +28,7 @@ public class GestorClientes {
      * @param cliente
      * @param r
      */
-/*    public void favorito(Cliente cliente, Restaurante r) {
+    /*public void favorito(Cliente cliente, Restaurante r) {
         // TODO - implement GestorClientes.favorito
         throw new UnsupportedOperationException();
     }
@@ -52,10 +52,11 @@ public class GestorClientes {
      * @param cp
      * @param municipio
      */
-  /*  private Direccion altaDirecion(String calle, String numeero, String complemento, CodigoPostal cp, String municipio) {
+   /* private Direccion altaDirecion(String calle, String numeero, String complemento, CodigoPostal cp, String municipio) {
         // TODO - implement GestorClientes.altaDirecion
         throw new UnsupportedOperationException();
     }
 
 
 }
+*/

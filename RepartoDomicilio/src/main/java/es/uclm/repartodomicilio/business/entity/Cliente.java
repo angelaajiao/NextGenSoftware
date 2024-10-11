@@ -1,4 +1,4 @@
-package es.uclm.repartodomicilio.business.entity;
+/*package es.uclm.repartodomicilio.business.entity;
 
 import java.util.*;
 
@@ -67,3 +67,4 @@ public class Cliente {
     }
 
 }
+*/

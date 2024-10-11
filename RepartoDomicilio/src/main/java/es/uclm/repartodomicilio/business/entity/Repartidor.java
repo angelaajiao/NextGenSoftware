@@ -1,4 +1,4 @@
-package es.uclm.repartodomicilio.business.entity;
+/*package es.uclm.repartodomicilio.business.entity;
 import java.util.*;
 
 public class Repartidor {
@@ -9,3 +9,4 @@ public class Repartidor {
     private String nif;
     private int eficiencia;
 }
+*/

@@ -1,6 +1,7 @@
-package es.uclm.repartodomicilio.business.entity;
+/*package es.uclm.repartodomicilio.business.entity;
 
 public class MetodoPago {
    /* PAYPAL,
-    CREDIT_CARD*/
+    CREDIT_CARD
 }
+*/

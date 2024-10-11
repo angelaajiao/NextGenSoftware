@@ -1,6 +1,6 @@
-package es.uclm.repartodomicilio.business.entity;
+/*package es.uclm.repartodomicilio.business.entity;
 import java.util.*;
-/*
+
 public class Restaurante {
     Collection<Pedido> pedidos;
     Collection<CartaMenu> cartasMenu;
@@ -12,10 +12,10 @@ public class Restaurante {
      *
      * @param idRestaurante
      */
-    public List<ItemMenu> listarMenu(String idRestaurante) {
+    /*public List<ItemMenu> listarMenu(String idRestaurante) {
         // TODO - implement Restaurante.listarMenu
         throw new UnsupportedOperationException();
     }
 
-}
+}*/
 

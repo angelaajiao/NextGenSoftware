@@ -1,4 +1,4 @@
-package es.uclm.repartodomicilio.business.entity;
+/*package es.uclm.repartodomicilio.business.entity;
 
 public class Direccion {
     CodigoPostal codigoPostal;
@@ -7,3 +7,4 @@ public class Direccion {
     private String complemento;
     private String municipio;
 }
+*/
