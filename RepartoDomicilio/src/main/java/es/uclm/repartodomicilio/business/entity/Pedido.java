@@ -1,6 +1,6 @@
 package es.uclm.repartodomicilio.business.entity;
 import java.util.*;
-
+/*
 public class Pedido {
     Cliente cliente;
     Pago pago;
@@ -14,17 +14,21 @@ public class Pedido {
      *
      * @param itemMenu
      */
+/*
     public void add(iItemMenu itemMenu) {
         // TODO - implement Pedido.add
         throw new UnsupportedOperationException();
     }
-
+/*
     /**
      *
      * @param itemMenu
      */
+/*
     public void delete(ItemMenu itemMenu) {
         // TODO - implement Pedido.delete
         throw new UnsupportedOperationException();
     }
-}
+    */
+
+
