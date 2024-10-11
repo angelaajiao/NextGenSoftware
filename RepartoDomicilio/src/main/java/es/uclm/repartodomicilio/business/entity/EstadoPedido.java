@@ -1,8 +1,8 @@
 package es.uclm.repartodomicilio.business.entity;
 
 public class EstadoPedido {
-    PEDIDO,
+  /*  PEDIDO,
     PAGADO,
-    RECOGIDO,
-    ENTREGADO
+    RECOGIDO;
+    ENTREGADO;*/
 }
