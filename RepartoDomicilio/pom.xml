@@ -58,6 +58,7 @@
         <dependency>
             <groupId>org.apache.derby</groupId>
             <artifactId>derby</artifactId>
+            <version>10.16.1.1</version> <!-- Usa la última versión disponible -->
             <scope>runtime</scope>
         </dependency>
         <dependency>
