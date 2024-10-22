@@ -1,4 +1,4 @@
-package es.uclm.repartodomicilio.business.entity;
+/*package es.uclm.repartodomicilio.business.entity;
 
 public class ItemMenu {
     TipoItemMenu tipo;
@@ -6,3 +6,4 @@ public class ItemMenu {
     private double precio;
 
 }
+*/

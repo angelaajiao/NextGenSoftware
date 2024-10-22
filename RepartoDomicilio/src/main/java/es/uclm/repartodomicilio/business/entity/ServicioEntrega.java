@@ -1,4 +1,4 @@
-package es.uclm.repartodomicilio.business.entity;
+/*package es.uclm.repartodomicilio.business.entity;
 
 public class ServicioEntrega {
     Pedido pedido;
@@ -7,3 +7,4 @@ public class ServicioEntrega {
     private DateTime fechaRecepcion;
     private DateTime fechaEntrega;
 }
+*/

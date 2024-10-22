@@ -1,4 +1,4 @@
-package es.uclm.repartodomicilio.business.controller;
+/*package es.uclm.repartodomicilio.business.controller;
 
 import es.uclm.repartodomicilio.business.entity.*;
 public class GestorRepartos {
@@ -6,7 +6,7 @@ public class GestorRepartos {
      *
      * @param servicio
      */
-    public void marcarPedidoRecogido(ServicioEntrega servicio) {
+  /*  public void marcarPedidoRecogido(ServicioEntrega servicio) {
         // TODO - implement GestorRepartos.marcarPedidoRecogido
         throw new UnsupportedOperationException();
     }
@@ -15,7 +15,7 @@ public class GestorRepartos {
      *
      * @param servicio
      */
-    public void marcarPedidoEntregado(ServicioEntrega servicio) {
+    /*public void marcarPedidoEntregado(ServicioEntrega servicio) {
         // TODO - implement GestorRepartos.marcarPedidoEntregado
         throw new UnsupportedOperationException();
     }
@@ -27,8 +27,9 @@ public class GestorRepartos {
      * @param nif
      * @param zonas
      */
-    public void registrarRepartidor(String nombre, String apellidos, String nif, List<CodigoPostal> zonas) {
+    /*public void registrarRepartidor(String nombre, String apellidos, String nif, List<CodigoPostal> zonas) {
         // TODO - implement GestorRepartos.registrarRepartidor
         throw new UnsupportedOperationException();
     }
 }
+*/
