@@ -41,10 +41,11 @@ build/
 ### JetBrains IDEs ###
 .idea/
 *.dat
-*.log
 *.tmp
 *.lck
 
-### IGNORAR LOGS DERBY ###
-derby.log
+# Ignorar cualquier archivo .log en el proyecto
+*.log
+
+# Ignorar específicamente el log de Derby en esta ubicación
 RepartoDomicilio/derby.log
