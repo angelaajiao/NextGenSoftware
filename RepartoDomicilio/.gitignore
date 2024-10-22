@@ -37,7 +37,14 @@ build/
 /database/seg0/
 /database/log/
 /database/temp/
+
+### JetBrains IDEs ###
+.idea/
 *.dat
 *.log
 *.tmp
 *.lck
+
+### IGNORAR LOGS DERBY ###
+derby.log
+RepartoDomicilio/derby.log
