@@ -49,7 +49,7 @@ public class GestorRestaurantes {
      * @param precio
      * @param tipo
      */
-    private ItemMenu crearItem(String nombre, double precio, TipoItemMenu tipo) {
+    private TipoItemMenu crearItem(String nombre, double precio, TipoItemMenu tipo) {
         TipoItemMenu itemMenu = new TipoItemMenu();
         itemMenu.setNombre(nombre);
         itemMenu.setPrecio(precio);
