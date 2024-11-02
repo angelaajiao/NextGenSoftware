@@ -1,8 +1,7 @@
-/*package es.uclm.repartodomicilio.business.entity;
+package es.uclm.repartodomicilio.business.entity;
 
 public class TipoItemMenu {
-  /*  COMIDA,
+    COMIDA,
     BEBIDA,
     POSTRE
 }
-*/
