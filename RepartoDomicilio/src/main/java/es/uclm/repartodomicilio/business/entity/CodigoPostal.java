@@ -1,5 +1,4 @@
 package es.uclm.repartodomicilio.business.entity;
-import java.util.*;
 
 public enum CodigoPostal {
     	45600,

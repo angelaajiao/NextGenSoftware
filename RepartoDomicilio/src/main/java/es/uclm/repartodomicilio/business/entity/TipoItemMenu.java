@@ -1,6 +1,6 @@
 package es.uclm.repartodomicilio.business.entity;
 
-public class TipoItemMenu {
+public enum TipoItemMenu {
     COMIDA,
     BEBIDA,
     POSTRE
