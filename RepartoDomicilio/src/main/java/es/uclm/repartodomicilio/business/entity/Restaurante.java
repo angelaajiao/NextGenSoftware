@@ -1,31 +1,39 @@
 package es.uclm.repartodomicilio.business.entity;
 import jakarta.persistence.*;
 import java.util.List;
-import java.util.Collection;
 
 @Entity
-@Table(name="restaurantes")
+@Table(name="restaurante")
 
 public class Restaurante {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Collection<Pedido> pedidos;
+    /*@OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Pedido> pedidos;*/
 
     @OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Collection<CartaMenu> cartasMenu;
+    private List<CartaMenu> cartasMenu;
 
     @Embedded
     private Direccion direccion;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String nombre;
 
     @Column(nullable = false, unique = true)
     private String cif;
 
+    //Constructor vacío requerido por JPA
+    public Restaurante(){}
+
+    // Constructor con parametros
+    public Restaurante(String nombre, String cif, Direccion direccion){
+        this.nombre = nombre;
+        this.cif = cif;
+        this.direccion = direccion;
+    }
     // Getters y Setters
     public Long getId() {
         return id;
@@ -35,19 +43,19 @@ public class Restaurante {
         this.id = id;
     }
 
-    public Collection<Pedido> getPedidos() {
+    /*public List<Pedido> getPedidos() {
         return pedidos;
     }
 
-    public void setPedidos(Collection<Pedido> pedidos) {
+    public void setPedidos(List<Pedido> pedidos) {
         this.pedidos = pedidos;
-    }
+    }*/
 
-    public Collection<CartaMenu> getCartasMenu() {
+    public List<CartaMenu> getCartasMenu() {
         return cartasMenu;
     }
 
-    public void setCartasMenu(Collection<CartaMenu> cartasMenu) {
+    public void setCartasMenu(List<CartaMenu> cartasMenu) {
         this.cartasMenu = cartasMenu;
     }
 
@@ -80,7 +88,6 @@ public class Restaurante {
      * @param idRestaurante
      */
     public List<ItemMenu> listarMenu() {
-        // TODO - implement Restaurante.listarMenu
         throw new UnsupportedOperationException();
     }
 
