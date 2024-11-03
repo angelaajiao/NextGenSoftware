@@ -33,7 +33,10 @@ build/
 .vscode/
 
 ### DERBY ###
-
+/database/
+/database/seg0/
+/database/log/
+/database/temp/
 
 ### JetBrains IDEs ###
 .idea/
