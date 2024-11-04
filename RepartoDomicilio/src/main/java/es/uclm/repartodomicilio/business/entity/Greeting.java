@@ -3,6 +3,7 @@ package es.uclm.repartodomicilio.business.entity;
 import jakarta.persistence.*;
 
 
+
 @Entity
 public class Greeting {
     @Id
