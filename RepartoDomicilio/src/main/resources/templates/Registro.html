@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="https://www.thymeleaf.org">
 <head>
     <title>Registro</title>
     <script>
@@ -36,14 +36,17 @@
 
 <div id="formRestaurante" style="display:none;">
     <h2>Registro de Restaurante</h2>
-    <form action="/registro/restaurante" method="post">
-        <label for="nombreRestaurante">Nombre:</label>
-        <input type="text" id="nombreRestaurante" name="nombre" required><br>
-        <label for="cif">CIF:</label>
-        <input type="text" id="cif" name="cif" required><br>
-        <label for="direccionRestaurante">Dirección:</label>
-        <input type="text" id="direccionRestaurante" name="direccion" required><br>
-        <input type="submit" value="Registrar Restaurante">
+    <div th:if="${error}" style="color: red;">
+        <p th:text="${error}"></p>
+    </div>
+    <form action="#" th:action="@{/registro/restaurante}" th:object="${restaurante}" method="post">
+        <p>Nombre del Restaurante: <input type="text" th:field="*{nombre}" /></p>
+        <p>CIF: <input type="text" th:field="*{cif}" /></p>
+        <p>Dirección: <input type="text" th:field="*{direccion}" /></p>
+        <p>
+            <input type="submit" value="Registrar Restaurante">
+            <input type="reset" value="Limpiar" />
+        </p>
     </form>
 </div>
 

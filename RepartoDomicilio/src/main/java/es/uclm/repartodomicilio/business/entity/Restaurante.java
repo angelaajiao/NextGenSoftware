@@ -7,20 +7,21 @@ public class Restaurante {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
     /*@OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Pedido> pedidos;*/
 
     /*@OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<CartaMenu> cartasMenu;*/
 
+    @Column(nullable = false, unique = true)
+    private String cif;
+
     @Embedded
     private String direccion;
 
     @Column(nullable = false)
     private String nombre;
-
-    @Column(nullable = false, unique = true)
-    private String cif;
 
     //Constructor vacío requerido por JPA
     public Restaurante(){}
@@ -32,14 +33,6 @@ public class Restaurante {
         this.direccion = direccion;
     }
     // Getters y Setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     /*public List<Pedido> getPedidos() {
         return pedidos;
     }
@@ -56,6 +49,14 @@ public class Restaurante {
         this.cartasMenu = cartasMenu;
     }
 */
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getDireccion() {
         return direccion;
     }

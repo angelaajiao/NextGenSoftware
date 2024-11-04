@@ -1,8 +1,11 @@
 package es.uclm.repartodomicilio.business.controller;
+import org.springframework.http.HttpStatus;
+import org.springframework.ui.Model;
 import es.uclm.repartodomicilio.business.entity.*;
 import es.uclm.repartodomicilio.business.persistence.RestauranteDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
@@ -11,11 +14,31 @@ public class GestorRestaurantes {
     @Autowired
     private RestauranteDAO restauranteDAO;
 
-    public Restaurante registrarRestaurante(String nombre, String cif, String d) {
-        Restaurante restaurante = new Restaurante(nombre, cif, d);
+    @GetMapping("/registro/restaurante")
+    public String mostrarFormulario(Model model) {
+        model.addAttribute("restaurante", new Restaurante());
+        return "Registro";
+    }
 
+    @PostMapping("/registro/restaurante")
+    public String registrarRestaurante(@ModelAttribute Restaurante restaurante, Model model) {
+        //Verificamos si ya existe un restaurante con el mismo CIF
+        if (restauranteDAO.existsBycif(restaurante.getCif())){
+            throw new IllegalArgumentException("El CIF ya existe en otro restaurante");
+        }
         // Guardamos el restaurante en la base de datos
-        return restauranteDAO.save(restaurante);
+        restauranteDAO.save(restaurante);
+        model.addAttribute("restaurante", restaurante);
+        return "resultRestaurante";
+    }
+
+    // Manejador de excepciones
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleIllegalArgumentException(IllegalArgumentException e, Model model) {
+        model.addAttribute("error", e.getMessage()); // Pasamos el mensaje de error a la vista
+        model.addAttribute("restaurante", new Restaurante()); // Para volver a cargar el formulario
+        return "Registro"; // Volvemos a la página de registro con el mensaje de error
     }
 
 }
