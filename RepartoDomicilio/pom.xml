@@ -76,7 +76,11 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>3.3.4</version>
+                <configuration>
+                    <jvmArguments>--add-opens=java.base/java.lang=ALL-UNNAMED</jvmArguments>
+                </configuration>
             </plugin>
+
         </plugins>
     </build>
 
