@@ -5,11 +5,10 @@ import jakarta.persistence.*;
 import java.util.*;
 
 @Entity
-@Table(name="Cliente")
 public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String dni;
+    private Long dni;
 
     @Column(nullable = false)
     private String nombre;
@@ -32,7 +31,7 @@ public class Cliente {
     public Cliente(){}
 
     //Constructor
-    public Cliente(String dni, String nombre, String apellidos, String email) {
+    public Cliente(Long dni, String nombre, String apellidos, String email) {
         this.dni = dni;
         this.nombre = nombre;
         this.apellidos = apellidos;
@@ -40,11 +39,11 @@ public class Cliente {
     }
 
     //Métodos get y set
-    public String getDni() {
+    public Long getDni() {
         return dni;
     }
 
-    public void setDni(String dni) {
+    public void setDni(Long dni) {
         this.dni = dni;
     }
 
@@ -72,7 +71,7 @@ public class Cliente {
         this.email = email;
     }
 
-    /*public Collection<Restaurante> getFavoritos() {
+    /* public Collection<Restaurante> getFavoritos() {
         return favoritos;
     }
 

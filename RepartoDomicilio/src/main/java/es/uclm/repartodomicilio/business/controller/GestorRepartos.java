@@ -10,37 +10,9 @@ public class GestorRepartos {
     @Autowired
     private RepartidorDAO repartidorDAO;
 
-    public Repartidor registrarRepartidor(String dni, String nombre, String apellido, boolean disponible){
+    public Repartidor registrarRepartidor(Long dni, String nombre, String apellido, boolean disponible){
         Repartidor repartidor = new Repartidor(dni, nombre, apellido, disponible);
         return repartidorDAO.save(repartidor);
     }
-    /*
-     *
-     * @param servicio
-     */
-  /*  public void marcarPedidoRecogido(ServicioEntrega servicio) {
-        // TODO - implement GestorRepartos.marcarPedidoRecogido
-        throw new UnsupportedOperationException();
-    }*/
 
-    /*
-     *
-     * @param servicio
-     */
-    /*public void marcarPedidoEntregado(ServicioEntrega servicio) {
-        // TODO - implement GestorRepartos.marcarPedidoEntregado
-        throw new UnsupportedOperationException();
-    }*/
-
-    /*
-     *
-     * @param nombre
-     * @param apellidos
-     * @param nif
-     * @param zonas
-     */
-    /*public void registrarRepartidor(String nombre, String apellidos, String nif, List<CodigoPostal> zonas) {
-        // TODO - implement GestorRepartos.registrarRepartidor
-        throw new UnsupportedOperationException();
-    }*/
 }

@@ -1,10 +1,7 @@
 package es.uclm.repartodomicilio.business.entity;
 import jakarta.persistence.*;
-import java.util.List;
 
 @Entity
-@Table(name="Restaurante")
-
 public class Restaurante {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

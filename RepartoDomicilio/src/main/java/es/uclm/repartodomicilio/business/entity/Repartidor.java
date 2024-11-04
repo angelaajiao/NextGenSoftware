@@ -3,12 +3,10 @@ import java.util.*;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name="Repartidor")
-
 public class Repartidor {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private String dni_repartidor;
+    private Long dni_repartidor;
 
     @Column(nullable=false)
     private String nombre_repartidor;
@@ -26,7 +24,7 @@ public class Repartidor {
     public Repartidor(){}
 
     // Constructor
-    public Repartidor(String dni_repartidor, String nombre_repartidor, String apellido_repartidor, boolean disponible) {
+    public Repartidor(Long dni_repartidor, String nombre_repartidor, String apellido_repartidor, boolean disponible) {
         this.dni_repartidor = dni_repartidor;
         this.nombre_repartidor = nombre_repartidor;
         this.apellido_repartidor = apellido_repartidor;
@@ -34,11 +32,11 @@ public class Repartidor {
     }
 
     //Métodos get y set
-    public String getDni_repartidor() {
+    public Long getDni_repartidor() {
         return dni_repartidor;
     }
 
-    public void setDni_repartidor(String dni_repartidor) {
+    public void setDni_repartidor(Long dni_repartidor) {
         this.dni_repartidor = dni_repartidor;
     }
 
