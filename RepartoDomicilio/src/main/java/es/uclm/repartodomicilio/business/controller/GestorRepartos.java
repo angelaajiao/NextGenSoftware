@@ -16,23 +16,22 @@ import es.uclm.repartodomicilio.business.persistence.RepartidorDAO;
 @Controller
 public class GestorRepartos {
 
-    private static final Logger log = LoggerFactory.getLogger(GestorRepartos.class);
+//    private static final Logger log = LoggerFactory.getLogger(GestorRepartos.class);
 
     @Autowired
     private RepartidorDAO repartidorDAO;
 
     @GetMapping("/registro/repartidor")
-    public String registroForm(Model model) {
+    public String registroRepartidor(Model model) {
         model.addAttribute("repartidor", new Repartidor());
-        log.info(repartidorDAO.findAll().toString());
-        return "Registro";
+       // log.info(repartidorDAO.findAll().toString());
+        return "Repartidor";
     }
     @PostMapping("/registro/repartidor")
     public String registrarRepartidor(@ModelAttribute Repartidor repartidor, Model model) {
-        //Verificamos si ya existe un restaurante con el mismo CIF
-        model.addAttribute("repartidor", repartidor);
-        // Guardamos el restaurante en la base de datos
+        // Guardamos el repartidor en la base de datos
         repartidorDAO.save(repartidor);
+        model.addAttribute("repartidor", repartidor);
         return "result";
     }
 

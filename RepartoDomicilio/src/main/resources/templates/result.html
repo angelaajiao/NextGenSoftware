@@ -1,12 +1,16 @@
 <!DOCTYPE HTML>
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
-    <title>Getting Started: Handling Form Submission</title>
+    <title>REPARTIDOR REGISTRADO</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-<h1>Result</h1>
-<p> mandado </p>
-<a href="/greeting">Submit another message</a>
+<h1>REPARTIDOR REGISTRADO</h1>
+<p th:text="'DNI: ' + ${repartidor.dni_repartidor}" />
+<p th:text="'Nombre Repartidor: ' + ${repartidor.nombre_repartidor}" />
+<p th:text="'Apellido: ' + ${repartidor.apellido_repartidor}" />
+<p th:text="'email: ' + ${repartidor.email_repartidor}" />
+<p th:text="'disponible?: ' + ${repartidor.disponible}" />
+<a href="/registro">Volver</a> <!-- Enlace para volver al menú -->
 </body>
 </html>

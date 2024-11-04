@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
-    <title>Registro de Repartidor</title>
+    <title>Registro de Usuario</title>
     <script>
         function mostrarFormulario() {
             var tipoUsuario = document.getElementById("tipoUsuario").value;
-            document.getElementById("formCliente").style.display = (tipoUsuario === "CLIENTE") ? "block" : "none";
-            document.getElementById("formRestaurante").style.display = (tipoUsuario === "RESTAURANTE") ? "block" : "none";
-            document.getElementById("formRepartidor").style.display = (tipoUsuario === "REPARTIDOR") ? "block" : "none";
+            window.location.href = "/registro/" + tipoUsuario.toLowerCase();
         }
     </script>
 </head>
@@ -19,47 +17,6 @@
     <option value="CLIENTE">Cliente</option>
     <option value="RESTAURANTE">Restaurante</option>
     <option value="REPARTIDOR">Repartidor</option>
-
 </select>
-
-<div id="formCliente" style="display:none;">
-    <h2>Registro de Cliente</h2>
-    <form action="/registro/cliente" method="post">
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" required><br>
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required><br>
-        <label for="direccion">Dirección:</label>
-        <input type="text" id="direccion" name="direccion" required><br>
-        <input type="submit" value="Registrar Cliente">
-    </form>
-</div>
-
-<div id="formRestaurante" style="display:none;">
-    <h2>Registro de Restaurante</h2>
-    <div th:if="${error}" style="color: red;">
-        <p th:text="${error}"></p>
-    </div>
-    <form action="#" th:action="@{/registro/restaurante}" th:object="${restaurante}" method="post">
-        <p>Nombre del Restaurante: <input type="text" th:field="*{nombre}" /></p>
-        <p>CIF: <input type="text" th:field="*{cif}" /></p>
-        <p>Dirección: <input type="text" th:field="*{direccion}" /></p>
-        <p>
-            <input type="submit" value="Registrar Restaurante">
-            <input type="reset" value="Limpiar" />
-        </p>
-    </form>
-</div>
-<div id="formRepartidor" style="display:none;">
-    <h2>Registro de Repartidor</h2>
-    <form th:action="@{/registro/repartidor}" th:object="${repartidor}" method="post">
-        <p>DNI: <input type="text" th:field="*{dni_repartidor}" /></p>
-        <p>Nombre: <input type="text" th:field="*{nombre_repartidor}" /></p>
-        <p>Apellido: <input type="text" th:field="*{apellido_repartidor}" /></p>
-        <p>Email: <input type="text" th:field="*{email_repartidor}" /></p>
-        <p>Disponible: <input type="checkbox" th:field="*{disponible}" /></p>
-        <p><input type="submit" value="Registrar Repartidor" /></p>
-    </form>
-</div>
 </body>
 </html>

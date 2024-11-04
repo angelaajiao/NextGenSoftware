@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Registro de Repartidor</title>
+</head>
+<body>
+    <h2>Registro de Repartidor</h2>
+    <form th:action="@{/registro/repartidor}" th:object="${repartidor}" method="post">
+        <p>DNI: <input type="text" th:field="*{dni_repartidor}" /></p>
+        <p>Nombre: <input type="text" th:field="*{nombre_repartidor}" /></p>
+        <p>Apellido: <input type="text" th:field="*{apellido_repartidor}" /></p>
+        <p>Email: <input type="text" th:field="*{email_repartidor}" /></p>
+        <p>Disponible: <input type="checkbox" th:field="*{disponible}" /></p>
+
+        <p><input type="submit" value="Registrar Repartidor" >
+            <input type="reset" value="Limpiar" />
+        </p>
+    </form>
+<a href="/registro">Volver</a> <!-- Enlace para volver al menú -->
+</body>
+</html>

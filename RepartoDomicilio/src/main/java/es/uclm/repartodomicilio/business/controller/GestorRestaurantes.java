@@ -15,9 +15,9 @@ public class GestorRestaurantes {
     private RestauranteDAO restauranteDAO;
 
     @GetMapping("/registro/restaurante")
-    public String mostrarFormulario(Model model) {
+    public String RegistroRestaurante(Model model) {
         model.addAttribute("restaurante", new Restaurante());
-        return "Registro";
+        return "Restaurante";
     }
 
     @PostMapping("/registro/restaurante")
@@ -38,7 +38,7 @@ public class GestorRestaurantes {
     public String handleIllegalArgumentException(IllegalArgumentException e, Model model) {
         model.addAttribute("error", e.getMessage()); // Pasamos el mensaje de error a la vista
         model.addAttribute("restaurante", new Restaurante()); // Para volver a cargar el formulario
-        return "Registro"; // Volvemos a la página de registro con el mensaje de error
+        return "Restaurante"; // Volvemos a la página de registro con el mensaje de error
     }
 
 }
