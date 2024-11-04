@@ -7,6 +7,9 @@ import jakarta.persistence.*;
 public class Repartidor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @Column(nullable = false)
     private String dni_repartidor;
 
     @Column(nullable = false)
@@ -38,6 +41,14 @@ public class Repartidor {
     }
 
     //Métodos get y set
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getDni_repartidor() {
         return dni_repartidor;
     }

@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import es.uclm.repartodomicilio.business.entity.Repartidor;
 
 @Repository
-public interface RepartidorDAO  extends  JpaRepository<Repartidor, String >{
+public interface RepartidorDAO  extends  JpaRepository<Repartidor, Long >{
 }
