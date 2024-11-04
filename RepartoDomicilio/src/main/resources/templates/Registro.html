@@ -5,8 +5,9 @@
     <script>
         function mostrarFormulario() {
             var tipoUsuario = document.getElementById("tipoUsuario").value;
-            document.getElementById("formRepartidor").style.display = (tipoUsuario === "REPARTIDOR") ? "block" : "none";
+            document.getElementById("formCliente").style.display = (tipoUsuario === "CLIENTE") ? "block" : "none";
             document.getElementById("formRestaurante").style.display = (tipoUsuario === "RESTAURANTE") ? "block" : "none";
+            document.getElementById("formRepartidor").style.display = (tipoUsuario === "REPARTIDOR") ? "block" : "none";
         }
     </script>
 </head>
@@ -15,10 +16,25 @@
 <label for="tipoUsuario">Elige el tipo de usuario:</label>
 <select id="tipoUsuario" onchange="mostrarFormulario()">
     <option value="">--Seleccionar--</option>
+    <option value="CLIENTE">Cliente</option>
     <option value="RESTAURANTE">Restaurante</option>
-    <option value="">--Seleccionar--</option>
     <option value="REPARTIDOR">Repartidor</option>
+
 </select>
+
+<div id="formCliente" style="display:none;">
+    <h2>Registro de Cliente</h2>
+    <form action="/registro/cliente" method="post">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required><br>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br>
+        <label for="direccion">Dirección:</label>
+        <input type="text" id="direccion" name="direccion" required><br>
+        <input type="submit" value="Registrar Cliente">
+    </form>
+</div>
+
 <div id="formRestaurante" style="display:none;">
     <h2>Registro de Restaurante</h2>
     <div th:if="${error}" style="color: red;">
