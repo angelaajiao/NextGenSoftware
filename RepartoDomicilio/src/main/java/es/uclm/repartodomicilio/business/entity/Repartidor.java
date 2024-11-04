@@ -16,6 +16,8 @@ public class Repartidor {
     @Column(nullable=false)
     private String apellido_repartidor;
 
+    @Column(nullable = false)
+    private boolean disponible;
     //private int eficiencia;
     //  Collection<ServicioEntrega> servicios;
     //  Collection<CodigoPostal> zonas;
@@ -24,10 +26,11 @@ public class Repartidor {
     public Repartidor(){}
 
     // Constructor
-    public Repartidor(String dni_repartidor, String nombre_repartidor, String apellido_repartidor) {
+    public Repartidor(String dni_repartidor, String nombre_repartidor, String apellido_repartidor, boolean disponible) {
         this.dni_repartidor = dni_repartidor;
         this.nombre_repartidor = nombre_repartidor;
         this.apellido_repartidor = apellido_repartidor;
+        this.disponible = disponible;
     }
 
     //Métodos get y set
@@ -55,6 +58,13 @@ public class Repartidor {
         this.apellido_repartidor = apellido_repartidor;
     }
 
+    public boolean isDisponible() {
+        return disponible;
+    }
+
+    public void setDisponible(boolean disponible) {
+        this.disponible = disponible;
+    }
 
 
 }

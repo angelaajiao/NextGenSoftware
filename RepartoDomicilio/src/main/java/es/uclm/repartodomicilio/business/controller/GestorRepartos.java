@@ -10,8 +10,8 @@ public class GestorRepartos {
     @Autowired
     private RepartidorDAO repartidorDAO;
 
-    public Repartidor registrarRepartidos(String dni, String nombre, String apellido){
-        Repartidor repartidor = new Repartidor(dni, nombre, apellido);
+    public Repartidor registrarRepartidos(String dni, String nombre, String apellido, boolean disponible){
+        Repartidor repartidor = new Repartidor(dni, nombre, apellido, disponible);
         return repartidorDAO.save(repartidor);
     }
     /*
