@@ -34,7 +34,7 @@ public class GreetingController {
         model.addAttribute("greeting", greeting);
         Greeting savedGreeting = greetingDAO.save(greeting);
         log.info("Saved greeting: " + savedGreeting);
-        return "result";
+        return "greeting";
     }
 
 }
