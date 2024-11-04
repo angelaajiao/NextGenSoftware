@@ -3,7 +3,7 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name="restaurante")
+@Table(name="Restaurante")
 
 public class Restaurante {
     @Id
@@ -49,9 +49,9 @@ public class Restaurante {
 
     public void setPedidos(List<Pedido> pedidos) {
         this.pedidos = pedidos;
-    }*/
+    }
 
-    /*public List<CartaMenu> getCartasMenu() {
+    public List<CartaMenu> getCartasMenu() {
         return cartasMenu;
     }
 
