@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import es.uclm.repartodomicilio.business.entity.Register;
 @Controller
 public class GestorRegistrar {
-    @GetMapping("/register")
+    @GetMapping("/registro")
     public String registerForm(Model model) {
         model.addAttribute("register", new Register());
         return "Registro";
     }
 
-    @PostMapping("/register")
+    @PostMapping("/registro")
     public String registerSubmit(@ModelAttribute Register register, Model model) {
         model.addAttribute("register", register);
         return "Registrado";
