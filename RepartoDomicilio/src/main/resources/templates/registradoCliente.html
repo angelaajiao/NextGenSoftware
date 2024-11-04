@@ -1,0 +1,15 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+  <title>Getting Started: Handling Form Submission</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<h1>Cliente registrado</h1>
+<p th:text="'Dni: ' + ${cliente.dni}" />
+<p th:text="'Nombre: ' + ${cliente.nombre}" />
+<p th:text="'apellidos: ' + ${cliente.apellidos}" />
+<p th:text="'Email: ' + ${cliente.email}" />
+<a href="/Clienteregister">Registrar otro cliente</a>
+</body>
+</html>

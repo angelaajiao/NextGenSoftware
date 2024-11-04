@@ -8,6 +8,9 @@ import java.util.*;
 public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false, unique = true)
     private Long dni;
 
     @Column(nullable = false)
@@ -39,6 +42,12 @@ public class Cliente {
     }
 
     //Métodos get y set
+
+
+    public Long getId() { return id; }
+
+    public void setId(Long id) { this.id = id; }
+
     public Long getDni() {
         return dni;
     }
