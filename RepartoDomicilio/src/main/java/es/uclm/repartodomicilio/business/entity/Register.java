@@ -1,4 +1,4 @@
-package es.uclm.repartodomicilio.business.entity;
+/*package es.uclm.repartodomicilio.business.entity;
 
 public class Register {
     private String nombre;
@@ -38,3 +38,4 @@ public class Register {
         this.direccion = direccion;
     }
 }
+*/

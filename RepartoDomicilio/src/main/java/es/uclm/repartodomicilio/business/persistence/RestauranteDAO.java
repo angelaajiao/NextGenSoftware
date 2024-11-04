@@ -6,7 +6,8 @@ import es.uclm.repartodomicilio.business.entity.Restaurante;
 
 import java.util.List;
 
+@Repository
 public interface RestauranteDAO extends JpaRepository<Restaurante, Long> {
     // Método personalizado para encontrar un restaurante por nombre
-    List<Restaurante> findByNombre(String nombre);
+    //List<Restaurante> findByNombre(String nombre);
 }

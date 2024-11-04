@@ -1,4 +1,4 @@
-package es.uclm.repartodomicilio.business.controller;
+/*package es.uclm.repartodomicilio.business.controller;
 import es.uclm.repartodomicilio.business.entity.Greeting;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,3 +21,4 @@ public class GestorRegistrar {
         return "Registrado";
     }
 }
+*/

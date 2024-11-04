@@ -1,6 +1,6 @@
 package es.uclm.repartodomicilio.business.controller;
 import es.uclm.repartodomicilio.business.entity.*;
-import es.uclm.repartodomicilio.persistence.RestauranteDAO;
+import es.uclm.repartodomicilio.business.persistence.RestauranteDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,11 +16,8 @@ public class GestorRestaurantes {
      * @param cif
      * @param d
      */
-    public Restaurante registrarRestaurante(String nombre, String cif, Direccion d) {
-        Restaurante restaurante = new Restaurante();
-        restaurante.setNombre(nombre);
-        restaurante.setCif(cif);
-        restaurante.setDireccion(d);
+    public Restaurante registrarRestaurante(String nombre, String cif, String d) {
+        Restaurante restaurante = new Restaurante(nombre, cif, d);
 
         // Guardamos el restaurante en la base de datos
         return restauranteDAO.save(restaurante);
@@ -31,7 +28,7 @@ public class GestorRestaurantes {
      * @param nombre
      * @param items
      */
-    public void editarCarta(String nombre, List<ItemMenu> items) {
+    /*public void editarCarta(String nombre, List<ItemMenu> items) {
         Optional<Restaurante> optionalRestaurante = restauranteDAO.findById(nombre);
         if(optionalRestaurante.isPresent()) {
             Restaurante restaurante = optionalRestaurante.get();
@@ -41,7 +38,7 @@ public class GestorRestaurantes {
         } else{
             throw new IllegalArgumentException("Restaurante no encontrado");
         }
-    }
+    }*/
 
     /*
      * Crear nuevo item de menu
@@ -49,11 +46,11 @@ public class GestorRestaurantes {
      * @param precio
      * @param tipo
      */
-    private TipoItemMenu crearItem(String nombre, double precio, TipoItemMenu tipo) {
+    /*private TipoItemMenu crearItem(String nombre, double precio, TipoItemMenu tipo) {
         TipoItemMenu itemMenu = new TipoItemMenu();
         itemMenu.setNombre(nombre);
         itemMenu.setPrecio(precio);
         itemMenu.setTipo(tipo);
         return itemMenu;
-    }
+    }*/
 }

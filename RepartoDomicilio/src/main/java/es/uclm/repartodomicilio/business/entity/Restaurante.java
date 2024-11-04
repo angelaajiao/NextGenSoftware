@@ -13,11 +13,11 @@ public class Restaurante {
     /*@OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Pedido> pedidos;*/
 
-    @OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<CartaMenu> cartasMenu;
+    /*@OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<CartaMenu> cartasMenu;*/
 
     @Embedded
-    private Direccion direccion;
+    private String direccion;
 
     @Column(nullable = false)
     private String nombre;
@@ -29,7 +29,7 @@ public class Restaurante {
     public Restaurante(){}
 
     // Constructor con parametros
-    public Restaurante(String nombre, String cif, Direccion direccion){
+    public Restaurante(String nombre, String cif, String direccion){
         this.nombre = nombre;
         this.cif = cif;
         this.direccion = direccion;
@@ -51,19 +51,19 @@ public class Restaurante {
         this.pedidos = pedidos;
     }*/
 
-    public List<CartaMenu> getCartasMenu() {
+    /*public List<CartaMenu> getCartasMenu() {
         return cartasMenu;
     }
 
     public void setCartasMenu(List<CartaMenu> cartasMenu) {
         this.cartasMenu = cartasMenu;
     }
-
-    public Direccion getDireccion() {
+*/
+    public String getDireccion() {
         return direccion;
     }
 
-    public void setDireccion(Direccion direccion) {
+    public void setDireccion(String direccion) {
         this.direccion = direccion;
     }
 
@@ -87,9 +87,9 @@ public class Restaurante {
      *
      * @param idRestaurante
      */
-    public List<ItemMenu> listarMenu() {
+   /* public List<ItemMenu> listarMenu() {
         throw new UnsupportedOperationException();
-    }
+    }*/
 
 }
 

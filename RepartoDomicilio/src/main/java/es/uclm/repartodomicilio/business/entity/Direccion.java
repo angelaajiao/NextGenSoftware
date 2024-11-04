@@ -1,4 +1,4 @@
-package es.uclm.repartodomicilio.business.entity;
+/*package es.uclm.repartodomicilio.business.entity;
 
 
 import jakarta.persistence.Embeddable;
@@ -64,3 +64,4 @@ public class Direccion {
     }
 
 }
+*/

@@ -1,4 +1,4 @@
-package es.uclm.repartodomicilio.business.entity;
+/*package es.uclm.repartodomicilio.business.entity;
 
 import jakarta.persistence.*;
 
@@ -56,3 +56,4 @@ public class CartaMenu {
         this.items = items;
     }
 }
+*/

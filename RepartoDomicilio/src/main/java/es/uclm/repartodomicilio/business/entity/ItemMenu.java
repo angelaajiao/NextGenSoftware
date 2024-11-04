@@ -1,4 +1,4 @@
-package es.uclm.repartodomicilio.business.entity;
+/*package es.uclm.repartodomicilio.business.entity;
 
 import jakarta.persistence.*;
 
@@ -92,3 +92,4 @@ public class ItemMenu {
         return id != null ? id.hashCode() : 0;
     }
 }
+*/

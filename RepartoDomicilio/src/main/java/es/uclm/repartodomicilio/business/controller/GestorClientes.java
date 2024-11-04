@@ -1,11 +1,22 @@
-/*package es.uclm.repartodomicilio.business.controller;
+package es.uclm.repartodomicilio.business.controller;
 
-import es.uclm.repartodomicilio.business.entity.*;
+import es.uclm.repartodomicilio.business.entity.Cliente;
+import es.uclm.repartodomicilio.business.persistence.ClienteDAO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Controller;
 
+@Controller
 public class GestorClientes {
-    RestauranteDAO restauranteDAO;
+    @Autowired
+    private ClienteDAO clienteDAO;
 
-    /**
+    public Cliente registrarCliente(String dni, String nombre, String apellidos, String email) {
+        Cliente cliente = new Cliente(dni, nombre, apellidos, email);
+        return clienteDAO.save(cliente);
+    }
+
+    /*
      *
      * @param zona
      */
@@ -55,8 +66,7 @@ public class GestorClientes {
    /* private Direccion altaDirecion(String calle, String numeero, String complemento, CodigoPostal cp, String municipio) {
         // TODO - implement GestorClientes.altaDirecion
         throw new UnsupportedOperationException();
-    }
+    }*/
 
 
 }
-*/
