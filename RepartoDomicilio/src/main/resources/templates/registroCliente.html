@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+  <title>Registro de Cliente</title>
+</head>
+<body>
+<h1>Registro Cliente</h1>
+<div th:if="${error}" style="color: red;">
+  <p th:text="${error}"></p>
+</div>
+<form action="#" th:action="@{/registro/cliente}" th:object="${cliente}" method="post">
+  <p>Dni: <input type="text" th:field="*{dni}" /></p>
+  <p>Nombre: <input type="text" th:field="*{nombre}" /></p>
+  <p>Apellidos: <input type="text" th:field="*{apellidos}" /></p>
+  <p>Email: <input type="text" th:field="*{email}" /></p>
+  <p>
+    <input type="submit" value="Registrar Cliente" />
+    <input type="reset" value="Limpiar" />
+  </p>
+</form>
+</body>
+</html>

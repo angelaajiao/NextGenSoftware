@@ -1,0 +1,14 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+  <title>CLIENTE REGISTRADO</title>
+</head>
+<body>
+<h1>CLIENTE REGISTRADO</h1>
+<p th:text="'Dni: ' + ${cliente.dni}" />
+<p th:text="'Nombre: ' + ${cliente.nombre}" />
+<p th:text="'apellidos: ' + ${cliente.apellidos}" />
+<p th:text="'Email: ' + ${cliente.email}" />
+<a href="/registro">Volver</a>
+</body>
+</html>
