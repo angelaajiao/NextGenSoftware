@@ -11,7 +11,7 @@ public class Repartidor {
     private long id;
 
     @Column(nullable = false)
-    private String dni_repartidor;
+    private String dniRepartidor;
 
     @Column(nullable = false)
     private String nombre_repartidor;
@@ -37,7 +37,7 @@ public class Repartidor {
 
     // Constructor
     public Repartidor(String dni_repartidor, String nombre_repartidor, String apellido_repartidor, String password_repartidor, String email_repartidor, boolean disponible) {
-        this.dni_repartidor = dni_repartidor;
+        this.dniRepartidor = dni_repartidor;
         this.nombre_repartidor = nombre_repartidor;
         this.apellido_repartidor = apellido_repartidor;
         this.password_repartidor = password_repartidor;
@@ -54,12 +54,12 @@ public class Repartidor {
         this.id = id;
     }
 
-    public String getDni_repartidor() {
-        return dni_repartidor;
+    public String getDniRepartidor() {
+        return dniRepartidor;
     }
 
     public void setDni_repartidor(String dni_repartidor) {
-        this.dni_repartidor = dni_repartidor;
+        this.dniRepartidor = dni_repartidor;
     }
 
     public String getNombre_repartidor() {
