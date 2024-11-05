@@ -1,10 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Bienvenido Repartidor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #f54949;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        nav {
+            background-color: #333;
+            overflow: hidden;
+        }
+        nav a {
+            color: white;
+            padding: 14px 20px;
+            display: inline-block;
+            text-align: center;
+            text-decoration: none;
+        }
+        nav a:hover {
+            background-color: #575757;
+        }
+        .content {
+            padding: 20px;
+        }
+    </style>
 </head>
 <body>
+
+<header>
+    <h1>Bienvenido, Repartidor</h1>
+</header>
+
+<nav>
+    <a href="#" th:href="@{/repartidor/perfilRepartidor}">Perfil</a>
+    <a href="#" th:href="@{/repartidor/servicios}">Servicios</a>
+    <a href="#" th:href="@{/repartidor/zona}">Zona de Reparto</a>
+    <a href="#" th:href="@{/repartidor/estadisticas}">Estadísticas</a>
+    <a href="#" th:href="@{/logout}">Cerrar Sesión</a>
+</nav>
+
+<div class="content">
+    <h2 th:text="'Bienvenido, ' + ${repartidor.nombre_repartidor} + '!'">Bienvenido</h2>
+    <p>Aquí puedes gestionar tus servicios y ver tus estadísticas.</p>
+</div>
 
 </body>
 </html>
