@@ -5,7 +5,6 @@ import es.uclm.repartodomicilio.business.persistence.RepartidorDAO;
 import es.uclm.repartodomicilio.business.persistence.RestauranteDAO;
 import jakarta.persistence.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Entity
@@ -22,7 +21,7 @@ public class Login {
     public String autenticarUser(String claveUnica, String contra){
         // VERIFICAR CLIENTE
         Optional<Cliente> cliente = ClienteDAO.findByClaveUnica(claveUnica);
-        if (cliente.isPresent() && cliente.get().getPassword_cliente().equals(contra)){
+        if (cliente.isPresent() && cliente.get().getPassword().equals(contra)){
             return "Cliente";
         }
 
