@@ -25,19 +25,20 @@ public class GestorLogin {
     @PostMapping("/login")
     public String login(@RequestParam String id, @RequestParam String pass, Model model) {
         String rol = loginService.autenticarUser(id, pass);
+
         if(rol != null){
             model.addAttribute("rol", rol);
-            return "resultLogin";
-        } else {
-            throw new IllegalArgumentException("Clave o contraseña incorrectos");
+            //Redirige a la vista correspondiente según el rol
+            switch (rol){
+                case "cliente":
+                    return "vistaCliente"; // vista cliente
+                case "repartidor":
+                    return "vistaRepartidor"; // vista repartidor
+                case "restaurante":
+                    return "vistaRestaurante"; // vista restaurante
+            }
+        }
+        model.addAttribute("error", "Clave o contraseñas incorrectos");
+        return "login";
         }
     }
-
-    // Manejador de excepciones
-    @ExceptionHandler(IllegalArgumentException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String handleIllegalArgumentException(IllegalArgumentException e, Model model) {
-        model.addAttribute("error", e.getMessage()); // Pasamos el mensaje de error a la vista
-        return "login"; // Retorna a la página de login con el mensaje de error
-    }
-}
