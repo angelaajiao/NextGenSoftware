@@ -11,6 +11,7 @@
 <form action="#" th:action="@{/registro/restaurante}" th:object="${restaurante}" method="post">
     <p>Nombre del Restaurante: <input type="text" th:field="*{nombre}" /></p>
     <p>CIF: <input type="text" th:field="*{cif}" /></p>
+    <p>Contraseña: <input type="text" th:field="*{password_restaurante}"></p>
     <p>Dirección: <input type="text" th:field="*{direccion}" /></p>
     <p>
         <input type="submit" value="Registrar Restaurante">

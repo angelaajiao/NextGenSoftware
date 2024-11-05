@@ -17,19 +17,23 @@ public class Restaurante {
     @Column(nullable = false, unique = true)
     private String cif;
 
-    @Embedded
+    @Column(nullable = false)
     private String direccion;
 
     @Column(nullable = false)
     private String nombre;
 
+    @Column(nullable = false)
+    private String password_restaurante;
+
     //Constructor vacío requerido por JPA
     public Restaurante(){}
 
     // Constructor con parametros
-    public Restaurante(String nombre, String cif, String direccion){
+    public Restaurante(String nombre, String cif, String password_restaurante, String direccion){
         this.nombre = nombre;
         this.cif = cif;
+        this.password_restaurante = password_restaurante;
         this.direccion = direccion;
     }
     // Getters y Setters
@@ -80,6 +84,10 @@ public class Restaurante {
     public void setCif(String cif) {
         this.cif = cif;
     }
+
+    public String getPassword_restaurante() { return  password_restaurante; }
+
+    public void setPassword_restaurante(String password_restaurante) {this.password_restaurante = password_restaurante;}
 
     /* Método para listar restaurante
      *
