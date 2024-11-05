@@ -30,12 +30,12 @@ public class GestorLogin {
             model.addAttribute("rol", rol);
             //Redirige a la vista correspondiente según el rol
             switch (rol){
-                case "cliente":
+                case "Cliente":
                     return "vistaCliente"; // vista cliente
-                case "repartidor":
-                    return "vistaRepartidor"; // vista repartidor
-                case "restaurante":
-                    return "vistaRestaurante"; // vista restaurante
+                case "Repartidor":
+                    return "VistaRepartidor"; // vista repartidor
+                case "Restaurante":
+                    return "VistaRestaurante"; // vista restaurante
             }
         }
         model.addAttribute("error", "Clave o contraseñas incorrectos");
