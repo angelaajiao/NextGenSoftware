@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Bienvenido Usuario Anónimo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #008080;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+    nav {
+      background-color: #333;
+      overflow: hidden;
+    }
+    nav a {
+      color: white;
+      padding: 14px 20px;
+      display: inline-block;
+      text-align: center;
+      text-decoration: none;
+    }
+    nav a:hover {
+      background-color: #575757;
+    }
+    .content {
+      padding: 20px;
+    }
+    .restaurant-item {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-bottom: 10px;
+      background-color: #fff;
+    }
+    #search {
+      margin-bottom: 20px;
+      padding: 10px;
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Bienvenido, Usuario Anónimo</h1>
+</header>
+
+<nav>
+  <a href="#" th:href="@{/login}">Iniciar Sesión</a>
+  <a href="#" th:href="@{/registro}">Registro</a>
+  <a href="#" th:href="@{/contacto}">Contacto</a>
+</nav>
+
+<div class="content">
+  <h2>Restaurantes Disponibles</h2>
+  <input type="text" id="search" placeholder="Buscar restaurante por nombre..." onkeyup="filterRestaurants()">
+  <div id="restaurantList">
+    <div th:each="restaurante : ${restaurantes}" class="restaurant-item">
+      <h3 th:text="${restaurante.nombre}">Nombre del Restaurante</h3>
+      <p th:text="${restaurante.direccion}">Dirección del Restaurante</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  function filterRestaurants() {
+    const searchInput = document.getElementById('search').value.toLowerCase();
+    const restaurantList = document.getElementById('restaurantList');
+    const restaurants = restaurantList.getElementsByClassName('restaurant-item');
+
+    for (let i = 0; i < restaurants.length; i++) {
+      const restaurantName = restaurants[i].getElementsByTagName('h3')[0].textContent.toLowerCase();
+      if (restaurantName.includes(searchInput)) {
+        restaurants[i].style.display = '';
+      } else {
+        restaurants[i].style.display = 'none';
+      }
+    }
+  }
+</script>
+
+</body>
+</html>
