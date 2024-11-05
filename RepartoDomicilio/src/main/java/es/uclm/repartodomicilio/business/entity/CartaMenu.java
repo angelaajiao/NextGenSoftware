@@ -1,59 +1,39 @@
-/*package es.uclm.repartodomicilio.business.entity;
-
+package es.uclm.repartodomicilio.business.entity;
 import jakarta.persistence.*;
 
-import java.util.List;
 
 @Entity
-@Table(name = "carta_menu")
-
 public class CartaMenu {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long menuId;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String nombre;
 
+
     @ManyToOne
-    @JoinColumn(name = "restaurante_id")
+    @JoinColumn(name = "restaurante_id", nullable = false)
     private Restaurante restaurante;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "carta_menu_id")
-    private List<ItemMenu> items;
 
-    //Getters y setters
-    public Long getId() {
-        return id;
-    }
+    @OneToMany(mappedBy = "menu", cascade = CascadeType.ALL)
+    private List<ItemMenu> itemMenu;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    // Constructor, getters y setters
+    public CartaMenu() {}
 
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
+    public CartaMenu(String nombre, Restaurante restaurante) {
         this.nombre = nombre;
-    }
-
-    public Restaurante getRestaurante() {
-        return restaurante;
-    }
-
-    public void setRestaurante(Restaurante restaurante) {
         this.restaurante = restaurante;
     }
 
-    public List<ItemMenu> getItems() {
-        return items;
-    }
+    public long getMenuId() { return menuId; }
+    public void setMenuId(Long menuId) { this.menuId = menuId; }
 
-    public void setItems(List<ItemMenu> items) {
-        this.items = items;
-    }
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
+
+    public Restaurante getRestaurante() { return restaurante; }
+    public void setRestaurante(Restaurante restaurante) { this.restaurante = restaurante; }
 }
-*/
