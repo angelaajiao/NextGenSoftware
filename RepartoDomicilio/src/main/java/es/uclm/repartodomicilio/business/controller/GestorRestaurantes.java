@@ -56,6 +56,12 @@ public class GestorRestaurantes {
         return "listarRestaurantes"; // Nombre de la vista donde se mostrará la lista
     }
 
+    // Método para buscar restaurantes por nombre
+    @GetMapping("/AnonimoBuscarRestaurantes")
+    public String buscarRestaurantes(@RequestParam String nombre, Model model) {
+        List<Restaurante> restaurantes = restauranteDAO.findAllByNombre(nombre);
+        model.addAttribute("restaurantes", restaurantes);
+        return "listarRestaurantes"; //
 
-
+    }
 }

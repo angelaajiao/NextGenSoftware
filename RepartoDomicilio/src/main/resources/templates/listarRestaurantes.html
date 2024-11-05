@@ -39,6 +39,13 @@
       margin-bottom: 10px;
       background-color: #fff;
     }
+    #search {
+      margin-bottom: 20px;
+      padding: 10px;
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
   </style>
 </head>
 <body>
@@ -55,12 +62,31 @@
 
 <div class="content">
   <h2>Restaurantes Disponibles</h2>
-  <div th:each="restaurante : ${restaurantes}" class="restaurant-item">
-    <h3 th:text="${restaurante.nombre}">Nombre del Restaurante</h3>
-    <p th:text="${restaurante.direccion}">Dirección del Restaurante</p>
-
+  <input type="text" id="search" placeholder="Buscar restaurante por nombre..." onkeyup="filterRestaurants()">
+  <div id="restaurantList">
+    <div th:each="restaurante : ${restaurantes}" class="restaurant-item">
+      <h3 th:text="${restaurante.nombre}">Nombre del Restaurante</h3>
+      <p th:text="${restaurante.direccion}">Dirección del Restaurante</p>
+    </div>
   </div>
 </div>
+
+<script>
+  function filterRestaurants() {
+    const searchInput = document.getElementById('search').value.toLowerCase();
+    const restaurantList = document.getElementById('restaurantList');
+    const restaurants = restaurantList.getElementsByClassName('restaurant-item');
+
+    for (let i = 0; i < restaurants.length; i++) {
+      const restaurantName = restaurants[i].getElementsByTagName('h3')[0].textContent.toLowerCase();
+      if (restaurantName.includes(searchInput)) {
+        restaurants[i].style.display = '';
+      } else {
+        restaurants[i].style.display = 'none';
+      }
+    }
+  }
+</script>
 
 </body>
 </html>
