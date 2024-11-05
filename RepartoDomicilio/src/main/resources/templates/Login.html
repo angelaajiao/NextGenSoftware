@@ -2,26 +2,69 @@
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
     <title>Iniciar Sesión</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .search-form {
+            margin-bottom: 20px;
+        }
+        .restaurant-item {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #fff;
+        }
+    </style>
 </head>
 <body>
-<h1>Iniciar Sesión</h1>
-<form action="#" th:action="@{/login}" method="post">
-    <label for="id">Usuario:</label>
-    <input type="text" id="id" name="id" required>
+<!-- Sección de Iniciar Sesión -->
+<section id="login-section">
+    <h1>Iniciar Sesión</h1>
+    <form action="#" th:action="@{/login}" method="post">
+        <label for="id">Usuario:</label>
+        <input type="text" id="id" name="id" required>
 
-    <label for="pass">Contraseña:</label>
-    <input type="password" id="pass" name="pass" required>
+        <label for="pass">Contraseña:</label>
+        <input type="password" id="pass" name="pass" required>
 
-    <button type="submit">Iniciar Sesión</button>
-</form>
+        <button type="submit">Iniciar Sesión</button>
+    </form>
 
-<p>¿No tienes cuenta?
-    <a href="/registro">Regístrate aquí</a>
-</p>
+    <p>¿No tienes cuenta?
+        <a href="/registro">Regístrate aquí</a>
+    </p>
 
-<div th:if="${error}" style="color:red;">
-    <p th:text="${error}"></p>
-</div>
+    <div th:if="${error}" style="color:red;">
+        <p th:text="${error}"></p>
+    </div>
+</section>
 
+<!-- Sección de Búsqueda de Restaurantes -->
+<section id="restaurant-search-section">
+    <h2>Buscar Restaurantes</h2>
+    <form class="search-form" th:action="@{/restaurantes/buscar}" method="get">
+        <label for="search">Nombre del Restaurante:</label>
+        <input type="text" id="search" name="nombre" required>
+        <button type="submit">Buscar</button>
+    </form>
+</section>
+
+<!-- Sección de Lista de Restaurantes -->
+<section id="restaurant-list-section">
+    <h2>Restaurantes Disponibles</h2>
+    <div th:each="restaurante : ${restaurantes}">
+        <div class="restaurant-item">
+            <h3 th:text="${restaurante.nombre}">Nombre del Restaurante</h3>
+            <p th:text="${restaurante.direccion}">Dirección del Restaurante</p>
+            <p th:text="${restaurante.telefono}">Teléfono del Restaurante</p>
+            <a href="#" th:href="@{/restaurante/{id}(id=${restaurante.id})}">Ver detalles</a>
+        </div>
+        <hr>
+    </div>
+</section>
 </body>
 </html>
