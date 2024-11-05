@@ -41,4 +41,6 @@ public class GestorRestaurantes {
         return "Restaurante"; // Volvemos a la página de registro con el mensaje de error
     }
 
+
+
 }
