@@ -1,4 +1,5 @@
 package es.uclm.repartodomicilio.business.entity;
+
 import java.util.*;
 import jakarta.persistence.*;
 
@@ -19,6 +20,9 @@ public class Repartidor {
     private String apellido_repartidor;
 
     @Column(nullable = false)
+    private String password_repartidor;
+
+    @Column(nullable = false)
     private String email_repartidor;
 
     @Column(nullable = false)
@@ -32,10 +36,11 @@ public class Repartidor {
     }
 
     // Constructor
-    public Repartidor(String dni_repartidor, String nombre_repartidor, String apellido_repartidor, String email_repartidor, boolean disponible) {
+    public Repartidor(String dni_repartidor, String nombre_repartidor, String apellido_repartidor, String password_repartidor, String email_repartidor, boolean disponible) {
         this.dni_repartidor = dni_repartidor;
         this.nombre_repartidor = nombre_repartidor;
         this.apellido_repartidor = apellido_repartidor;
+        this.password_repartidor = password_repartidor;
         this.email_repartidor = email_repartidor;
         this.disponible = disponible;
     }
@@ -71,6 +76,13 @@ public class Repartidor {
 
     public void setApellido_repartidor(String apellido_repartidor) {
         this.apellido_repartidor = apellido_repartidor;
+    }
+    public String getPassword_repartidor(){return  password_repartidor; }
+
+    public  void setPassword_repartidor(String password_repartidor) {
+
+        this.password_repartidor = password_repartidor;
+
     }
 
     public String getEmail_repartidor(){
