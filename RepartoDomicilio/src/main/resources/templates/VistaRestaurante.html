@@ -33,6 +33,17 @@
         .content {
             padding: 20px;
         }
+        button {
+            padding: 10px 20px;
+            color: white;
+            background-color: #ec5353;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        button:hover {
+            background-color: #d14d4d;
+        }
     </style>
 </head>
 <body>
@@ -52,6 +63,9 @@
 <div class="content">
     <h2 th:text="'Bienvenido, ' + 'pepe' + '!'">Bienvenido</h2>
     <p>Aquí puedes gestionar tus servicios y ver tus estadísticas.</p>
+
+    <!-- Botón para registrar menú -->
+    <button th:onclick="window.location.href='@{/VistaRestauranteAltaMenu}'">Registrar Menú</button>
 </div>
 
 </body>
