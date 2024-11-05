@@ -1,5 +1,6 @@
 package es.uclm.repartodomicilio.business.controller;
 import es.uclm.repartodomicilio.business.persistence.CartaMenuDAO;
+import org.springframework.boot.Banner;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import es.uclm.repartodomicilio.business.entity.*;
@@ -31,6 +32,8 @@ public class GestorRestaurantes {
         }
         // Guardamos el restaurante en la base de datos
         restauranteDAO.save(restaurante);
+        //guardamos el restauranteid en la sesion
+        model.addAttribute("restauranteId", restaurante.getId());
         model.addAttribute("restaurante", restaurante);
         return "resultRestaurante";
     }
@@ -60,6 +63,14 @@ public class GestorRestaurantes {
     //Dar del alta menu
     @PostMapping("/VistaRestauranteAltaMenu")
     public String altaCartaMenu(@ModelAttribute CartaMenu cartaMenu, Model model) {
+
+        //Se recupera el restaurante usando el id
+        Long restauranteid = (long) model.getAttribute("restauranteId");
+
+        Optional<Restaurante> restaurante = restauranteDAO.findById(restauranteid);
+
+        cartaMenu.setRestaurante(restaurante.get());
+
         //guarda la carta y los items del menu
         cartaMenu.getItemMenu().forEach(itemMenu -> itemMenu.setMenu(cartaMenu));
         cartaMenuDAO.save(cartaMenu);

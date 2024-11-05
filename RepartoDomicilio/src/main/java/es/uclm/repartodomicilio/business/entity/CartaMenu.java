@@ -15,7 +15,7 @@ public class CartaMenu {
 
     @ManyToOne
     @JoinColumn(name = "restaurante_id", nullable = false)
-    private Restaurante restaurante;
+    private Restaurante restauranteId;
 
 
     @OneToMany(mappedBy = "menu", cascade = CascadeType.ALL)
@@ -26,7 +26,7 @@ public class CartaMenu {
 
     public CartaMenu(String nombre, Restaurante restaurante) {
         this.nombre = nombre;
-        this.restaurante = restaurante;
+        this.restauranteId = restaurante;
     }
 
     public long getMenuId() { return menuId; }
@@ -35,8 +35,8 @@ public class CartaMenu {
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
 
-    public Restaurante getRestaurante() { return restaurante; }
-    public void setRestaurante(Restaurante restaurante) { this.restaurante = restaurante; }
+    public Restaurante getRestaurante() { return restauranteId; }
+    public void setRestaurante(Restaurante restaurante) { this.restauranteId = restaurante; }
 
     public List<ItemMenu> getItemMenu() { return itemMenu; }
     public void setItemMenu(List<ItemMenu> itemMenu) { this.itemMenu = itemMenu; }
