@@ -19,6 +19,9 @@ public class Cliente {
     @Column(nullable = false)
     private String apellidos;
 
+    @Column(nullable = false)
+    private String password;
+
     @Column (nullable = false, unique = true)
     private String email;
 
@@ -34,10 +37,11 @@ public class Cliente {
     public Cliente(){}
 
     //Constructor
-    public Cliente(String dni, String nombre, String apellidos, String email) {
+    public Cliente(String dni, String nombre, String apellidos, String password,  String email) {
         this.dni = dni;
         this.nombre = nombre;
         this.apellidos = apellidos;
+        this.password = password;
         this.email = email;
     }
 
@@ -71,6 +75,9 @@ public class Cliente {
     public void setApellidos(String apellidos) {
         this.apellidos = apellidos;
     }
+
+    public String getPassword() { return  password; }
+    public void setPassword(String password) { this.password = password; }
 
     public String getEmail() {
         return email;
