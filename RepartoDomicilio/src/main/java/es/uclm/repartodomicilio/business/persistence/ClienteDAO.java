@@ -10,6 +10,7 @@ import java.util.Optional;
 public interface ClienteDAO extends JpaRepository<Cliente, Long>{
     //boolean existsBydni(String dni); // para verificar si existe DNI
 
-    Optional<Cliente> findByClaveUnica(String claveUnica);
+    Optional<Cliente> findByDni(String dni);
+
 
 }

@@ -21,19 +21,19 @@ public class Login {
 
     public String autenticarUser(String claveUnica, String contra){
         // VERIFICAR CLIENTE
-        Optional<Cliente> cliente = clienteDAO.findByClaveUnica(claveUnica);
+        Optional<Cliente> cliente = clienteDAO.findByDni(claveUnica); // claveUnica debería ser el DNI
         if (cliente.isPresent() && cliente.get().getPassword().equals(contra)){
             return "Cliente";
         }
 
         // VERIFICAR REPARTIDOR
-        Optional<Repartidor> repartidor = repartidorDAO.findByClaveUnica(claveUnica);
+        Optional<Repartidor> repartidor = repartidorDAO.findByDni_repartidor(claveUnica);
         if (repartidor.isPresent() && repartidor.get().getPassword_repartidor().equals(contra)) {
             return "Repartidor";
         }
 
         //VERIFICAR RESTAURANTE
-        Optional<Restaurante> restaurante = restauranteDAO.findByClaveUnica(claveUnica);
+        Optional<Restaurante> restaurante = restauranteDAO.findBycif(claveUnica);
         if (restaurante.isPresent() && restaurante.get().getPassword_restaurante().equals(contra)) {
             return "Restaurante";
         }
