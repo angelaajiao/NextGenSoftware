@@ -1,6 +1,7 @@
 package es.uclm.repartodomicilio.business.entity;
 import jakarta.persistence.*;
-
+import java.io.Serializable;
+import java.util.List;
 
 @Entity
 public class CartaMenu {
