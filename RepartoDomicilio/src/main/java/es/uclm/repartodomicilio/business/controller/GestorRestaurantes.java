@@ -47,8 +47,11 @@ public class GestorRestaurantes {
     @GetMapping("/VistaRestauranteAltaMenu")
     public String registroCartaMenu(Model model) {
         model.addAttribute("cartaMenu", new CartaMenu());
-
         model.addAttribute("tiposItemMenu", TipoItemMenu.values());
+        // Inicializar una lista para los ítems del menú
+        List<ItemMenu> items = new ArrayList<>();
+        items.add(new ItemMenu()); // Añadir un ítem vacío por defecto
+        model.addAttribute("itemMenu", items); // Aquí asegúrate de que estás usando el mismo nombre
         return "VistaRestauranteAltaMenu";
     }
 

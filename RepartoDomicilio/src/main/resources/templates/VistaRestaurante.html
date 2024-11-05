@@ -64,8 +64,11 @@
     <h2 th:text="'Bienvenido, ' + 'pepe' + '!'">Bienvenido</h2>
     <p>Aquí puedes gestionar tus servicios y ver tus estadísticas.</p>
 
-    <!-- Botón para registrar menú -->
-    <button th:onclick="window.location.href='@{/VistaRestauranteAltaMenu}'">Registrar Menú</button>
+    <!-- Botón para ir a la página de menú -->
+    <a th:href="@{/VistaRestauranteAltaMenu}" style="text-decoration: none;">
+        <button type="button">Registrar Menú</button>
+    </a>
+
 </div>
 
 </body>
