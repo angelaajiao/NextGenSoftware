@@ -70,4 +70,27 @@ public class GestorRestaurantes {
 
 
 
+    //Listar restaurantes desde usurio anonimo
+    @GetMapping("/listarRestaurantes")
+    public String mostrarRestaurantesLogin(Model model) {
+        List<Restaurante> restaurantes = restauranteDAO.findAll();
+        model.addAttribute("restaurantes", restaurantes);
+        return "listarRestaurantes";
+    }
+
+    @PostMapping("/listarRestaurantes")
+    public String listarRestaurantes(Model model) {
+        List<Restaurante> restaurantes = restauranteDAO.findAll(); // Obtener todos los restaurantes
+        model.addAttribute("restaurantes", restaurantes);
+        return "listarRestaurantes"; // Nombre de la vista donde se mostrará la lista
+    }
+
+    // Método para buscar restaurantes por nombre
+    @GetMapping("/AnonimoBuscarRestaurantes")
+    public String buscarRestaurantes(@RequestParam String nombre, Model model) {
+        List<Restaurante> restaurantes = restauranteDAO.findAllByNombre(nombre);
+        model.addAttribute("restaurantes", restaurantes);
+        return "listarRestaurantes"; //
+
+    }
 }
