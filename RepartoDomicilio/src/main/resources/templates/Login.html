@@ -9,15 +9,6 @@
             margin: 0;
             padding: 20px;
         }
-        .search-form {
-            margin-bottom: 20px;
-        }
-        .restaurant-item {
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin-bottom: 10px;
-            background-color: #fff;
-        }
     </style>
 </head>
 <body>
@@ -43,28 +34,12 @@
     </div>
 </section>
 
-<!-- Sección de Búsqueda de Restaurantes -->
-<section id="restaurant-search-section">
-    <h2>Buscar Restaurantes</h2>
-    <form class="search-form" th:action="@{/restaurantes/buscar}" method="get">
-        <label for="search">Nombre del Restaurante:</label>
-        <input type="text" id="search" name="nombre" required>
-        <button type="submit">Buscar</button>
-    </form>
-</section>
+<!-- Sección de Restaurantes Disponibles -->
 
-<!-- Sección de Lista de Restaurantes -->
-<section id="restaurant-list-section">
-    <h2>Restaurantes Disponibles</h2>
-    <div th:each="restaurante : ${restaurantes}">
-        <div class="restaurant-item">
-            <h3 th:text="${restaurante.nombre}">Nombre del Restaurante</h3>
-            <p th:text="${restaurante.direccion}">Dirección del Restaurante</p>
-            <p th:text="${restaurante.telefono}">Teléfono del Restaurante</p>
-            <a href="#" th:href="@{/restaurante/{id}(id=${restaurante.id})}">Ver detalles</a>
-        </div>
-        <hr>
-    </div>
-</section>
+<p> Encuentra tu restaurante
+    <a href="/listarRestaurantes">Restaurantes disponibles</a>
+</p>
+
+
 </body>
 </html>
