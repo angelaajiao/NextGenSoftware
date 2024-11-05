@@ -2,89 +2,57 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Panel de Administración del Restaurante</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>Bienvenido Restaurante</title>
     <style>
         body {
-            background-color: #f8f9fa;
-            font-family: 'Poppins', sans-serif;
-            height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
             margin: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            padding: 0;
         }
-        .navbar {
-            margin-bottom: 2rem;
+        header {
+            background-color: #ec5353;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        nav {
+            background-color: #333;
+            overflow: hidden;
+        }
+        nav a {
+            color: white;
+            padding: 14px 20px;
+            display: inline-block;
+            text-align: center;
+            text-decoration: none;
+        }
+        nav a:hover {
+            background-color: #575757;
         }
         .content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            flex-grow: 1;
-        }
-        .footer {
-            text-align: center;
-            padding: 10px;
-            background-color: #333;
-            color: white;
-        }
-        h1 {
-            font-weight: 600;
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-        p {
-            font-weight: 300;
-            font-size: 1.25rem;
-            color: #6c757d;
+            padding: 20px;
         }
     </style>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">Restaurante</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/restaurante/perfilRestaurante}">Perfil</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/restaurante/gestionarMenu}">Gestionar Menú</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/restaurante/ordenes}">Órdenes</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/restaurante/estadisticas}">Estadísticas</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/logout}">Cerrar Sesión</a>
-                </li>
-            </ul>
-        </div>
-    </div>
+<header>
+    <h1>Bienvenido, Restaurante</h1>
+</header>
+
+<nav>
+    <a href="#" th:href="@{/restaurante/perfilRepartidor}">Perfil</a>
+    <a href="#" th:href="@{/repartidor/serviciosEntregaRepartidor}">Servicios de Entrega</a>
+    <a href="#" th:href="@{/repartidor/zona}">Zona de Reparto</a>
+    <a href="#" th:href="@{/repartidor/estadisticas}">Estadísticas</a>
+    <a href="#" th:href="@{/logout}">Cerrar Sesión</a>
 </nav>
 
-<div class="container">
-    <div class="content">
-        <h1 th:text="'Bienvenido, ' + ${restaurante.nombre} + '!'">Bienvenido</h1>
-    </div>
+<div class="content">
+    <h2 th:text="'Bienvenido, ' + 'pepe' + '!'">Bienvenido</h2>
+    <p>Aquí puedes gestionar tus servicios y ver tus estadísticas.</p>
 </div>
 
-<div class="footer">
-    <p>© 2024 NextGenSoftware. </p>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
