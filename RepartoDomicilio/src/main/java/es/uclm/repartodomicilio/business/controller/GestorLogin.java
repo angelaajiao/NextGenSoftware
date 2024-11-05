@@ -11,8 +11,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+
+
 @Controller
 public class GestorLogin {
+
+    private String rolActivo;
 
     @Autowired
     private Login loginService;
@@ -26,10 +30,11 @@ public class GestorLogin {
     public String login(@RequestParam String id, @RequestParam String pass, Model model) {
         String rol = loginService.autenticarUser(id, pass);
 
-        if(rol != null){
+        if (rol != null) {
+            rolActivo = rol;
             model.addAttribute("rol", rol);
             //Redirige a la vista correspondiente según el rol
-            switch (rol){
+            switch (rol) {
                 case "Cliente":
                     return "vistaCliente"; // vista cliente
                 case "Repartidor":
@@ -40,5 +45,14 @@ public class GestorLogin {
         }
         model.addAttribute("error", "Clave o contraseñas incorrectos");
         return "login";
-        }
     }
+
+
+    @GetMapping("/logout")
+    public String logout() {
+        rolActivo = null;
+        return "login";
+    }
+
+
+}
