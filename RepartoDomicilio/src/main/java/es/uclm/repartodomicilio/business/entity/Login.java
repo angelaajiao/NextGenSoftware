@@ -28,7 +28,7 @@ public class Login {
 
         // VERIFICAR REPARTIDOR
         Optional<Repartidor> repartidor = repartidorDAO.findByDniRepartidor(claveUnica);
-        if (repartidor.isPresent() && repartidor.get().getPassword_repartidor().equals(contra)) {
+        if (repartidor.isPresent() && repartidor.get().getPasswordRepartidor().equals(contra)) {
             return "Repartidor";
         }
 

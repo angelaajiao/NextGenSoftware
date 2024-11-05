@@ -7,6 +7,6 @@ import java.util.Optional;
 
 @Repository
 public interface RepartidorDAO  extends  JpaRepository<Repartidor, Long >{
-    Optional<Repartidor> findByDniRepartidor(String dni_repartidor);
+    Optional<Repartidor> findByDniRepartidor(String dniRepartidor);
 
 }

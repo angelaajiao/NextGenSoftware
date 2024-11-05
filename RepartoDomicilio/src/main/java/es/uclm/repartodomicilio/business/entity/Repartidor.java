@@ -10,20 +10,20 @@ public class Repartidor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false)
+    @Column(name = "dni_repartidor", nullable = false)
     private String dniRepartidor;
 
     @Column(nullable = false)
-    private String nombre_repartidor;
+    private String nombreRepartidor;
 
     @Column(nullable = false)
-    private String apellido_repartidor;
+    private String apellidoRepartidor;
 
     @Column(nullable = false)
-    private String password_repartidor;
+    private String passwordRepartidor;
 
     @Column(nullable = false)
-    private String email_repartidor;
+    private String emailRepartidor;
 
     @Column(nullable = false)
     private boolean disponible;
@@ -36,12 +36,12 @@ public class Repartidor {
     }
 
     // Constructor
-    public Repartidor(String dni_repartidor, String nombre_repartidor, String apellido_repartidor, String password_repartidor, String email_repartidor, boolean disponible) {
-        this.dniRepartidor = dni_repartidor;
-        this.nombre_repartidor = nombre_repartidor;
-        this.apellido_repartidor = apellido_repartidor;
-        this.password_repartidor = password_repartidor;
-        this.email_repartidor = email_repartidor;
+    public Repartidor(String dniRepartidor, String nombreRepartidor, String apellidoRepartidor, String passwordRepartidor, String emailRepartidor, boolean disponible) {
+        this.dniRepartidor = dniRepartidor;
+        this.nombreRepartidor = nombreRepartidor;
+        this.apellidoRepartidor = apellidoRepartidor;
+        this.passwordRepartidor = passwordRepartidor;
+        this.emailRepartidor = emailRepartidor;
         this.disponible = disponible;
     }
 
@@ -58,39 +58,39 @@ public class Repartidor {
         return dniRepartidor;
     }
 
-    public void setDni_repartidor(String dni_repartidor) {
-        this.dniRepartidor = dni_repartidor;
+    public void setDniRepartidor(String dniRepartidor) {
+        this.dniRepartidor = dniRepartidor;
     }
 
-    public String getNombre_repartidor() {
-        return nombre_repartidor;
+    public String getNombreRepartidor() {
+        return nombreRepartidor;
     }
 
-    public void setNombre_repartidor(String nombre_repartidor) {
-        this.nombre_repartidor = nombre_repartidor;
+    public void setNombreRepartidor(String nombreRepartidor) {
+        this.nombreRepartidor = nombreRepartidor;
     }
 
-    public String getApellido_repartidor() {
-        return apellido_repartidor;
+    public String getApellidoRepartidor() {
+        return apellidoRepartidor;
     }
 
-    public void setApellido_repartidor(String apellido_repartidor) {
-        this.apellido_repartidor = apellido_repartidor;
+    public void setApellidoRepartidor(String apellidoRepartidor) {
+        this.apellidoRepartidor = apellidoRepartidor;
     }
-    public String getPassword_repartidor(){return  password_repartidor; }
+    public String getPasswordRepartidor(){return  passwordRepartidor; }
 
-    public  void setPassword_repartidor(String password_repartidor) {
+    public  void setPasswordRepartidor(String passwordRepartidor) {
 
-        this.password_repartidor = password_repartidor;
+        this.passwordRepartidor = passwordRepartidor;
 
-    }
-
-    public String getEmail_repartidor(){
-        return  email_repartidor;
     }
 
-    public void setEmail_repartidor(String email_repartidor){
-        this.email_repartidor = email_repartidor;
+    public String getEmailRepartidor(){
+        return  emailRepartidor;
+    }
+
+    public void setEmailRepartidor(String emailRepartidor){
+        this.emailRepartidor = emailRepartidor;
     }
 
     public boolean isDisponible() {

@@ -7,10 +7,10 @@
     <h2>Registro de Repartidor</h2>
     <form th:action="@{/registro/repartidor}" th:object="${repartidor}" method="post">
         <p>DNI: <input type="text" th:field="*{dniRepartidor}" /></p>
-        <p>Nombre: <input type="text" th:field="*{nombre_repartidor}" /></p>
-        <p>Apellido: <input type="text" th:field="*{apellido_repartidor}" /></p>
-        <P>Contraseña: <input type="text" th:field="*{password_repartidor}"></P>
-        <p>Email: <input type="text" th:field="*{email_repartidor}" /></p>
+        <p>Nombre: <input type="text" th:field="*{nombreRepartidor}" /></p>
+        <p>Apellido: <input type="text" th:field="*{apellidoRepartidor}" /></p>
+        <P>Contraseña: <input type="text" th:field="*{passwordRepartidor}"></P>
+        <p>Email: <input type="text" th:field="*{emailRepartidor}" /></p>
         <p>Disponible: <input type="checkbox" th:field="*{disponible}" /></p>
 
         <p><input type="submit" value="Registrar Repartidor" >
