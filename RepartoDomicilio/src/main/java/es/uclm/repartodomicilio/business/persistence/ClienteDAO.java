@@ -6,4 +6,5 @@ import es.uclm.repartodomicilio.business.entity.Cliente;
 
 @Repository
 public interface ClienteDAO extends JpaRepository<Cliente, Long>{
+    //boolean existsBydni(String dni); // para verificar si existe DNI
 }

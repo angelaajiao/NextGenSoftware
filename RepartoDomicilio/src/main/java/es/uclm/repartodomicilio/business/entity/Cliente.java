@@ -11,7 +11,7 @@ public class Cliente {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private Long dni;
+    private String dni;
 
     @Column(nullable = false)
     private String nombre;
@@ -34,7 +34,7 @@ public class Cliente {
     public Cliente(){}
 
     //Constructor
-    public Cliente(Long dni, String nombre, String apellidos, String email) {
+    public Cliente(String dni, String nombre, String apellidos, String email) {
         this.dni = dni;
         this.nombre = nombre;
         this.apellidos = apellidos;
@@ -48,11 +48,11 @@ public class Cliente {
 
     public void setId(Long id) { this.id = id; }
 
-    public Long getDni() {
+    public String getDni() {
         return dni;
     }
 
-    public void setDni(Long dni) {
+    public void setDni(String dni) {
         this.dni = dni;
     }
 
