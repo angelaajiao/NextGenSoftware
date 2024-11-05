@@ -3,11 +3,12 @@ package es.uclm.repartodomicilio.business.entity;
 import es.uclm.repartodomicilio.business.persistence.ClienteDAO;
 import es.uclm.repartodomicilio.business.persistence.RepartidorDAO;
 import es.uclm.repartodomicilio.business.persistence.RestauranteDAO;
-import jakarta.persistence.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.Optional;
 
-@Entity
+@Service
 public class Login {
     @Autowired
     private ClienteDAO clienteDAO;
@@ -20,19 +21,19 @@ public class Login {
 
     public String autenticarUser(String claveUnica, String contra){
         // VERIFICAR CLIENTE
-        Optional<Cliente> cliente = ClienteDAO.findByClaveUnica(claveUnica);
+        Optional<Cliente> cliente = clienteDAO.findByClaveUnica(claveUnica);
         if (cliente.isPresent() && cliente.get().getPassword().equals(contra)){
             return "Cliente";
         }
 
         // VERIFICAR REPARTIDOR
-        Optional<Repartidor> repartidor = RepartidorDAO.findByClaveUnica(claveUnica);
+        Optional<Repartidor> repartidor = repartidorDAO.findByClaveUnica(claveUnica);
         if (repartidor.isPresent() && repartidor.get().getPassword_repartidor().equals(contra)) {
             return "Repartidor";
         }
 
         //VERIFICAR RESTAURANTE
-        Optional<Restaurante> restaurante = RestauranteDAO.findByClaveUnica(claveUnica);
+        Optional<Restaurante> restaurante = restauranteDAO.findByClaveUnica(claveUnica);
         if (restaurante.isPresent() && restaurante.get().getPassword_restaurante().equals(contra)) {
             return "Restaurante";
         }
