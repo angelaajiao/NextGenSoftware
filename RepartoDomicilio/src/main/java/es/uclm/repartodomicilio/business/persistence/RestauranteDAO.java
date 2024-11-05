@@ -9,6 +9,6 @@ import java.util.Optional;
 @Repository
 public interface RestauranteDAO extends JpaRepository<Restaurante, Long>{
     boolean existsBycif(String cif); // para verificar si existe CIF
-    Optional<Restaurante> findByClaveUnica(String claveUnica);
+    Optional<Restaurante> findBycif(String cif);
 
 }
