@@ -81,8 +81,7 @@
 
   <!-- Formulario de Alta de Menú -->
   <h2>Registrar Nueva Carta de Menú</h2>
-  <form th:action="@{/menu/alta}" th:object="${cartaMenu}" method="post">
-
+  <form th:action="@{/VistaRestauranteAltaMenu}" th:object="${cartaMenu}" method="post">
     <!-- Nombre del Menú -->
     <div class="form-group">
       <label for="nombre">Nombre del Menú:</label>
@@ -96,20 +95,23 @@
       <div class="form-group">
 
         <!-- Nombre del Item -->
-        <label>Nombre del Plato:</label>
-        <input type="text" th:field="*{itemMenu[__${iterStat.index}__].nombre}" required>
+    <label>Nombre del Plato:</label>
+    <input type="text" th:field="*{itemMenu[__${iterStat.index}__].nombre}" required>
 
-        <!-- Precio del Item -->
-        <label>Precio:</label>
-        <input type="number" step="0.01" th:field="*{itemMenu[__${iterStat.index}__].precio}" required>
+    <!-- Precio del Item -->
+    <label>Precio:</label>
+    <input type="number" step="0.01" th:field="*{itemMenu[__${iterStat.index}__].precio}" required>
 
+    <!-- Tipo de Item -->
         <!-- Tipo de Item -->
         <label>Tipo de Plato:</label>
         <select th:field="*{itemMenu[__${iterStat.index}__].tipoItemMenu}">
-          <option th:each="tipo : ${#arrays.asList(TipoItemMenu.values())}" th:value="${tipo}" th:text="${tipo}"></option>
+          <option th:each="tipo : ${tiposItemMenu}"
+                  th:value="${tipo}"
+                  th:text="${tipo}"></option>
         </select>
-      </div>
-    </div>
+</div>
+</div>
 
     <!-- Botón para enviar el formulario -->
     <div class="form-group">

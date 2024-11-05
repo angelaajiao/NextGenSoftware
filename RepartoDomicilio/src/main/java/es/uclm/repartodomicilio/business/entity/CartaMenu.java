@@ -37,4 +37,7 @@ public class CartaMenu {
 
     public Restaurante getRestaurante() { return restaurante; }
     public void setRestaurante(Restaurante restaurante) { this.restaurante = restaurante; }
+
+    public List<ItemMenu> getItemMenu() { return itemMenu; }
+    public void setItemMenu(List<ItemMenu> itemMenu) { this.itemMenu = itemMenu; }
 }

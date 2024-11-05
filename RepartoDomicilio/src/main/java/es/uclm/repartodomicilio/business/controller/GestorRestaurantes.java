@@ -1,4 +1,5 @@
 package es.uclm.repartodomicilio.business.controller;
+import es.uclm.repartodomicilio.business.persistence.CartaMenuDAO;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import es.uclm.repartodomicilio.business.entity.*;
@@ -13,6 +14,8 @@ import java.util.*;
 public class GestorRestaurantes {
     @Autowired
     private RestauranteDAO restauranteDAO;
+    @Autowired
+    private CartaMenuDAO cartaMenuDAO;
 
     @GetMapping("/registro/restaurante")
     public String RegistroRestaurante(Model model) {
@@ -39,6 +42,27 @@ public class GestorRestaurantes {
         model.addAttribute("error", e.getMessage()); // Pasamos el mensaje de error a la vista
         model.addAttribute("restaurante", new Restaurante()); // Para volver a cargar el formulario
         return "Restaurante"; // Volvemos a la página de registro con el mensaje de error
+    }
+
+    @GetMapping("/VistaRestauranteAltaMenu")
+    public String registroCartaMenu(Model model) {
+        model.addAttribute("cartaMenu", new CartaMenu());
+
+        model.addAttribute("tiposItemMenu", TipoItemMenu.values());
+        return "VistaRestauranteAltaMenu";
+    }
+
+
+    //Dar del alta menu
+    @PostMapping("/VistaRestauranteAltaMenu")
+    public String altaCartaMenu(@ModelAttribute CartaMenu cartaMenu, Model model) {
+        //guarda la carta y los items del menu
+        cartaMenu.getItemMenu().forEach(itemMenu -> itemMenu.setMenu(cartaMenu));
+        cartaMenuDAO.save(cartaMenu);
+
+        model.addAttribute("cartaMenu", cartaMenu);
+        return "resultAltaMenu";//html
+
     }
 
 

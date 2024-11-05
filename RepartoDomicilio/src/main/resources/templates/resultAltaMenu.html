@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Menú Registrado</title>
+</head>
+<body>
+<h1>Menú Registrado Exitosamente</h1>
+<p>Nombre del Menú: <span th:text="${cartaMenu.nombre}">Nombre del Menú</span></p>
+
+<h2>Ítems del Menú</h2>
+<ul>
+    <li th:each="item : ${cartaMenu.itemMenu}">
+        <span th:text="${item.nombre}">Nombre del Plato</span> -
+        <span th:text="${item.precio}">Precio</span> € -
+        <span th:text="${item.tipoItemMenu}">Tipo de Plato</span>
+    </li>
+</ul>
+
+<a th:href="@{/vistaRestaurante}">Volver al inicio</a>
+</body>
+</html>
