@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Bienvenido Cliente</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #9cf4a1;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        nav {
+            background-color: #333;
+            overflow: hidden;
+        }
+        nav a {
+            color: white;
+            padding: 14px 20px;
+            display: inline-block;
+            text-align: center;
+            text-decoration: none;
+        }
+        nav a:hover {
+            background-color: #575757;
+        }
+        .content {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Bienvenido, cliente</h1>
+</header>
+
+<nav>
+    <a href="#" th:href="@{/cliente/perfilCliente}">Perfil</a>
+    <a href="#" th:href="@{/cliente/favoritos}">Favoritos</a>
+    <a href="#" th:href="@{/cliente/historialPedidos}">Historial de pedidos</a>
+    <a href="#" th:href="@{/cliente/ajustes}">Ajustes</a>
+    <a href="#" th:href="@{/logout}">Cerrar Sesión</a>
+</nav>
+
+<div class="content">
+    <h2 th:text="'Bienvenido cliente ' + 'nombre cliente' + '!'">Bienvenido</h2>
+    <p>Aquí puedes gestionar tus pedidos.</p>
+</div>
+
+</body>
+</html>
+

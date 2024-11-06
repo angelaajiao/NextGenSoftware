@@ -4,6 +4,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+
 ### STS ###
 .apt_generated
 .classpath
@@ -31,3 +32,21 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### DERBY ###
+/database/
+/database/seg0/
+/database/log/
+/database/temp/
+
+### JetBrains IDEs ###
+.idea/
+*.dat
+*.tmp
+*.lck
+
+# Ignorar cualquier archivo .log en el proyecto
+*.log
+
+# Ignorar específicamente el log de Derby en esta ubicación
+RepartoDomicilio/derby.log

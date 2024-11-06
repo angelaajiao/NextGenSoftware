@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Iniciar Sesión</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+<!-- Sección de Iniciar Sesión -->
+<section id="login-section">
+    <h1>Iniciar Sesión</h1>
+    <form action="#" th:action="@{/login}" method="post">
+        <label for="id">Usuario:</label>
+        <input type="text" id="id" name="id" required>
+
+        <label for="pass">Contraseña:</label>
+        <input type="password" id="pass" name="pass" required>
+
+        <button type="submit">Iniciar Sesión</button>
+    </form>
+
+    <p>¿No tienes cuenta?
+        <a href="/registro">Regístrate aquí</a>
+    </p>
+
+    <div th:if="${error}" style="color:red;">
+        <p th:text="${error}"></p>
+    </div>
+</section>
+
+<!-- Sección de Restaurantes Disponibles -->
+
+<p> Encuentra tu restaurante
+    <a href="/listarRestaurantes">Restaurantes disponibles</a>
+</p>
+
+
+</body>
+</html>

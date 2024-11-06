@@ -1,0 +1,15 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>RESTAURANTE REGISTRADO</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<h1>RESTAURANTE REGISTRADO</h1>
+<p th:text="'Nombre Restaurante: ' + ${restaurante.nombre}" />
+<p th:text="'CIF: ' + ${restaurante.cif}" />
+<p th:text="'Direccion: ' + ${restaurante.direccion}" />
+<p th:text="'Contraseña: ' + ${restaurante.password_restaurante}" />
+<a href="/registro">Volver</a> <!-- Enlace para volver al menú -->
+</body>
+</html>

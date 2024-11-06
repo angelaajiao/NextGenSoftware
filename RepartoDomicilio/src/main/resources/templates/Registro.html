@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Registro de Usuario</title>
+    <script>
+        function mostrarFormulario() {
+            var tipoUsuario = document.getElementById("tipoUsuario").value;
+            window.location.href = "/registro/" + tipoUsuario.toLowerCase();
+        }
+    </script>
+</head>
+<body>
+<h1>Registro de Usuario</h1>
+<label for="tipoUsuario">Elige el tipo de usuario:</label>
+<select id="tipoUsuario" onchange="mostrarFormulario()">
+    <option value="">--Seleccionar--</option>
+    <option value="CLIENTE">Cliente</option>
+    <option value="RESTAURANTE">Restaurante</option>
+    <option value="REPARTIDOR">Repartidor</option>
+</select>
+<a href="/login">Volver a login</a> <!-- Enlace para volver a login -->
+</body>
+</html>

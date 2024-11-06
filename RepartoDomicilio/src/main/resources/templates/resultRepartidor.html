@@ -1,0 +1,16 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>REPARTIDOR REGISTRADO</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<h1>REPARTIDOR REGISTRADO</h1>
+<p th:text="'DNI: ' + ${repartidor.dniRepartidor}" />
+<p th:text="'Nombre Repartidor: ' + ${repartidor.nombreRepartidor}" />
+<p th:text="'Apellido: ' + ${repartidor.apellidoRepartidor}" />
+<p th:text="'email: ' + ${repartidor.emailRepartidor}" />
+<p th:text="'disponible: ' + ${repartidor.disponible}" />
+<a href="/registro">Volver</a> <!-- Enlace para volver al menú -->
+</body>
+</html>
