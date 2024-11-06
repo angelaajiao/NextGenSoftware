@@ -26,6 +26,20 @@ public class GestorRepartos {
     }
     @PostMapping("/registro/repartidor")
     public String registrarRepartidor(@ModelAttribute Repartidor repartidor, Model model) {
+        // Verificamos si ya existe un repartidor con el mismo DNI
+        if (repartidorDAO.existsByDniRepartidor(repartidor.getDniRepartidor())) {
+            model.addAttribute("error", "El DNI ya está registrado.");
+            model.addAttribute("repartidor", repartidor);  // Mantener los datos del formulario
+            return "Repartidor";  // Volver al formulario con el mensaje de error
+        }
+
+        // Verificamos si ya existe un repartidor con el mismo correo electrónico
+        if (repartidorDAO.existsByEmailRepartidor(repartidor.getEmailRepartidor())) {
+            model.addAttribute("error", "El correo electrónico ya está registrado.");
+            model.addAttribute("repartidor", repartidor);  // Mantener los datos del formulario
+            return "Repartidor";  // Volver al formulario con el mensaje de error
+        }
+
         // Guardamos el repartidor en la base de datos
         repartidorDAO.save(repartidor);
         model.addAttribute("repartidor", repartidor);

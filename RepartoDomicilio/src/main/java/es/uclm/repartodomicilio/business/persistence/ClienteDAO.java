@@ -8,7 +8,8 @@ import java.util.Optional;
 
 @Repository
 public interface ClienteDAO extends JpaRepository<Cliente, Long>{
-    //boolean existsBydni(String dni); // para verificar si existe DNI
+    boolean existsByEmail(String email);
+    boolean existsByDni(String dni);
 
     Optional<Cliente> findByDni(String dni);
 

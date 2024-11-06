@@ -8,5 +8,7 @@ import java.util.Optional;
 @Repository
 public interface RepartidorDAO  extends  JpaRepository<Repartidor, Long >{
     Optional<Repartidor> findByDniRepartidor(String dniRepartidor);
+    boolean existsByDniRepartidor(String dni);  // Verificar si el DNI ya está registrado
+    boolean existsByEmailRepartidor(String email);  // Verificar si el correo ya está registrado
 
 }

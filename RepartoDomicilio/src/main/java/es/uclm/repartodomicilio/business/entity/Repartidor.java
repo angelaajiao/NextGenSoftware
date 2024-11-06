@@ -22,7 +22,7 @@ public class Repartidor {
     @Column(nullable = false)
     private String passwordRepartidor;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String emailRepartidor;
 
     @Column(nullable = false)

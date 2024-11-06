@@ -5,6 +5,10 @@
 </head>
 <body>
     <h2>Registro de Repartidor</h2>
+    <!-- Mostrar el error si existe -->
+    <div th:if="${error}" style="color: red;">
+        <p th:text="${error}"></p>
+    </div>
     <form th:action="@{/registro/repartidor}" th:object="${repartidor}" method="post">
         <p>DNI: <input type="text" th:field="*{dniRepartidor}" /></p>
         <p>Nombre: <input type="text" th:field="*{nombreRepartidor}" /></p>

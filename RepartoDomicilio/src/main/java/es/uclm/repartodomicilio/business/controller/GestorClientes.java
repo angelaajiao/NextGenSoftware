@@ -28,10 +28,18 @@ public class GestorClientes {
 
     @PostMapping("/registro/cliente")
     public String registrarCliente(@ModelAttribute Cliente cliente, Model model) {
-        //Verificamos si ya existe un cliente con el mismo DNI
-        /*if (ClienteDAO.existsBydni(cliente.getDni())){
-            throw new IllegalArgumentException("El DNI ya existe en otro cliente");
-        }*/
+        //Verificamos si ya existe un cliente con el mismo DNI o correo
+        if (clienteDAO.existsByDni(cliente.getDni())) {
+            model.addAttribute("error", "El DNI ya está registrado.");
+            model.addAttribute("cliente", cliente); // Mantener los datos del formulario
+            return "registroCliente"; // Volver al formulario con el mensaje de error
+        }
+
+        if (clienteDAO.existsByEmail(cliente.getEmail())) {
+            model.addAttribute("error", "El correo electrónico ya está registrado.");
+            model.addAttribute("cliente", cliente); // Mantener los datos del formulario
+            return "registroCliente"; // Volver al formulario con el mensaje de error
+        }
 
         //Guardamos el cliente
         Cliente savedCliente = clienteDAO.save(cliente);
@@ -39,14 +47,5 @@ public class GestorClientes {
         model.addAttribute("cliente", savedCliente);
         return "registradoCliente";
     }
-
-    /*// Manejador de excepciones
-    @ExceptionHandler(IllegalArgumentException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String handleIllegalArgumentException(IllegalArgumentException e, Model model) {
-        model.addAttribute("error", e.getMessage()); // Pasamos el mensaje de error a la vista
-        model.addAttribute("cliente", new Cliente()); // Para volver a cargar el formulario
-        return "registroCliente"; // Volvemos a la página de registro con el mensaje de error
-    }*/
 }
 
