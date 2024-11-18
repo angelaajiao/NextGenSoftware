@@ -1,6 +1,5 @@
 package es.uclm.repartodomicilio.business.entity;
 
-import java.util.*;
 import jakarta.persistence.*;
 
 @Entity
@@ -20,7 +19,7 @@ public class Repartidor {
     private String apellidoRepartidor;
 
     @Column(nullable = false)
-    private String passwordRepartidor;
+    private String ContrasenaRepartidor;
 
     @Column(nullable = false, unique = true)
     private String emailRepartidor;
@@ -40,7 +39,7 @@ public class Repartidor {
         this.dniRepartidor = dniRepartidor;
         this.nombreRepartidor = nombreRepartidor;
         this.apellidoRepartidor = apellidoRepartidor;
-        this.passwordRepartidor = passwordRepartidor;
+        this.ContrasenaRepartidor = passwordRepartidor;
         this.emailRepartidor = emailRepartidor;
         this.disponible = disponible;
     }
@@ -77,11 +76,11 @@ public class Repartidor {
     public void setApellidoRepartidor(String apellidoRepartidor) {
         this.apellidoRepartidor = apellidoRepartidor;
     }
-    public String getPasswordRepartidor(){return  passwordRepartidor; }
+    public String getContrasenaRepartidor(){return ContrasenaRepartidor; }
 
-    public  void setPasswordRepartidor(String passwordRepartidor) {
+    public  void setContrasenaRepartidor(String contrasenaRepartidor) {
 
-        this.passwordRepartidor = passwordRepartidor;
+        this.ContrasenaRepartidor = contrasenaRepartidor;
 
     }
 
