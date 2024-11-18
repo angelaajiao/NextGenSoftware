@@ -22,7 +22,7 @@ public class Login {
     public String autenticarUser(String claveUnica, String contra){
         // VERIFICAR CLIENTE
         Optional<Cliente> cliente = clienteDAO.findByDni(claveUnica); // claveUnica debería ser el DNI
-        if (cliente.isPresent() && cliente.get().getPassword().equals(contra)){
+        if (cliente.isPresent() && cliente.get().getContrasena().equals(contra)){
             return "Cliente";
         }
 

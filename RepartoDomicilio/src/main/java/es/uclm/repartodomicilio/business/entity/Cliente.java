@@ -2,8 +2,6 @@ package es.uclm.repartodomicilio.business.entity;
 
 import jakarta.persistence.*;
 
-import java.util.*;
-
 @Entity
 public class Cliente {
     @Id
@@ -20,28 +18,20 @@ public class Cliente {
     private String apellidos;
 
     @Column(nullable = false)
-    private String password;
+    private String contrasena;
 
     @Column (nullable = false, unique = true)
     private String email;
-
-   /* @Embedded
-    private Direccion direccion;*/
-
-    //Esto lo comento porque de momento solo haré el registro
-    /*Collection<Restaurante> favoritos;
-    Collection<Pedido> pedidos;
-    Collection<Direccion> direcciones;*/
 
     // constructor vacío requerido por JPA
     public Cliente(){}
 
     //Constructor
-    public Cliente(String dni, String nombre, String apellidos, String password,  String email) {
+    public Cliente(String dni, String nombre, String apellidos, String contrasena,  String email) {
         this.dni = dni;
         this.nombre = nombre;
         this.apellidos = apellidos;
-        this.password = password;
+        this.contrasena = contrasena;
         this.email = email;
     }
 
@@ -76,8 +66,8 @@ public class Cliente {
         this.apellidos = apellidos;
     }
 
-    public String getPassword() { return  password; }
-    public void setPassword(String password) { this.password = password; }
+    public String getContrasena() { return  contrasena; }
+    public void setContrasena(String contrasena) { this.contrasena = contrasena; }
 
     public String getEmail() {
         return email;
@@ -87,28 +77,5 @@ public class Cliente {
         this.email = email;
     }
 
-    /* public Collection<Restaurante> getFavoritos() {
-        return favoritos;
-    }
-
-    public void setFavoritos(Collection<Restaurante> favoritos) {
-        this.favoritos = favoritos;
-    }
-
-    public Collection<Pedido> getPedidos() {
-        return pedidos;
-    }
-
-    public void setPedidos(Collection<Pedido> pedidos) {
-        this.pedidos = pedidos;
-    }
-
-    public Collection<Direccion> getDirecciones() {
-        return direcciones;
-    }
-
-    public void setDirecciones(Collection<Direccion> direcciones) {
-        this.direcciones = direcciones;
-    }*/
 
 }
