@@ -33,4 +33,3 @@ dominio/funcionalidad
 - **`hotfix/`**: Cambios críticos en producción.
 - **`release/`**: Preparación para nuevas versiones.
 - **`main/`**: Rama de producción, despliegue del proyecto.
-- 
