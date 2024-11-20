@@ -14,6 +14,19 @@
   <p>Apellidos: <input type="text" th:field="*{apellidos}" /></p>
   <p>Contraseña: <input type="text" th:field="*{contrasena}" /></p>
   <p>Email: <input type="text" th:field="*{email}" /></p>
+  <fieldset>
+    <legend>Dirección</legend>
+    <p>Calle: <input type="text" th:field="*{direccion.calle}" /></p>
+    <p>Número: <input type="text" th:field="*{direccion.numero}" /></p>
+    <p>Municipio: <input type="text" th:field="*{direccion.municipio}" /></p>
+    <p>Código Postal:
+      <select th:field="*{direccion.codigoPostal}">
+        <option th:value="TALAVERA" th:text="'Talavera (45600)'"></option>
+        <option th:value="MADRID" th:text="'Madrid (28000)'"></option>
+        <option th:value="TOLEDO" th:text="'Toledo (45007)'"></option>
+      </select>
+    </p>
+  </fieldset>
   <p>
     <input type="submit" value="Registrar Cliente" />
     <input type="reset" value="Limpiar" />

@@ -2,7 +2,8 @@ package es.uclm.repartodomicilio.business.entity;
 
 public enum CodigoPostal {
     TALAVERA(45600),
-    MADRID(28000);
+    MADRID(28000),
+    TOLEDO(45007);
 
     private final int codigo;
 

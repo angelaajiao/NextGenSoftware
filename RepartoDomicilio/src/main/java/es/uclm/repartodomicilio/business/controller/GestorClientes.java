@@ -14,15 +14,12 @@ import org.slf4j.LoggerFactory;
 @Controller
 public class GestorClientes {
 
-    //private static final Logger log = LoggerFactory.getLogger(GestorClientes.class);
-
     @Autowired
     private ClienteDAO clienteDAO; // Asegúrate de que este DAO esté bien definido
 
     @GetMapping("/registro/cliente")
     public String RegistroCliente(Model model) {
         model.addAttribute("cliente", new Cliente());
-        //log.info("Lista de clientes: {}", clienteDAO.findAll());
         return "registroCliente";
     }
 
@@ -43,7 +40,6 @@ public class GestorClientes {
 
         //Guardamos el cliente
         Cliente savedCliente = clienteDAO.save(cliente);
-        //log.info("Cliente registrado: {}", savedCliente);
         model.addAttribute("cliente", savedCliente);
         return "registradoCliente";
     }

@@ -23,16 +23,20 @@ public class Cliente {
     @Column (nullable = false, unique = true)
     private String email;
 
+    @Column (nullable = false)
+    private Direccion direccion;
+
     // constructor vacío requerido por JPA
     public Cliente(){}
 
     //Constructor
-    public Cliente(String dni, String nombre, String apellidos, String contrasena,  String email) {
+    public Cliente(String dni, String nombre, String apellidos, String contrasena,  String email, Direccion direccion) {
         this.dni = dni;
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.contrasena = contrasena;
         this.email = email;
+        this.direccion = direccion;
     }
 
     //Métodos get y set
@@ -75,6 +79,14 @@ public class Cliente {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Direccion getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(Direccion direccion) {
+        this.direccion = direccion;
     }
 
 

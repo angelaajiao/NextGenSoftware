@@ -1,21 +1,20 @@
-/*package es.uclm.repartodomicilio.business.entity;
+package es.uclm.repartodomicilio.business.entity;
 
 
 import jakarta.persistence.Embeddable;
 
 @Embeddable
 public class Direccion {
-    CodigoPostal codigoPostal;
     private String calle;
     private String numero;
-    private String complemento;
     private String municipio;
+    private CodigoPostal codigoPostal;
 
     // Constructor vacio de JPA
     public Direccion(){}
 
     // Constructor con parametros
-    public Direccion(String calle, String numero, String municipio, String complemento, CodigoPostal codigoPostal){
+    public Direccion(String calle, String numero, String municipio, CodigoPostal codigoPostal){
         this.calle = calle;
         this.numero = numero;
         this.municipio = municipio;
@@ -47,14 +46,6 @@ public class Direccion {
         this.numero = numero;
     }
 
-    public String getComplemento() {
-        return complemento;
-    }
-
-    public void setComplemento(String complemento) {
-        this.complemento = complemento;
-    }
-
     public String getMunicipio() {
         return municipio;
     }
@@ -64,4 +55,3 @@ public class Direccion {
     }
 
 }
-*/
