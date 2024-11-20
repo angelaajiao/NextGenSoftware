@@ -1,9 +1,6 @@
-/*package es.uclm.repartodomicilio.business.entity;
+package es.uclm.repartodomicilio.business.entity;
 
-public enum CodigoPostal {
+public enum CodigoPostal{
     	45600,
         28000
-
-    //Collection<Repartidor> repartidores;
 }
-*/

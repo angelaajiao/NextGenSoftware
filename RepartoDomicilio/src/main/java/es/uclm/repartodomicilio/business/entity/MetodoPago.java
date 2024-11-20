@@ -1,7 +1,6 @@
-/*package es.uclm.repartodomicilio.business.entity;
+package es.uclm.repartodomicilio.business.entity;
 
-public class MetodoPago {
-   /* PAYPAL,
+public enum MetodoPago {
+    PAYPAL,
     CREDIT_CARD
 }
-*/
