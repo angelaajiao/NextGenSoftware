@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Agregar Ítem al Menú</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #ec5353;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        .content {
+            padding: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        input[type="text"], input[type="number"], select {
+            padding: 8px;
+            width: 100%;
+            margin-top: 5px;
+        }
+        button {
+            background-color: #008080;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #575757;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Agregar un nuevo Ítem al Menú</h1>
+</header>
+
+<div class="content">
+    <form action="#" th:action="@{/restaurante/{id}/agregarItem(id=${cartaMenu.restaurante.id})}" th:object="${nuevoItem}" method="post">
+        <div class="form-group">
+            <label for="nombre">Nombre del Ítem:</label>
+            <input type="text" id="nombre" name="nombre" th:field="*{nombre}" required />
+        </div>
+
+        <div class="form-group">
+            <label for="precio">Precio:</label>
+            <input type="number" id="precio" name="precio" th:field="*{precio}" required />
+        </div>
+
+        <div class="form-group">
+            <label for="tipo">Tipo de Ítem:</label>
+            <select id="tipo" name="tipo.nombre" th:field="*{tipo.nombre}" required>
+                <option value="Entrada">Entrada</option>
+                <option value="Plato Principal">Plato Principal</option>
+                <option value="Postre">Postre</option>
+            </select>
+        </div>
+
+        <button type="submit">Agregar Ítem</button>
+    </form>
+</div>
+
+</body>
+</html>
