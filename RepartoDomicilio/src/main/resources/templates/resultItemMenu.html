@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ítem Agregado</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #ec5353;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        .content {
+            padding: 20px;
+        }
+        .button {
+            background-color: #008080;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #575757;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Ítem Agregado al Menú</h1>
+</header>
+
+<div class="content">
+    <p>El ítem <strong th:text="${nuevoItem.nombre}"></strong> ha sido agregado correctamente al menú.</p>
+    <a href="#" th:href="@{/restaurante/{id}(id=${cartaMenu.restaurante.id})}" class="button">Volver al Menú</a>
+</div>
+
+</body>
+</html>
