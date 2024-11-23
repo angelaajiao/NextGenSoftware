@@ -6,6 +6,8 @@ import es.uclm.repartodomicilio.business.persistence.RestauranteDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import es.uclm.repartodomicilio.business.persistence.CartaMenuDAO;
+import es.uclm.repartodomicilio.business.persistence.ItemMenuDAO;
 
 import java.util.*;
 
@@ -13,6 +15,12 @@ import java.util.*;
 public class GestorRestaurantes {
     @Autowired
     private RestauranteDAO restauranteDAO;
+
+    @Autowired
+    private CartaMenuDAO cartaMenuDAO;
+
+    @Autowired
+    private ItemMenuDAO itemMenuDAO;
 
     @GetMapping("/registro/restaurante")
     public String RegistroRestaurante(Model model) {
@@ -28,6 +36,16 @@ public class GestorRestaurantes {
         }
         // Guardamos el restaurante en la base de datos
         restauranteDAO.save(restaurante);
+
+        // Crear una carta de menú vacía para el restaurante
+        CartaMenu cartaMenu = new CartaMenu();
+        cartaMenu.setRestaurante(restaurante);
+        cartaMenuDAO.save(cartaMenu);
+
+        // Asociar la carta al restaurante
+        restaurante.setCartaMenu(cartaMenu);
+        restauranteDAO.save(restaurante); // Guardamos el restaurante con la carta asociada
+
         model.addAttribute("restaurante", restaurante);
         return "resultRestaurante";
     }
@@ -63,5 +81,31 @@ public class GestorRestaurantes {
         model.addAttribute("restaurantes", restaurantes);
         return "listarRestaurantes"; //
 
+    }
+    // Asignar ítems a la carta del restaurante
+    @GetMapping("/restaurante/{id}/agregarItem")
+    public String agregarItemMenu(@PathVariable Long id, Model model) {
+        Restaurante restaurante = restauranteDAO.findById(id).orElseThrow(() -> new RuntimeException("Restaurante no encontrado"));
+        CartaMenu cartaMenu = restaurante.getCartaMenu();
+        model.addAttribute("cartaMenu", cartaMenu);
+        model.addAttribute("nuevoItem", new ItemMenu());
+        return "agregarItemMenu"; // Vista para agregar nuevos ítems
+    }
+
+    @PostMapping("/restaurante/{id}/agregarItem")
+    public String agregarItemMenu(@PathVariable Long id, @ModelAttribute ItemMenu nuevoItem, Model model) {
+        Restaurante restaurante = restauranteDAO.findById(id).orElseThrow(() -> new RuntimeException("Restaurante no encontrado"));
+        CartaMenu cartaMenu = restaurante.getCartaMenu();
+
+        // Asignar el nuevo ítem a la carta del restaurante
+        nuevoItem.setCartaMenu(cartaMenu);
+        itemMenuDAO.save(nuevoItem);
+
+        // Actualizar la carta con el nuevo ítem
+        cartaMenu.getItems().add(nuevoItem);
+        cartaMenuDAO.save(cartaMenu);
+
+        model.addAttribute("cartaMenu", cartaMenu);
+        return "resultItemMenu";  // Vista que confirma la adición del ítem
     }
 }
