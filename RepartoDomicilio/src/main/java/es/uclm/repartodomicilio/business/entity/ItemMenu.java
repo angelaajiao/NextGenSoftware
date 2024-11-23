@@ -1,55 +1,31 @@
-/*package es.uclm.repartodomicilio.business.entity;
-
+package es.uclm.repartodomicilio.business.entity;
+//un plato
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "item_menu")
 public class ItemMenu {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // Identificador único para la entidad
+    private Long id;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private TipoItemMenu tipo; // Enum para el tipo de item (COMIDA, BEBIDA, POSTRE)
-
-    @Column(nullable = false)
-    private String nombre; // Nombre del item de menú
-
-    @Column(nullable = false)
-    private double precio; // Precio del item de menú
+    private String nombre;
+    private double precio;
 
     @ManyToOne
-    @JoinColumn(name = "carta_menu_id", nullable = false)
-    private CartaMenu cartaMenu; // Relación con CartaMenu
+    @JoinColumn(name = "tipo_id")
+    private TipoItemMenu tipo;
 
-    // Constructor vacío necesario para JPA
-    public ItemMenu() {}
+    @ManyToOne
+    @JoinColumn(name = "carta_menu_id")
+    private CartaMenu cartaMenu;
 
-    // Constructor con parámetros
-    public ItemMenu(TipoItemMenu tipo, String nombre, double precio, CartaMenu cartaMenu) {
-        this.tipo = tipo;
-        this.nombre = nombre;
-        this.precio = precio;
-        this.cartaMenu = cartaMenu;
-    }
-
-    // Getters y Setters
+    // Getters, Setters y Constructor
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public TipoItemMenu getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(TipoItemMenu tipo) {
-        this.tipo = tipo;
     }
 
     public String getNombre() {
@@ -68,6 +44,14 @@ public class ItemMenu {
         this.precio = precio;
     }
 
+    public TipoItemMenu getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoItemMenu tipo) {
+        this.tipo = tipo;
+    }
+
     public CartaMenu getCartaMenu() {
         return cartaMenu;
     }
@@ -75,21 +59,5 @@ public class ItemMenu {
     public void setCartaMenu(CartaMenu cartaMenu) {
         this.cartaMenu = cartaMenu;
     }
-
-    // Métodos adicionales: equals y hashCode (opcional pero recomendado)
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        ItemMenu itemMenu = (ItemMenu) o;
-
-        return id != null ? id.equals(itemMenu.id) : itemMenu.id == null;
-    }
-
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
-    }
 }
-*/
+
