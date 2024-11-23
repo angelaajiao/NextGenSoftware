@@ -19,6 +19,10 @@ public class Restaurante {
     @Column(nullable = false)
     private String password_restaurante;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "carta_menu_id")
+    private CartaMenu cartaMenu;
+
     //Constructor vacío requerido por JPA
     public Restaurante(){}
 
@@ -65,6 +69,10 @@ public class Restaurante {
     public String getPassword_restaurante() { return  password_restaurante; }
 
     public void setPassword_restaurante(String password_restaurante) {this.password_restaurante = password_restaurante;}
+
+    public CartaMenu getCartaMenu() { return cartaMenu;}
+
+    public void setCartaMenu(CartaMenu cartaMenu) { this.cartaMenu = cartaMenu;}
 
 }
 
