@@ -9,21 +9,21 @@ public class ServicioEntrega {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // Identificador único para el servicio de entrega
+    private Long id; 
 
     /*@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pedido_id", nullable = false)
-    private Pedido pedido; // Relación 1:1 con Pedido*/
+    private Pedido pedido; */ 
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "repartidor_id", nullable = true)
-    private Repartidor repartidor; // Relación 0...* a 1 con Repartidor
+    private Repartidor repartidor; 
 
     @Embedded
-    private Direccion direccion; // Relación 1 a 1 con Direccion
+    private Direccion direccion; 
 
     @Column(name = "fecha_recepcion", nullable = false)
-    private LocalDateTime fechaRecepcion; // Fecha en que el sistema recibe el pedido
+    private LocalDateTime fechaRecepcion; // Fecha en que el Repartidor recibe el pedido
 
     @Column(name = "fecha_entrega", nullable = true)
     private LocalDateTime fechaEntrega; // Fecha en que el pedido es entregado
