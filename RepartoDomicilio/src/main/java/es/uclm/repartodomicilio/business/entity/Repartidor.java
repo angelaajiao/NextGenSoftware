@@ -26,6 +26,7 @@ public class Repartidor {
 
     @Column(nullable = false)
     private boolean disponible;
+    
     //private int eficiencia;
     //  Collection<ServicioEntrega> servicios;
     //  Collection<CodigoPostal> zonas;
