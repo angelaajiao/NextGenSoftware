@@ -79,7 +79,9 @@
 
     for (let i = 0; i < restaurants.length; i++) {
       const restaurantName = restaurants[i].getElementsByTagName('h3')[0].textContent.toLowerCase();
-      if (restaurantName.includes(searchInput)) {
+      const restaurantNamePrefix = restaurantName.substring(0, searchInput.length); // Tomar tantos caracteres como la longitud de la entrada
+
+      if (searchInput === '' || restaurantNamePrefix.startsWith(searchInput)) {
         restaurants[i].style.display = '';
       } else {
         restaurants[i].style.display = 'none';
@@ -87,6 +89,8 @@
     }
   }
 </script>
+
+
 
 </body>
 </html>
