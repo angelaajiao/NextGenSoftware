@@ -46,6 +46,16 @@
       border: 1px solid #ccc;
       border-radius: 4px;
     }
+    .button {
+      background-color: #008080;
+      color: white;
+      padding: 5px 10px;
+      text-decoration: none;
+      border-radius: 3px;
+    }
+    .button:hover {
+      background-color: #575757;
+    }
   </style>
 </head>
 <body>
@@ -67,6 +77,8 @@
     <div th:each="restaurante : ${restaurantes}" class="restaurant-item">
       <h3 th:text="${restaurante.nombre}">Nombre del Restaurante</h3>
       <p th:text="${restaurante.direccion}">Dirección del Restaurante</p>
+
+      <a href="#" th:href="@{/restaurante/{id}/menu(id=${restaurante.id})}" class="button">Ver Menú</a>
     </div>
   </div>
 </div>
@@ -94,3 +106,4 @@
 
 </body>
 </html>
+
