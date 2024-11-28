@@ -18,13 +18,18 @@
         }
         .content {
             padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
         }
         .button {
             background-color: #008080;
             color: white;
-            padding: 10px;
-            border: none;
-            cursor: pointer;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 20px;
         }
         .button:hover {
             background-color: #575757;
@@ -39,8 +44,10 @@
 
 <div class="content">
     <p>El ítem <strong th:text="${nuevoItem.nombre}"></strong> ha sido agregado correctamente al menú.</p>
-    <a href="#" th:href="@{/restaurante/{id}(id=${cartaMenu.restaurante.id})}" class="button">Volver al Menú</a>
+    <a th:href="@{/restaurante/{id}/menu(id=${cartaMenu.restaurante.id})}" class="button">Volver al Menú</a>
 </div>
 
 </body>
 </html>
+
+
