@@ -1,5 +1,5 @@
 package es.uclm.repartodomicilio.business.entity;
-//un plato
+
 import jakarta.persistence.*;
 
 @Entity
@@ -11,15 +11,18 @@ public class ItemMenu {
     private String nombre;
     private double precio;
 
-    @ManyToOne
-    @JoinColumn(name = "tipo_id")
+    @Enumerated(EnumType.STRING) // Usamos el EnumType.STRING para almacenar el valor como texto
     private TipoItemMenu tipo;
 
     @ManyToOne
-    @JoinColumn(name = "carta_menu_id")
+    @JoinColumn(name = "carta_menu_id", nullable = false)
     private CartaMenu cartaMenu;
 
-    // Getters, Setters y Constructor
+
+    // Constructor vacío requerido por JPA
+    public ItemMenu() {}
+
+    // Getters y Setters
     public Long getId() {
         return id;
     }
@@ -60,4 +63,8 @@ public class ItemMenu {
         this.cartaMenu = cartaMenu;
     }
 }
+
+
+
+
 
