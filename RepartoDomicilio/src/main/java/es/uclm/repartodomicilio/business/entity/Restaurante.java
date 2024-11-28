@@ -19,11 +19,11 @@ public class Restaurante {
     @Column(nullable = false)
     private String password_restaurante;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "carta_menu_id")
+    @OneToOne
+    @JoinColumn(name = "carta_menu_id", nullable = false)
     private CartaMenu cartaMenu;
 
-    //Constructor vacío requerido por JPA
+
     public Restaurante(){}
 
     // Constructor con parametros
