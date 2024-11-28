@@ -1,18 +1,20 @@
 package es.uclm.repartodomicilio.business.controller;
-import org.springframework.http.HttpStatus;
-import org.springframework.ui.Model;
-import es.uclm.repartodomicilio.business.entity.*;
-import es.uclm.repartodomicilio.business.persistence.RestauranteDAO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-import es.uclm.repartodomicilio.business.persistence.CartaMenuDAO;
-import es.uclm.repartodomicilio.business.persistence.ItemMenuDAO;
 
-import java.util.*;
+import es.uclm.repartodomicilio.business.entity.*;
+import es.uclm.repartodomicilio.business.persistence.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Controller
 public class GestorRestaurantes {
+
     @Autowired
     private RestauranteDAO restauranteDAO;
 
@@ -30,36 +32,31 @@ public class GestorRestaurantes {
 
     @PostMapping("/registro/restaurante")
     public String registrarRestaurante(@ModelAttribute Restaurante restaurante, Model model) {
-        //Verificamos si ya existe un restaurante con el mismo CIF
-        if (restauranteDAO.existsBycif(restaurante.getCif())){
+        if (restauranteDAO.existsBycif(restaurante.getCif())) {
             throw new IllegalArgumentException("El CIF ya existe en otro restaurante");
         }
-        // Guardamos el restaurante en la base de datos
         restauranteDAO.save(restaurante);
 
-        // Crear una carta de menú vacía para el restaurante
+        // Crear y asociar la carta de menú vacía
         CartaMenu cartaMenu = new CartaMenu();
         cartaMenu.setRestaurante(restaurante);
         cartaMenuDAO.save(cartaMenu);
 
-        // Asociar la carta al restaurante
         restaurante.setCartaMenu(cartaMenu);
-        restauranteDAO.save(restaurante); // Guardamos el restaurante con la carta asociada
+        restauranteDAO.save(restaurante);
 
         model.addAttribute("restaurante", restaurante);
         return "resultRestaurante";
     }
 
-    // Manejador de excepciones
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handleIllegalArgumentException(IllegalArgumentException e, Model model) {
-        model.addAttribute("error", e.getMessage()); // Pasamos el mensaje de error a la vista
-        model.addAttribute("restaurante", new Restaurante()); // Para volver a cargar el formulario
-        return "Restaurante"; // Volvemos a la página de registro con el mensaje de error
+        model.addAttribute("error", e.getMessage());
+        model.addAttribute("restaurante", new Restaurante());
+        return "Restaurante"; // Volver al formulario con el error
     }
 
-    //Listar restaurantes desde usurio anonimo
     @GetMapping("/listarRestaurantes")
     public String mostrarRestaurantesLogin(Model model) {
         List<Restaurante> restaurantes = restauranteDAO.findAll();
@@ -67,45 +64,70 @@ public class GestorRestaurantes {
         return "listarRestaurantes";
     }
 
-    @PostMapping("/listarRestaurantes")
-    public String listarRestaurantes(Model model) {
-        List<Restaurante> restaurantes = restauranteDAO.findAll(); // Obtener todos los restaurantes
-        model.addAttribute("restaurantes", restaurantes);
-        return "listarRestaurantes"; // Nombre de la vista donde se mostrará la lista
-    }
-
-    // Método para buscar restaurantes por nombre
     @GetMapping("/AnonimoBuscarRestaurantes")
     public String buscarRestaurantes(@RequestParam String nombre, Model model) {
         List<Restaurante> restaurantes = restauranteDAO.findAllByNombre(nombre);
         model.addAttribute("restaurantes", restaurantes);
-        return "listarRestaurantes"; //
-
+        return "listarRestaurantes";
     }
-    // Asignar ítems a la carta del restaurante
-    @GetMapping("/restaurante/{id}/agregarItem")
-    public String agregarItemMenu(@PathVariable Long id, Model model) {
-        Restaurante restaurante = restauranteDAO.findById(id).orElseThrow(() -> new RuntimeException("Restaurante no encontrado"));
+
+    @GetMapping("/restaurante/{id}/menu")
+    public String verMenuRestaurante(@PathVariable Long id, Model model) {
+        Restaurante restaurante = restauranteDAO.findById(id)
+                .orElseThrow(() -> new RuntimeException("Restaurante no encontrado"));
         CartaMenu cartaMenu = restaurante.getCartaMenu();
-        model.addAttribute("cartaMenu", cartaMenu);
+        model.addAttribute("restaurante", restaurante);
+        model.addAttribute("verMenuRestaurante", cartaMenu.getItems()); // Cambiado a usar la instancia 'cartaMenu'
+        return "verMenuRestaurante";
+    }
+    @GetMapping("/restaurante/{idRestaurante}/agregarItem")
+    public String agregarItemMenu(@PathVariable Long idRestaurante, Model model) {
+        Restaurante restaurante = restauranteDAO.findById(idRestaurante)
+                .orElseThrow(() -> new RuntimeException("Restaurante no encontrado"));
+
+        // Obtener los tipos de ítems directamente desde el enum
+        List<TipoItemMenu> tipos = Arrays.asList(TipoItemMenu.values());
+        CartaMenu cartaMenu = restaurante.getCartaMenu();
+
+        // Inicializar el objeto 'nuevoItem' correctamente
         model.addAttribute("nuevoItem", new ItemMenu());
-        return "agregarItemMenu"; // Vista para agregar nuevos ítems
+        model.addAttribute("tipos", tipos);
+        model.addAttribute("verMenuRestaurante", cartaMenu);  // Pasar la carta de menú asociada
+        return "agregarItemMenu"; // Nombre de la vista que mostrará el formulario
     }
 
+    // Procesar y guardar el ítem enviado desde el formulario
     @PostMapping("/restaurante/{id}/agregarItem")
-    public String agregarItemMenu(@PathVariable Long id, @ModelAttribute ItemMenu nuevoItem, Model model) {
-        Restaurante restaurante = restauranteDAO.findById(id).orElseThrow(() -> new RuntimeException("Restaurante no encontrado"));
+    public String agregarItemMenu(@PathVariable Long id, @ModelAttribute ItemMenu nuevoItem,
+                                  @RequestParam Long tipo, Model model) {
+        // Validación manual
+        if (nuevoItem.getNombre() == null || nuevoItem.getNombre().trim().isEmpty()) {
+            model.addAttribute("error", "El nombre del ítem no puede estar vacío.");
+            return "agregarItemMenu";  // Volver al formulario en caso de error
+        }
+
+        if (nuevoItem.getPrecio() <= 0) {
+            model.addAttribute("error", "El precio debe ser mayor que cero.");
+            return "agregarItemMenu";  // Volver al formulario en caso de error
+        }
+
+        // Recuperar el restaurante y la carta de menú asociada
+        Restaurante restaurante = restauranteDAO.findById(id)
+                .orElseThrow(() -> new RuntimeException("Restaurante no encontrado"));
         CartaMenu cartaMenu = restaurante.getCartaMenu();
 
-        // Asignar el nuevo ítem a la carta del restaurante
+        // Asignar el tipo desde el enum (usando el índice)
+        TipoItemMenu tipoItem = TipoItemMenu.values()[tipo.intValue()];  // Opción alternativa usando enum directo
+
+        // Establecer los valores del ítem
+        nuevoItem.setTipo(tipoItem);
         nuevoItem.setCartaMenu(cartaMenu);
+
+        // Guardar el nuevo ítem en la base de datos
         itemMenuDAO.save(nuevoItem);
 
-        // Actualizar la carta con el nuevo ítem
-        cartaMenu.getItems().add(nuevoItem);
-        cartaMenuDAO.save(cartaMenu);
-
-        model.addAttribute("cartaMenu", cartaMenu);
-        return "resultItemMenu";  // Vista que confirma la adición del ítem
+        // Redirigir al menú del restaurante después de agregar el ítem
+        return "redirect:/restaurante/" + id + "/VistaRestaurante";
     }
 }
+
