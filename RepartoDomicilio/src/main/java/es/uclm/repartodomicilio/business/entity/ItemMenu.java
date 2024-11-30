@@ -15,7 +15,7 @@ public class ItemMenu {
     private TipoItemMenu tipo;
 
     @ManyToOne
-    @JoinColumn(name = "carta_menu_id", nullable = false)
+   // @JoinColumn(name = "carta_menu_id", nullable = false)
     private CartaMenu cartaMenu;
 
 
