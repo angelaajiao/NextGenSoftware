@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Agregar Ítem al Menú</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .error {
+            color: red;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Agregar un nuevo Ítem al Menú</h1>
+</header>
+
+<div class="content">
+    <div th:if="${error}" class="error">
+        <p th:text="${error}"></p>
+    </div>
+
+    <form th:action="@{/restaurante/{idRestaurante}/agregarItem(id=${verMenuRestaurante.restaurante.id})}"
+          th:object="${nuevoItem}" method="post">
+
+        <!-- Campo Nombre del Ítem -->
+        <div class="form-group">
+            <label for="nombre">Nombre del Ítem:</label>
+            <input type="text" id="nombre" name="nombre" th:field="*{nombre}" required />
+        </div>
+
+        <!-- Campo Precio -->
+        <div class="form-group">
+            <label for="precio">Precio:</label>
+            <input type="number" id="precio" name="precio" th:field="*{precio}" step="0.01" required />
+        </div>
+
+        <!-- Campo Tipo del Ítem -->
+        <div class="form-group">
+            <label for="tipo">Tipo de Ítem:</label>
+            <select id="tipo" name="tipo" th:field="*{tipo}" required>
+                <option value="" disabled selected>Selecciona un tipo</option>
+                <option th:each="tipo : ${tipos}" th:value="${tipo}" th:text="${tipo}"></option>
+            </select>
+        </div>
+
+        <button type="submit">Agregar Ítem</button>
+    </form>
+</div>
+
+</body>
+</html>

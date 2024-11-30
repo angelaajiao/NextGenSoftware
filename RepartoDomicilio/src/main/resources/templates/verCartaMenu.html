@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Carta</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #008080;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+    .content {
+      padding: 20px;
+    }
+    .item {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-bottom: 10px;
+      background-color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1 th:text="'Carta del Menú de ' + ${cartaMenu.restaurante.nombre}"></h1>
+</header>
+
+<div class="content">
+  <h2>Ítems del Menú</h2>
+
+  <div th:each="item : ${verMenuRestaurante}" class="item">
+    <h3 th:text="${item.nombre}"></h3>
+    <p th:text="'Precio: ' + ${item.precio} + ' €'"></p>
+    <p th:text="'Tipo: ' + ${item.tipo.name()}"></p>
+
+    <div th:if="${isRestauranteLogueado}">
+      <a th:href="@{/restaurante/{idRestaurante}/editarItem/{idItem}(idRestaurante=${restaurante.id}, idItem=${item.id})}">
+        Editar
+      </a>
+      <a th:href="@{/restaurante/{idRestaurante}/eliminarItem/{idItem}(idRestaurante=${restaurante.id}, idItem=${item.id})}">
+        Eliminar
+      </a>
+    </div>
+  </div>
+</body>
+</html>

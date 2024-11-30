@@ -7,13 +7,6 @@ public class Restaurante {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
-    /*@OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Pedido> pedidos;*/
-
-    /*@OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<CartaMenu> cartasMenu;*/
-
     @Column(nullable = false, unique = true)
     private String cif;
 
@@ -26,6 +19,11 @@ public class Restaurante {
     @Column(nullable = false)
     private String password_restaurante;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "carta_menu_id", referencedColumnName = "id")
+    private CartaMenu cartaMenu;
+
+
     //Constructor vacío requerido por JPA
     public Restaurante(){}
 
@@ -36,23 +34,7 @@ public class Restaurante {
         this.password_restaurante = password_restaurante;
         this.direccion = direccion;
     }
-    // Getters y Setters
-    /*public List<Pedido> getPedidos() {
-        return pedidos;
-    }
 
-    public void setPedidos(List<Pedido> pedidos) {
-        this.pedidos = pedidos;
-    }
-
-    public List<CartaMenu> getCartasMenu() {
-        return cartasMenu;
-    }
-
-    public void setCartasMenu(List<CartaMenu> cartasMenu) {
-        this.cartasMenu = cartasMenu;
-    }
-*/
     public Long getId() {
         return id;
     }
@@ -89,13 +71,9 @@ public class Restaurante {
 
     public void setPassword_restaurante(String password_restaurante) {this.password_restaurante = password_restaurante;}
 
-    /* Método para listar restaurante
-     *
-     * @param idRestaurante
-     */
-   /* public List<ItemMenu> listarMenu() {
-        throw new UnsupportedOperationException();
-    }*/
+    public CartaMenu getCartaMenu() { return cartaMenu;}
+
+    public void setCartaMenu(CartaMenu cartaMenu) { this.cartaMenu = cartaMenu;}
 
 }
 
