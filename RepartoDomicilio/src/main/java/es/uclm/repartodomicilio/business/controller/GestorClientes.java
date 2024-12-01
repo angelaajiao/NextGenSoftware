@@ -50,12 +50,12 @@ public class GestorClientes {
     }
 
     // Método para la vista de favoritos
-    @GetMapping("/favoritos")
+    @GetMapping("cliente/favoritos")
     public String mostrarFavoritos() {
         return "VistaFavoritos";
     }
 
-    @PostMapping("/favoritos")
+    @PostMapping("cliente/favoritos")
     public String mostrarFavs() {
         return "VistaFavoritos";
     }

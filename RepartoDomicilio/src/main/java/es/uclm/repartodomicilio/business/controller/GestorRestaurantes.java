@@ -82,6 +82,14 @@ public class GestorRestaurantes {
         return "listarRestaurantes"; //
 
     }
+
+
+
+
+
+
+
+
     // Asignar ítems a la carta del restaurante
     @GetMapping("/restaurante/{id}/agregarItem")
     public String agregarItemMenu(@PathVariable Long id, Model model) {
