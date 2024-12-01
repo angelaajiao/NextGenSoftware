@@ -49,6 +49,14 @@ public class GestorRestaurantes {
         return "resultRestaurante";
     }
 
+
+
+    @GetMapping("/restaurante")
+    public String vistaRestaurante(@ModelAttribute Restaurante restaurante, Model model) {
+        return "VistaRestaurante";
+    }
+
+
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handleIllegalArgumentException(IllegalArgumentException e, Model model) {
@@ -64,12 +72,6 @@ public class GestorRestaurantes {
         return "listarRestaurantes";
     }
 
-    @GetMapping("/AnonimoBuscarRestaurantes")
-    public String buscarRestaurantes(@RequestParam String nombre, Model model) {
-        List<Restaurante> restaurantes = restauranteDAO.findAllByNombre(nombre);
-        model.addAttribute("restaurantes", restaurantes);
-        return "listarRestaurantes";
-    }
 
     @GetMapping("/restaurante/{id}/menu")
     public String verMenuRestaurante(@PathVariable Long id, Model model) {
