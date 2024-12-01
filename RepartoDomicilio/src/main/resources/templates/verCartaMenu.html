@@ -41,6 +41,7 @@
     <p th:text="'Precio: ' + ${item.precio} + ' €'"></p>
     <p th:text="'Tipo: ' + ${item.tipo.name()}"></p>
 
+    <!-- Opciones para el restaurante logueado -->
     <div th:if="${isRestauranteLogueado}">
       <a th:href="@{/restaurante/{idRestaurante}/editarItem/{idItem}(idRestaurante=${restaurante.id}, idItem=${item.id})}">
         Editar
@@ -50,5 +51,8 @@
       </a>
     </div>
   </div>
+</div>
+
 </body>
 </html>
+

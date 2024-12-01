@@ -20,7 +20,7 @@ public class Restaurante {
     private String password_restaurante;
 
     @OneToOne(cascade = CascadeType.ALL)
-    //@JoinColumn(name = "carta_menu_id", referencedColumnName = "id")
+    @JoinColumn(name = "carta_menu_id", nullable = true)
     private CartaMenu cartaMenu;
 
 

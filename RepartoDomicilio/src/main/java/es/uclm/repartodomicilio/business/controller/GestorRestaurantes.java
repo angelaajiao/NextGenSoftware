@@ -16,14 +16,14 @@ public class GestorRestaurantes {
     @Autowired
     private RestauranteDAO restauranteDAO;
 
-   //@Autowired
-    //private CartaMenuDAO cartaMenuDAO;
+   @Autowired
+    private CartaMenuDAO cartaMenuDAO;
 
     @Autowired
     private ItemMenuDAO itemMenuDAO;
 
     @GetMapping("/registro/restaurante")
-    public String RegistroRestaurante(Model model) {
+    public String registroRestaurante(Model model) {
         model.addAttribute("restaurante", new Restaurante());
         return "Restaurante";
     }
