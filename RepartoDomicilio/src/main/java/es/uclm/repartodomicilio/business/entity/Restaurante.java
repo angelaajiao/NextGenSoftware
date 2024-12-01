@@ -20,7 +20,7 @@ public class Restaurante {
     private String password_restaurante;
 
     @OneToOne
-    @JoinColumn(name = "carta_menu_id", nullable = false)
+    @JoinColumn(name = "carta_menu_id", nullable = true)
     private CartaMenu cartaMenu;
 
 
