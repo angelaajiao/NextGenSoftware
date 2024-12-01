@@ -33,6 +33,26 @@
         .content {
             padding: 20px;
         }
+        .restaurant-item {
+            margin: 20px 0;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .fav-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        .fav-btn:hover {
+            background-color: #45a049;
+        }
+        .favorite .fav-btn {
+            background-color: #ffcc00;
+        }
     </style>
 </head>
 <body>
@@ -50,10 +70,74 @@
 </nav>
 
 <div class="content">
-    <h2 th:text="'Bienvenido cliente ' + 'nombre cliente' + '!'">Bienvenido</h2>
-    <p>Aquí puedes gestionar tus pedidos.</p>
+    <h2>Restaurantes Disponibles</h2>
+    <input type="text" id="search" placeholder="Buscar restaurante por nombre..." onkeyup="filterRestaurants()">
+    <div id="restaurantList">
+        <div th:each="restaurante : ${restaurantes}" class="restaurant-item">
+            <h3 th:text="${restaurante.nombre}">Nombre del Restaurante</h3>
+            <p th:text="${restaurante.direccion}">Dirección del Restaurante</p>
+            <button class="fav-btn" onclick="toggleFavorite(this)">Agregar a favoritos</button>
+        </div>
+    </div>
 </div>
+
+<script>
+    function filterRestaurants() {
+        const searchInput = document.getElementById('search').value.toLowerCase();
+        const restaurantList = document.getElementById('restaurantList');
+        const restaurants = restaurantList.getElementsByClassName('restaurant-item');
+
+        for (let i = 0; i < restaurants.length; i++) {
+            const restaurantName = restaurants[i].getElementsByTagName('h3')[0].textContent.toLowerCase();
+            const restaurantNamePrefix = restaurantName.substring(0, searchInput.length);
+
+            if (searchInput === '' || restaurantNamePrefix.startsWith(searchInput)) {
+                restaurants[i].style.display = '';
+            } else {
+                restaurants[i].style.display = 'none';
+            }
+        }
+    }
+
+    function loadFavorites() {
+        const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        const restaurantItems = document.getElementsByClassName('restaurant-item');
+
+        Array.from(restaurantItems).forEach(item => {
+            const restaurantName = item.getElementsByTagName('h3')[0].textContent;
+            if (favorites.includes(restaurantName)) {
+                item.classList.add('favorite');
+                const button = item.getElementsByClassName('fav-btn')[0];
+                button.textContent = 'Eliminar de favoritos';
+                button.style.backgroundColor = '#ffcc00';
+            }
+        });
+    }
+
+    function toggleFavorite(button) {
+        const restaurantItem = button.parentElement;
+        const restaurantName = restaurantItem.getElementsByTagName('h3')[0].textContent;
+        let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+
+        if (restaurantItem.classList.contains('favorite')) {
+            restaurantItem.classList.remove('favorite');
+            button.textContent = 'Agregar a favoritos';
+            button.style.backgroundColor = '';
+            favorites = favorites.filter(name => name !== restaurantName);
+        } else {
+            restaurantItem.classList.add('favorite');
+            button.textContent = 'Eliminar de favoritos';
+            button.style.backgroundColor = '#ffcc00';
+            favorites.push(restaurantName);
+        }
+
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+    }
+
+    document.addEventListener('DOMContentLoaded', loadFavorites);
+</script>
+
+<a href="/login">Volver</a>
 
 </body>
 </html>
-

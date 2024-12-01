@@ -2,20 +2,25 @@ package es.uclm.repartodomicilio.business.controller;
 
 
 import es.uclm.repartodomicilio.business.entity.Cliente;
+import es.uclm.repartodomicilio.business.entity.Restaurante;
 import es.uclm.repartodomicilio.business.persistence.ClienteDAO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import es.uclm.repartodomicilio.business.persistence.RestauranteDAO;
+
+
+import java.util.List;
 
 @Controller
 public class GestorClientes {
 
     @Autowired
     private ClienteDAO clienteDAO; // Asegúrate de que este DAO esté bien definido
+
+    @Autowired
+    private RestauranteDAO restauranteDAO;
 
     @GetMapping("/registro/cliente")
     public String RegistroCliente(Model model) {
@@ -42,6 +47,31 @@ public class GestorClientes {
         Cliente savedCliente = clienteDAO.save(cliente);
         model.addAttribute("cliente", savedCliente);
         return "registradoCliente";
+    }
+
+    // Método para la vista de favoritos
+    @GetMapping("cliente/favoritos")
+    public String mostrarFavoritos() {
+        return "VistaFavoritos";
+    }
+
+    @PostMapping("cliente/favoritos")
+    public String mostrarFavs() {
+        return "VistaFavoritos";
+    }
+
+    @GetMapping("/Cliente")
+    public String mostrarCliente(Model model) {
+        List<Restaurante> restaurantes = restauranteDAO.findAll(); // Obtener todos los restaurantes
+        model.addAttribute("restaurantes", restaurantes);
+        return "VistaCliente";
+    }
+
+    @PostMapping("/Cliente")
+    public String listarRestaurantes(Model model) {
+        List<Restaurante> restaurantes = restauranteDAO.findAll(); // Obtener todos los restaurantes
+        model.addAttribute("restaurantes", restaurantes);
+        return "VistaCliente"; // Nombre de la vista donde se mostrará la lista
     }
 }
 

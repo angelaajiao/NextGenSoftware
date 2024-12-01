@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>VISTA FAVORITOS</title>
+    <style>
+        /* Aquí puedes reutilizar el CSS de la otra página */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #9cf4a1;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        .content {
+            padding: 20px;
+        }
+        .restaurant-item {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1 style="color: black;">Restaurantes Favoritos</h1>
+</header>
+
+<div class="content" id="favoritesContent">
+    <h2>Mis Restaurantes Favoritos</h2>
+    <div id="favoriteRestaurants"></div>
+</div>
+
+<script>
+    // Cargar los favoritos desde localStorage y mostrarlos
+    function loadFavoriteRestaurants() {
+        const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        const favoritesContainer = document.getElementById('favoriteRestaurants');
+
+        favoritesContainer.innerHTML = '';
+
+        if (favorites.length === 0) {
+            favoritesContainer.innerHTML = '<p>No tienes restaurantes favoritos.</p>';
+            return;
+        }
+
+        favorites.forEach(name => {
+            const restaurantDiv = document.createElement('div');
+            restaurantDiv.classList.add('restaurant-item');
+            restaurantDiv.innerHTML = `<h3>${name}</h3>`;
+            favoritesContainer.appendChild(restaurantDiv);
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', loadFavoriteRestaurants);
+</script>
+<a href="/Cliente">Volver</a>
+</body>
+</html>
