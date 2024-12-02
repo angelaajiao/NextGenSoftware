@@ -1,43 +1,63 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
-    <title>Iniciar Sesión</title>
+    <meta charset="UTF-8">
+    <title>Iniciar Sesión - FastEat</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background-color: #f9f9f9;
             margin: 0;
             padding: 0;
         }
 
-        /* Encabezado superior */
-        #header {
+        header {
+            background-color: #ffffff;
+            padding: 1rem 2rem;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            background-color: white;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            padding: 10px 20px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
+            border-bottom: 1px solid #ddd;
         }
 
-        #header h1 {
-            font-size: 24px;
-            color: #44ad2d;
-            margin: 0;
+        .logo {
+            font-size: 25px;
             font-weight: bold;
+            color: #333333;
+        }
+
+        .logo span {
+            font-weight: bold;
+            color: #44ad2d;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .header-button {
+            background-color: #a2e067;
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 20px;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .header-button:hover {
+            background-color: #44ad2d;
         }
 
         /* Contenedor principal */
         #main-container {
-            margin-top: 70px; /* Para dejar espacio al encabezado fijo */
             display: flex;
             justify-content: center;
             align-items: center;
-            height: calc(100vh - 70px);
+            height: calc(100vh - 70px); /* Ajustado para dejar espacio para el header */
+            padding: 20px;
         }
 
         #login-container {
@@ -47,7 +67,7 @@
             padding: 40px;
             width: 100%;
             max-width: 600px;
-            display: flex; /* Layout flexible */
+            display: flex;
             gap: 20px;
         }
 
@@ -60,7 +80,7 @@
         }
 
         #image-container img {
-            width: 100px;
+            width: 100px; /* Ajusta el tamaño de la imagen del logo */
             height: auto;
         }
 
@@ -84,7 +104,6 @@
         }
 
         #form-container label {
-            text-align: left;
             font-weight: bold;
             margin-bottom: 5px;
         }
@@ -108,7 +127,7 @@
         }
 
         #form-container button:hover {
-            background-color: #a2e067;
+            background-color: #44ad2d;
         }
 
         #form-container p {
@@ -135,14 +154,21 @@
     </style>
 </head>
 <body>
-<!-- Encabezado fijo -->
-<div id="header">
-    <h1>FastEat</h1>
-</div>
+
+<header>
+    <div class="logo">
+        Fast<span>Eat</span>
+    </div>
+</header>
 
 <!-- Contenido principal -->
 <div id="main-container">
     <div id="login-container">
+
+        <!-- Contenedor de la imagen (logo) -->
+        <div id="image-container">
+            <img src="/reparto.png" alt="Logo"> <!-- Coloca la ruta del logo aquí -->
+        </div>
 
         <!-- Contenedor del formulario -->
         <div id="form-container">
@@ -170,5 +196,6 @@
         </div>
     </div>
 </div>
+
 </body>
 </html>

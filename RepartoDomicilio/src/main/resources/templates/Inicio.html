@@ -6,29 +6,29 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f9f9f9; /* Fondo claro */
+      background-color: #f9f9f9;
       margin: 0;
       padding: 0;
     }
 
     header {
-      background-color: #ffffff; /* Blanco como en Uber Eats */
+      background-color: #ffffff;
       padding: 1rem 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid #ddd; /* Línea inferior sutil */
+      border-bottom: 1px solid #ddd;
     }
 
     .logo {
-      font-size: 24px;
+      font-size: 25px;
       font-weight: bold;
       color: #333333;
     }
 
     .logo span {
       font-weight: bold;
-      color: #44ad2d; /* Verde agua */
+      color: #44ad2d;
     }
 
     .header-buttons {
@@ -41,57 +41,71 @@
       color: white;
       padding: 8px 16px;
       text-decoration: none;
-      border-radius: 20px; /* Bordes redondeados */
+      border-radius: 20px;
       font-size: 14px;
       border: none;
       cursor: pointer;
     }
 
     .header-button:hover {
-      background-color: #44ad2d; /* Tono más oscuro */
+      background-color: #44ad2d;
     }
 
-    nav {
-      background-color: #ffffff; /* Blanco */
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      border-bottom: 1px solid #ddd;
-    }
-
-    nav a {
-      color: #333333; /* Color oscuro para enlaces */
-      padding: 14px 20px;
-      display: inline-block;
+    .hero {
+      background-image: url('/pizza.jpg');
+      background-size: cover;
+      background-position: center;
+      padding: 100px 20px;
       text-align: center;
-      text-decoration: none;
+      color: white;
+      position: relative;
+    }
+
+    .hero-overlay {
+      background-color: rgba(0, 0, 0, 0.5); /* Superposición oscura */
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero h1 {
+      font-size: 48px;
+      margin: 0;
       font-weight: bold;
     }
 
-    nav a:hover {
-      color: #44ad2d;
+    .hero p {
+      font-size: 18px;
+      margin: 10px 0 20px;
     }
 
     .content {
       padding: 20px;
     }
 
-    .restaurant-item {
-      border: 1px solid #eee; /* Bordes suaves */
-      border-radius: 8px; /* Bordes redondeados */
-      padding: 10px;
-      margin-bottom: 10px;
-      background-color: #ffffff; /* Fondo blanco */
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+    #search {
+      margin-bottom: 60px;
+      padding: 20px;
+      width: 50%;
+      border: 1px solid #ddd;
+      border-radius: 30px;
+      font-size: 16px;
     }
 
-    #search {
-      margin-bottom: 20px;
+    .restaurant-item {
+      border: 1px solid #eee;
+      border-radius: 8px;
       padding: 10px;
-      width: 100%;
-      border: 1px solid #ddd;
-      border-radius: 20px; /* Bordes redondeados para buscador */
-      font-size: 16px;
+      margin-bottom: 10px;
+      background-color: #ffffff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     .button {
@@ -99,7 +113,7 @@
       color: white;
       padding: 8px 16px;
       text-decoration: none;
-      border-radius: 20px; /* Bordes redondeados */
+      border-radius: 20px;
       font-size: 14px;
       display: inline-block;
       text-align: center;
@@ -122,10 +136,17 @@
   </div>
 </header>
 
+<div class="hero">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <h1>Busca tu restaurante</h1>
+    <p>¡Quitemos ese hambre ahora!</p>
+    <input type="text" id="search" placeholder="Buscar restaurante por nombre..." onkeyup="filterRestaurants()">
+  </div>
+</div>
 
 <div class="content">
   <h2>Restaurantes Disponibles</h2>
-  <input type="text" id="search" placeholder="Buscar restaurante por nombre..." onkeyup="filterRestaurants()">
   <div id="restaurantList">
     <div th:each="restaurante : ${restaurantes}" class="restaurant-item">
       <h3 th:text="${restaurante.nombre}">Nombre del Restaurante</h3>
@@ -144,7 +165,7 @@
 
     for (let i = 0; i < restaurants.length; i++) {
       const restaurantName = restaurants[i].getElementsByTagName('h3')[0].textContent.toLowerCase();
-      const restaurantNamePrefix = restaurantName.substring(0, searchInput.length); // Tomar tantos caracteres como la longitud de la entrada
+      const restaurantNamePrefix = restaurantName.substring(0, searchInput.length);
 
       if (searchInput === '' || restaurantNamePrefix.startsWith(searchInput)) {
         restaurants[i].style.display = '';
