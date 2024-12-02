@@ -49,6 +49,13 @@ public class GestorClientes {
         return "registradoCliente";
     }
 
+
+    @GetMapping("/")
+    public String Inicio(Model model) {
+        List<Restaurante> restaurantes = restauranteDAO.findAll();
+        model.addAttribute("restaurantes", restaurantes);
+        return "Inicio";
+    }
     // Método para la vista de favoritos
     @GetMapping("cliente/favoritos")
     public String mostrarFavoritos() {
@@ -73,5 +80,6 @@ public class GestorClientes {
         model.addAttribute("restaurantes", restaurantes);
         return "VistaCliente"; // Nombre de la vista donde se mostrará la lista
     }
+
 }
 

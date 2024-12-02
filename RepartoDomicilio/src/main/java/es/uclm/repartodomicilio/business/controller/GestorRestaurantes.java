@@ -65,12 +65,6 @@ public class GestorRestaurantes {
         return "Restaurante"; // Volver al formulario con el error
     }
 
-    @GetMapping("/listarRestaurantes")
-    public String mostrarRestaurantesLogin(Model model) {
-        List<Restaurante> restaurantes = restauranteDAO.findAll();
-        model.addAttribute("restaurantes", restaurantes);
-        return "listarRestaurantes";
-    }
 
 
     @GetMapping("/restaurante/{id}/menu")
