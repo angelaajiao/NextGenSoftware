@@ -34,24 +34,42 @@
             padding: 20px;
         }
         .restaurant-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin: 20px 0;
             padding: 10px;
             background-color: #fff;
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
-        .fav-btn {
-            background-color: #4CAF50;
-            color: white;
+        .restaurant-details {
+            flex: 1;
+        }
+        .restaurant-details h3 {
+            margin: 0;
+            font-size: 1.2em;
+        }
+
+        .restaurant-details p {
+            margin: 5px 0 0 0;
+            color: #555;
+        }
+
+        .heart-btn {
+            background: none;
             border: none;
-            padding: 10px 20px;
             cursor: pointer;
+            font-size: 3rem;
         }
-        .fav-btn:hover {
-            background-color: #45a049;
+        .heart-btn:hover {
+            transform: scale(1.5);
         }
-        .favorite .fav-btn {
-            background-color: #ffcc00;
+        .heart-btn.favorite {
+            color: red;
+        }
+        .heart-btn:not(.favorite) {
+            color: #ccc;
         }
     </style>
 </head>
@@ -76,7 +94,9 @@
         <div th:each="restaurante : ${restaurantes}" class="restaurant-item">
             <h3 th:text="${restaurante.nombre}">Nombre del Restaurante</h3>
             <p th:text="${restaurante.direccion}">Dirección del Restaurante</p>
-            <button class="fav-btn" onclick="toggleFavorite(this)">Agregar a favoritos</button>
+            <button class="heart-btn" onclick="toggleFavorite(this)">
+                <span>&#x2661;</span>
+            </button>
         </div>
     </div>
 </div>
@@ -105,12 +125,12 @@
 
         Array.from(restaurantItems).forEach(item => {
             const restaurantName = item.getElementsByTagName('h3')[0].textContent;
+            const button = item.getElementsByClassName('heart-btn')[0];
             if (favorites.includes(restaurantName)) {
-                item.classList.add('favorite');
-                const button = item.getElementsByClassName('fav-btn')[0];
-                button.textContent = 'Eliminar de favoritos';
-                button.style.backgroundColor = '#ffcc00';
+                button.classList.add('favorite');
+                button.innerHTML = '<span>&#x2665;</span>';
             }
+
         });
     }
 
@@ -119,15 +139,15 @@
         const restaurantName = restaurantItem.getElementsByTagName('h3')[0].textContent;
         let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 
-        if (restaurantItem.classList.contains('favorite')) {
-            restaurantItem.classList.remove('favorite');
-            button.textContent = 'Agregar a favoritos';
-            button.style.backgroundColor = '';
+        if (button.classList.contains('favorite')) {
+            // Quitar de favoritos
+            button.classList.remove('favorite');
+            button.innerHTML = '<span>&#x2661;</span>'; // Corazón vacío
             favorites = favorites.filter(name => name !== restaurantName);
         } else {
-            restaurantItem.classList.add('favorite');
-            button.textContent = 'Eliminar de favoritos';
-            button.style.backgroundColor = '#ffcc00';
+            // Agregar a favoritos
+            button.classList.add('favorite');
+            button.innerHTML = '<span>&#x2665;</span>'; // Corazón lleno
             favorites.push(restaurantName);
         }
 

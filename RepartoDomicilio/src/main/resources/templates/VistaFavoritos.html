@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>VISTA FAVORITOS</title>
     <style>
-        /* Aquí puedes reutilizar el CSS de la otra página */
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
@@ -21,10 +20,26 @@
             padding: 20px;
         }
         .restaurant-item {
-            margin-bottom: 20px;
+            margin: 20px 0;
             padding: 10px;
-            border: 1px solid #ccc;
+            background-color: #fff;
             border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .heart-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 2.5rem;
+        }
+        .heart-btn:hover {
+            transform: scale(1.5);
+        }
+        .heart-btn.favorited {
+            color: red;
         }
     </style>
 </head>
@@ -51,12 +66,32 @@
             return;
         }
 
-        favorites.forEach(name => {
+        favorites.forEach((name, index) => {
             const restaurantDiv = document.createElement('div');
             restaurantDiv.classList.add('restaurant-item');
-            restaurantDiv.innerHTML = `<h3>${name}</h3>`;
+            restaurantDiv.innerHTML = `
+                <h3>${name}</h3>
+                <button class="heart-btn favorited" onclick="toggleFavorite(${index})">&#10084;</button>
+            `;
             favoritesContainer.appendChild(restaurantDiv);
         });
+    }
+
+    // Alternar favorito
+    function toggleFavorite(index) {
+        let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        const button = document.querySelectorAll('.heart-btn')[index];
+
+        if (favorites[index]) {
+            favorites.splice(index, 1); // Eliminar favorito
+            button.classList.remove('favorited'); // Cambiar el color del corazón
+        } else {
+            favorites.push(favorites[index]); // Añadir favorito
+            button.classList.add('favorited'); // Cambiar el color del corazón
+        }
+
+        localStorage.setItem('favorites', JSON.stringify(favorites)); // Actualizar almacenamiento
+        loadFavoriteRestaurants(); // Actualizar vista
     }
 
     document.addEventListener('DOMContentLoaded', loadFavoriteRestaurants);
