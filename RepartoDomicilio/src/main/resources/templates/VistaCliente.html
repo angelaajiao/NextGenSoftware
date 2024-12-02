@@ -6,46 +6,109 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background-color: #f9f9f9;
             margin: 0;
             padding: 0;
         }
+
         header {
-            background-color: #9cf4a1;
-            color: white;
-            padding: 1rem;
-            text-align: center;
-        }
-        nav {
-            background-color: #333;
-            overflow: hidden;
-        }
-        nav a {
-            color: white;
-            padding: 14px 20px;
-            display: inline-block;
-            text-align: center;
-            text-decoration: none;
-        }
-        nav a:hover {
-            background-color: #575757;
-        }
-        .content {
-            padding: 20px;
-        }
-        .restaurant-item {
+            background-color: #ffffff;
+            padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin: 20px 0;
-            padding: 10px;
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid #ddd;
         }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            color: #333333;
+        }
+
+        .logo span {
+            font-weight: bold;
+            color: #44ad2d;
+        }
+
+        .menu-icon {
+            display: block;
+            width: 30px;
+            height: 3px;
+            background-color: #333;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .menu-icon:before, .menu-icon:after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 3px;
+            background-color: #333;
+            transition: 0.3s;
+        }
+
+        .menu-icon:before {
+            top: -8px;
+        }
+
+        .menu-icon:after {
+            bottom: -8px;
+        }
+
+        nav {
+            background-color: #333;
+            position: fixed;
+            top: 0;
+            right: -250px;
+            width: 250px;
+            height: 100%;
+            overflow: hidden;
+            transition: right 0.3s ease-in-out;
+        }
+
+        nav a {
+            color: white;
+            padding: 14px 20px;
+            display: block;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            background-color: #575757;
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        #search {
+            margin-bottom: 60px;
+            padding: 20px;
+            width: 50%;
+            border: 1px solid #ddd;
+            border-radius: 30px;
+            font-size: 16px;
+        }
+
+        .restaurant-item {
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
         .restaurant-details {
             flex: 1;
         }
+
         .restaurant-details h3 {
             margin: 0;
             font-size: 1.2em;
@@ -62,24 +125,45 @@
             cursor: pointer;
             font-size: 3rem;
         }
+
         .heart-btn:hover {
             transform: scale(1.5);
         }
+
         .heart-btn.favorite {
             color: red;
         }
+
         .heart-btn:not(.favorite) {
             color: #ccc;
+        }
+
+        .button {
+            background-color: #a2e067;
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 20px;
+            font-size: 14px;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .button:hover {
+            background-color: #44ad2d;
         }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>Bienvenido, cliente</h1>
+    <div class="logo">
+        Bienvenido, <span>cliente</span>
+    </div>
+    <div class="menu-icon" onclick="toggleMenu(event)"></div>
 </header>
 
-<nav>
+<nav id="menu">
     <a href="#" th:href="@{/cliente/perfilCliente}">Perfil</a>
     <a href="#" th:href="@{/cliente/favoritos}">Favoritos</a>
     <a href="#" th:href="@{/cliente/historialPedidos}">Historial de pedidos</a>
@@ -92,8 +176,10 @@
     <input type="text" id="search" placeholder="Buscar restaurante por nombre..." onkeyup="filterRestaurants()">
     <div id="restaurantList">
         <div th:each="restaurante : ${restaurantes}" class="restaurant-item">
-            <h3 th:text="${restaurante.nombre}">Nombre del Restaurante</h3>
-            <p th:text="${restaurante.direccion}">Dirección del Restaurante</p>
+            <div class="restaurant-details">
+                <h3 th:text="${restaurante.nombre}">Nombre del Restaurante</h3>
+                <p th:text="${restaurante.direccion}">Dirección del Restaurante</p>
+            </div>
             <button class="heart-btn" onclick="toggleFavorite(this)">
                 <span>&#x2661;</span>
             </button>
@@ -102,6 +188,26 @@
 </div>
 
 <script>
+    function toggleMenu(event) {
+        const menu = document.getElementById('menu');
+        const menuStyle = menu.style.right;
+
+        if (menuStyle === '0px') {
+            menu.style.right = '-250px';
+        } else {
+            menu.style.right = '0';
+        }
+
+        event.stopPropagation(); // Evitar que el clic en el icono cierre el menú
+    }
+
+    function closeMenu(event) {
+        const menu = document.getElementById('menu');
+        if (!menu.contains(event.target) && !document.querySelector('.menu-icon').contains(event.target)) {
+            menu.style.right = '-250px';
+        }
+    }
+
     function filterRestaurants() {
         const searchInput = document.getElementById('search').value.toLowerCase();
         const restaurantList = document.getElementById('restaurantList');
@@ -130,7 +236,6 @@
                 button.classList.add('favorite');
                 button.innerHTML = '<span>&#x2665;</span>';
             }
-
         });
     }
 
@@ -140,14 +245,12 @@
         let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 
         if (button.classList.contains('favorite')) {
-            // Quitar de favoritos
             button.classList.remove('favorite');
-            button.innerHTML = '<span>&#x2661;</span>'; // Corazón vacío
+            button.innerHTML = '<span>&#x2661;</span>';
             favorites = favorites.filter(name => name !== restaurantName);
         } else {
-            // Agregar a favoritos
             button.classList.add('favorite');
-            button.innerHTML = '<span>&#x2665;</span>'; // Corazón lleno
+            button.innerHTML = '<span>&#x2665;</span>';
             favorites.push(restaurantName);
         }
 
@@ -155,9 +258,8 @@
     }
 
     document.addEventListener('DOMContentLoaded', loadFavorites);
+    document.addEventListener('click', closeMenu); // Cerrar el menú al hacer clic fuera de él
 </script>
-
-<a href="/login">Volver</a>
 
 </body>
 </html>
