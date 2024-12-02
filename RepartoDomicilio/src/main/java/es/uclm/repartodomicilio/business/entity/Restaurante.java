@@ -19,9 +19,9 @@ public class Restaurante {
     @Column(nullable = false)
     private String password_restaurante;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "carta_menu_id", nullable = true)
+    @OneToOne(mappedBy = "restaurante", cascade = CascadeType.ALL)
     private CartaMenu cartaMenu;
+
 
 
     //Constructor vacío requerido por JPA

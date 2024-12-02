@@ -13,7 +13,8 @@ public class CartaMenu {
     @OneToMany(mappedBy = "cartaMenu", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemMenu> items;
 
-    @OneToOne(mappedBy = "cartaMenu")
+    @OneToOne
+    @JoinColumn(name = "restaurante_id")
     private Restaurante restaurante;
 
     // Getters y Setters

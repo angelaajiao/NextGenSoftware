@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Carta</title>
+  <title th:text="'Bienvenido, ' + ${restaurante.nombre}"></title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -11,48 +11,85 @@
       padding: 0;
     }
     header {
-      background-color: #008080;
+      background-color: #ec5353;
       color: white;
       padding: 1rem;
       text-align: center;
     }
+    nav {
+      background-color: #333;
+      overflow: hidden;
+    }
+    nav a {
+      color: white;
+      padding: 14px 20px;
+      display: inline-block;
+      text-align: center;
+      text-decoration: none;
+    }
+    nav a:hover {
+      background-color: #575757;
+    }
     .content {
       padding: 20px;
     }
-    .item {
+    .menu-item {
       border: 1px solid #ccc;
       padding: 10px;
       margin-bottom: 10px;
       background-color: #fff;
+    }
+    .button {
+      background-color: #008080;
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 5px;
+      display: inline-block;
+      margin-top: 20px;
+    }
+    .button:hover {
+      background-color: #575757;
     }
   </style>
 </head>
 <body>
 
 <header>
-  <h1 th:text="'Carta del Menú de ' + ${cartaMenu.restaurante.nombre}"></h1>
+  <h1 th:text="'Bienvenido, ' + ${restaurante.nombre}"></h1>
 </header>
 
-<div class="content">
-  <h2>Ítems del Menú</h2>
+<nav>
+  <a th:href="@{/restaurante/{idRestaurante}/menu(idRestaurante=${restaurante.id})}">Menú</a>
+  <a th:href="@{/restaurante/{idRestaurante}/agregarItem(idRestaurante=${restaurante.id})}">Agregar Ítem</a>
+  <a href="#" th:href="@{/logout}">Cerrar Sesión</a>
+</nav>
 
-  <div th:each="item : ${verMenuRestaurante}" class="item">
-    <h3 th:text="${item.nombre}"></h3>
+<div class="content">
+  <h2>Menú del Restaurante</h2>
+
+  <div th:if="${items.size() == 0}">
+    <p>No hay ítems en el menú actualmente.</p>
+  </div>
+
+  <!-- Mostrar los ítems del menú -->
+  <div th:each="item : ${items}" class="menu-item">
+    <h3 th:text="${item.nombre}">Nombre del Ítem</h3>
     <p th:text="'Precio: ' + ${item.precio} + ' €'"></p>
     <p th:text="'Tipo: ' + ${item.tipo.name()}"></p>
 
-    <!-- Opciones para el restaurante logueado -->
     <div th:if="${isRestauranteLogueado}">
-      <a th:href="@{/restaurante/{idRestaurante}/editarItem/{idItem}(idRestaurante=${restaurante.id}, idItem=${item.id})}">
-        Editar
-      </a>
-      <a th:href="@{/restaurante/{idRestaurante}/eliminarItem/{idItem}(idRestaurante=${restaurante.id}, idItem=${item.id})}">
-        Eliminar
-      </a>
+      <a th:href="@{/restaurante/{idRestaurante}/editarItem/{idItem}(idRestaurante=${restaurante.id}, idItem=${item.id})}" class="button">Editar</a>
+      <a th:href="@{/restaurante/{idRestaurante}/eliminarItem/{idItem}(idRestaurante=${restaurante.id}, idItem=${item.id})}" class="button">Eliminar</a>
     </div>
   </div>
 </div>
 
 </body>
 </html>
+
+
+
+
+
 

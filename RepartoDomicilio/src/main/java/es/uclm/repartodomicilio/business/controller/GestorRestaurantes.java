@@ -1,5 +1,4 @@
 package es.uclm.repartodomicilio.business.controller;
-import es.uclm.repartodomicilio.business.persistence.CartaMenuDAO;
 import es.uclm.repartodomicilio.business.persistence.ItemMenuDAO;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
@@ -15,9 +14,6 @@ import java.util.*;
 public class GestorRestaurantes {
     @Autowired
     private RestauranteDAO restauranteDAO;
-
-   @Autowired
-    private CartaMenuDAO cartaMenuDAO;
 
     @Autowired
     private ItemMenuDAO itemMenuDAO;
@@ -44,6 +40,13 @@ public class GestorRestaurantes {
 
         model.addAttribute("restaurante", restaurante);
         return "resultRestaurante";
+    }
+    @GetMapping("/restaurante")
+    public String vistaRestaurante(@ModelAttribute Restaurante restaurante, Model model) {
+        model.addAttribute("restaurante", restaurante);
+        model.addAttribute("items", restaurante.getCartaMenu().getItems());
+        model.addAttribute("isRestauranteLogueado", true);
+        return "VistaRestaurante";
     }
 
     // Manejador de excepciones
@@ -79,55 +82,38 @@ public class GestorRestaurantes {
 
     }
     @GetMapping("/restaurante/{id}/menu")
-    public String verMenuRestaurante(@PathVariable Long id, Model model) {
+    public String verMenuRestauranteAnonimo(@PathVariable Long id, Model model) {
         Restaurante restaurante = restauranteDAO.findById(id)
                 .orElseThrow(() -> new RuntimeException("Restaurante no encontrado"));
-
         CartaMenu cartaMenu = restaurante.getCartaMenu();
 
-        if (cartaMenu == null) {
-            throw new RuntimeException("El restaurante no tiene una carta de menú asociada");
-        }
+        List<ItemMenu> items = (cartaMenu != null) ? cartaMenu.getItems() : Collections.emptyList();
 
+        model.addAttribute("items", items);
         model.addAttribute("restaurante", restaurante);
-        model.addAttribute("verMenuRestaurante", cartaMenu.getItems());
-        return "verCartaMenu";
+        model.addAttribute("mensaje", items.isEmpty() ? "Este restaurante no tiene ítems disponibles." : "");
+
+        return "verCartaMenuAnonimo";
     }
-    @GetMapping("/restaurante/{idRestaurante}/editarItem/{idItem}")
-    public String editarItemMenu(@PathVariable Long idRestaurante, @PathVariable Long idItem, Model model) {
-        Restaurante restaurante = restauranteDAO.findById(idRestaurante)
-                .orElseThrow(() -> new RuntimeException("Restaurante no encontrado"));
 
-        ItemMenu item = itemMenuDAO.findById(idItem)
-                .orElseThrow(() -> new RuntimeException("Ítem no encontrado"));
-
-        List<TipoItemMenu> tipos = Arrays.asList(TipoItemMenu.values());
-
-        model.addAttribute("restaurante", restaurante);
-        model.addAttribute("item", item);
-        model.addAttribute("tipos", tipos);
-
-        return "editarItemMenu"; // Crear una vista llamada editarItemMenu.html
-    }
+    // Agregar nuevo ítem al menú
     @GetMapping("/restaurante/{idRestaurante}/agregarItem")
     public String agregarItemMenu(@PathVariable Long idRestaurante, Model model) {
         Restaurante restaurante = restauranteDAO.findById(idRestaurante)
                 .orElseThrow(() -> new RuntimeException("Restaurante no encontrado"));
 
-        // Obtener los valores del enum directamente
         List<TipoItemMenu> tipos = Arrays.asList(TipoItemMenu.values());
         CartaMenu cartaMenu = restaurante.getCartaMenu();
 
         model.addAttribute("nuevoItem", new ItemMenu());
-        model.addAttribute("tipos", tipos); // Pasamos los valores del enum a la vista
+        model.addAttribute("tipos", tipos);
         model.addAttribute("verMenuRestaurante", cartaMenu);
-
         return "agregarItemMenu";
     }
-    @PostMapping("/restaurante/{id}/agregarItem")
-    public String agregarItemMenu(@PathVariable Long id, @ModelAttribute ItemMenu nuevoItem,
-                                  Model model) {
-        if (nuevoItem.getNombre() == null || nuevoItem.getNombre().trim().isEmpty()) {
+
+    @PostMapping("/restaurante/{idRestaurante}/agregarItem")
+    public String agregarItemMenu(@PathVariable Long idRestaurante, @ModelAttribute ItemMenu nuevoItem, Model model) {
+        if (nuevoItem.getNombre().trim().isEmpty()) {
             model.addAttribute("error", "El nombre del ítem no puede estar vacío.");
             return "agregarItemMenu";
         }
@@ -137,17 +123,14 @@ public class GestorRestaurantes {
             return "agregarItemMenu";
         }
 
-        Restaurante restaurante = restauranteDAO.findById(id)
+        Restaurante restaurante = restauranteDAO.findById(idRestaurante)
                 .orElseThrow(() -> new RuntimeException("Restaurante no encontrado"));
+
         CartaMenu cartaMenu = restaurante.getCartaMenu();
-
-        // Establecer la carta de menú en el ítem
         nuevoItem.setCartaMenu(cartaMenu);
-
-        // Guardar el ítem
         itemMenuDAO.save(nuevoItem);
 
-        return "redirect:/restaurante/" + id + "/menu";
+        return "redirect:/restaurante/" + idRestaurante + "/verCartaMenu";
     }
 
 
@@ -163,14 +146,6 @@ public class GestorRestaurantes {
 
         itemMenuDAO.save(item);
 
-        return "redirect:/restaurante/" + idRestaurante + "/menu";
+        return "redirect:/restaurante/" + idRestaurante + "/verCartaMenu";
     }
-    @GetMapping("/restaurante/{idRestaurante}/eliminarItem/{idItem}")
-    public String eliminarItemMenu(@PathVariable Long idRestaurante, @PathVariable Long idItem) {
-        itemMenuDAO.deleteById(idItem);
-        return "redirect:/restaurante/" + idRestaurante + "/menu";
-    }
-
-
-
 }

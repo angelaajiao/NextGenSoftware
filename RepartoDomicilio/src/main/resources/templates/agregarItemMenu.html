@@ -27,10 +27,10 @@
         <p th:text="${error}"></p>
     </div>
 
-    <form th:action="@{/restaurante/{idRestaurante}/agregarItem(id=${verMenuRestaurante.restaurante.id})}"
+    <form th:action="@{/restaurante/{idRestaurante}/agregarItem(idRestaurante=${restaurante.id})}"
           th:object="${nuevoItem}" method="post">
 
-        <!-- Campo Nombre del Ítem -->
+    <!-- Campo Nombre del Ítem -->
         <div class="form-group">
             <label for="nombre">Nombre del Ítem:</label>
             <input type="text" id="nombre" name="nombre" th:field="*{nombre}" required />
