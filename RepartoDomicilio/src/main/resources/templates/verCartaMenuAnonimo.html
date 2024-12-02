@@ -71,7 +71,7 @@
 <body>
 
 <header>
-    <h1 th:text="'Carta del Restaurante: ' + ${restaurante.nombre}"></h1>
+    <h1 th:text="'Carta del Restaurante: ' + ${restaurante}"></h1>
 </header>
 
 <div class="content">
@@ -82,7 +82,7 @@
     <div th:each="item : ${items}" class="menu-item">
         <h3 th:text="${item.nombre}"></h3>
         <p th:text="'Precio: ' + ${item.precio} + ' €'"></p>
-        <p th:text="'Tipo: ' + ${item.tipo.name()}"></p>
+        <p th:text="'Tipo: ' + ${item.tipo.nombre()}"></p>
     </div>
     <a th:href="@{/listarRestaurantes}" class="button">Volver a Restaurantes</a>
 </div>

@@ -11,11 +11,11 @@ public class ItemMenu {
     private String nombre;
     private double precio;
 
-    @Enumerated(EnumType.STRING) // Usamos el EnumType.STRING para almacenar el valor como texto
+    @Enumerated(EnumType.STRING)
     private TipoItemMenu tipo;
 
     @ManyToOne
-    @JoinColumn(name = "carta_menu_id", nullable = false)
+    @JoinColumn(name = "carta_menu_id", nullable = true)
     private CartaMenu cartaMenu;
 
 

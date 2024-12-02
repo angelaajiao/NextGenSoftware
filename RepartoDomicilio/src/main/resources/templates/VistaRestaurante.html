@@ -59,11 +59,10 @@
         <p th:text="'Tipo: ' + ${item.tipo.name()}"></p>
 
         <div th:if="${isRestauranteLogueado}">
-            <a th:href="@{/restaurante/{idRestaurante}/agregarItemMenu/{idItem}(idRestaurante=${restaurante}, idItem=${item})}" class="button">Agregar</a>
+            <a th:href="@{/restaurante/{idRestaurante}/editarItem/{idItem}(idRestaurante=${restaurante.id}, idItem=${item.id})}" class="button">Editar</a>
         </div>
     </div>
 </div>
 
 </body>
 </html>
-

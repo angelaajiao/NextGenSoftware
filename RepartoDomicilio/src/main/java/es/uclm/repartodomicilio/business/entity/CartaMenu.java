@@ -2,6 +2,8 @@ package es.uclm.repartodomicilio.business.entity;
 //la carta del menú que pertenece a un restaurante y contiene varios ítems
 
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -11,7 +13,7 @@ public class CartaMenu {
     private Long id;
 
     @OneToMany(mappedBy = "cartaMenu", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ItemMenu> items;
+    private List<ItemMenu> items = new ArrayList<>();
 
     @OneToOne
     @JoinColumn(name = "restaurante_id")

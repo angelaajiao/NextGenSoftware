@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CartaMenuDAO extends JpaRepository<CartaMenu, Long> {
+    // Método para encontrar una CartaMenu por el ID del restaurante
+        CartaMenu findByRestauranteId(Long restauranteId);
 }
