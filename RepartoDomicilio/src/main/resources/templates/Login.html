@@ -7,39 +7,163 @@
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
             margin: 0;
-            padding: 20px;
+            padding: 0;
+        }
+
+        /* Encabezado superior */
+        #header {
+            display: flex;
+            align-items: center;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 10px 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        #header h1 {
+            font-size: 24px;
+            color: #ff6600;
+            margin: 0;
+            font-weight: bold;
+        }
+
+        /* Contenedor principal */
+        #main-container {
+            margin-top: 70px; /* Para dejar espacio al encabezado fijo */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: calc(100vh - 70px);
+        }
+
+        #login-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 600px;
+            display: flex; /* Layout flexible */
+            gap: 20px;
+        }
+
+        /* Contenedor de la imagen */
+        #image-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #image-container img {
+            width: 100px;
+            height: auto;
+        }
+
+        /* Contenedor del formulario */
+        #form-container {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #form-container h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        #form-container form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        #form-container label {
+            text-align: left;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        #form-container input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        #form-container button {
+            background-color: #ff6600;
+            color: white;
+            font-size: 16px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #form-container button:hover {
+            background-color: #e65500;
+        }
+
+        #form-container p {
+            margin: 15px 0 0;
+            font-size: 14px;
+            color: #666;
+        }
+
+        #form-container a {
+            color: #ff6600;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        #form-container a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
-<!-- Sección de Iniciar Sesión -->
-<section id="login-section">
-    <h1>Iniciar Sesión</h1>
-    <form action="#" th:action="@{/login}" method="post">
-        <label for="id">Usuario:</label>
-        <input type="text" id="id" name="id" required>
+<!-- Encabezado fijo -->
+<div id="header">
+    <h1>FastEat</h1>
+</div>
 
-        <label for="pass">Contraseña:</label>
-        <input type="password" id="pass" name="pass" required>
+<!-- Contenido principal -->
+<div id="main-container">
+    <div id="login-container">
 
-        <button type="submit">Iniciar Sesión</button>
-    </form>
+        <!-- Contenedor del formulario -->
+        <div id="form-container">
+            <h1>Iniciar Sesión</h1>
+            <form action="#" th:action="@{/login}" method="post">
+                <label for="id">Usuario:</label>
+                <input type="text" id="id" name="id" placeholder="Introduce tu usuario" required>
 
-    <p>¿No tienes cuenta?
-        <a href="/registro">Regístrate aquí</a>
-    </p>
+                <label for="pass">Contraseña:</label>
+                <input type="password" id="pass" name="pass" placeholder="Introduce tu contraseña" required>
 
-    <div th:if="${error}" style="color:red;">
-        <p th:text="${error}"></p>
+                <button type="submit">Iniciar Sesión</button>
+            </form>
+
+            <p>¿No tienes cuenta? <a href="/registro">Regístrate aquí</a></p>
+
+            <div th:if="${error}" class="error-message">
+                <p th:text="${error}"></p>
+            </div>
+        </div>
     </div>
-</section>
-
-<!-- Sección de Restaurantes Disponibles -->
-
-<p> Encuentra tu restaurante
-    <a href="/listarRestaurantes">Restaurantes disponibles</a>
-</p>
-
-
+</div>
 </body>
 </html>
