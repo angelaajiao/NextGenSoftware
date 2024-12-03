@@ -80,9 +80,9 @@
         <p>No hay ítems disponibles en el menú actualmente.</p>
     </div>
     <div th:each="item : ${items}" class="menu-item">
-        <h3 th:text="${item.nombre}"></h3>
-        <p th:text="'Precio: ' + ${item.precio} + ' €'"></p>
-        <p th:text="'Tipo: ' + ${item.tipo.nombre()}"></p>
+        <h3 th:text="${item.nombre}">Nombre del ítem</h3>
+        <p th:text="'Precio: ' + ${item.precio} + ' €'">Precio</p>
+        <p th:text="'Tipo: ' + ${item.tipo}">Tipo</p>
     </div>
     <a th:href="@{/listarRestaurantes}" class="button">Volver a Restaurantes</a>
 </div>

@@ -42,8 +42,8 @@
 </header>
 
 <nav>
-  <a th:href="@{/restaurante/{idRestaurante}/menu(idRestaurante=${restaurante.id})}">Menú</a>
-  <a th:href="@{/restaurante/{idRestaurante}/agregarItem(idRestaurante=${restaurante.id})}">Agregar Ítem</a>
+  <a th:href="@{/restaurante/{id}/menu(id=${restaurante.id})}">Menú</a>
+  <a th:href="@{/restaurante/{id}/agregarItem(id=${restaurante.id})}">Agregar Ítem</a>
   <a href="#" th:href="@{/logout}">Cerrar Sesión</a>
 </nav>
 
@@ -62,7 +62,7 @@
     <p th:text="'Tipo: ' + ${item.tipo.name()}"></p>
 
     <div th:if="${isRestauranteLogueado}">
-      <a th:href="@{/restaurante/{idRestaurante}/editarItem/{idItem}(idRestaurante=${restaurante.id}, idItem=${item.id})}" class="button">Editar</a>
+      <a th:href="@{/restaurante/{id}/editarItem/{idItem}(id=${restaurante.id}, idItem=${item.id})}" class="button">Editar</a>
     </div>
   </div>
 </div>
