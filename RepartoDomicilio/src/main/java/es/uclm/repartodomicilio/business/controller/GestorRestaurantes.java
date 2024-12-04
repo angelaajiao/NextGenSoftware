@@ -49,7 +49,12 @@ public class GestorRestaurantes {
     @GetMapping("/restaurante")
     public String vistaRestaurante(@ModelAttribute Restaurante restaurante, Model model) {
         model.addAttribute("restaurante", restaurante);
-        model.addAttribute("items", restaurante.getCartaMenu().getItems());
+
+        if (restaurante.getCartaMenu() != null) {
+            model.addAttribute("items", restaurante.getCartaMenu().getItems());
+        } else {
+            model.addAttribute("items", Collections.emptyList());
+        }
         model.addAttribute("isRestauranteLogueado", true);
         return "VistaRestaurante";
     }
@@ -108,9 +113,11 @@ public class GestorRestaurantes {
             ));
 
 
-        model.addAttribute("items", items);
-        model.addAttribute("restaurante", restaurante);
-        model.addAttribute("mensaje", items.isEmpty() ? "Este restaurante no tiene ítems disponibles." : "");
+            model.addAttribute("items", items);
+            model.addAttribute("restaurante", restaurante);
+            model.addAttribute("mensaje", items.isEmpty() ? "Este restaurante no tiene ítems disponibles." : "");
+        }else{
+            System.out.println("Restaurante no tiene un menú disponible");
         }
 
 
