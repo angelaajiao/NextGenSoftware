@@ -24,11 +24,64 @@
       font-size: 25px;
       font-weight: bold;
       color: #333333;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
     .logo span {
       font-weight: bold;
       color: #44ad2d;
+    }
+
+    .menu-icon {
+      display: block;
+      width: 30px;
+      height: 3px;
+      background-color: #333;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .menu-icon:before, .menu-icon:after {
+      content: '';
+      position: absolute;
+      width: 30px;
+      height: 3px;
+      background-color: #333;
+      transition: 0.3s;
+    }
+
+    .menu-icon:before {
+      top: -8px;
+    }
+
+    .menu-icon:after {
+      bottom: -8px;
+    }
+
+    nav {
+      background-color: rgba(0, 0, 0, 0.9); /* Fondo semitransparente */
+      position: fixed;
+      top: 0;
+      left: -250px; /* Oculto al inicio */
+      width: 250px;
+      height: 100%;
+      overflow: hidden;
+      transition: left 0.3s ease-in-out;
+      z-index: 10; /* Sobre el fondo de pizza */
+    }
+
+    nav a {
+      color: white;
+      padding: 14px 20px;
+      display: block;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    nav a:hover {
+      background-color: #575757;
     }
 
     .header-buttons {
@@ -128,6 +181,7 @@
 
 <header>
   <div class="logo">
+    <div class="menu-icon" onclick="toggleMenu(event)"></div>
     Fast<span>Eat</span>
   </div>
   <div class="header-buttons">
@@ -135,6 +189,14 @@
     <a href="#" th:href="@{/registro}" class="header-button">Registro</a>
   </div>
 </header>
+
+<nav id="menu">
+  <a href="#" th:href="@{/cliente/perfilCliente}">Perfil</a>
+  <a href="#" th:href="@{/cliente/favoritos}">Favoritos</a>
+  <a href="#" th:href="@{/cliente/historialPedidos}">Historial de pedidos</a>
+  <a href="#" th:href="@{/cliente/ajustes}">Ajustes</a>
+  <a href="#" th:href="@{/login}">Cerrar Sesión</a>
+</nav>
 
 <div class="hero">
   <div class="hero-overlay"></div>
@@ -158,6 +220,26 @@
 </div>
 
 <script>
+  function toggleMenu(event) {
+    const menu = document.getElementById('menu');
+    const menuStyle = menu.style.left;
+
+    if (menuStyle === '0px') {
+      menu.style.left = '-250px';
+    } else {
+      menu.style.left = '0';
+    }
+
+    event.stopPropagation();
+  }
+
+  function closeMenu(event) {
+    const menu = document.getElementById('menu');
+    if (!menu.contains(event.target) && !document.querySelector('.menu-icon').contains(event.target)) {
+      menu.style.right = '-250px';
+    }
+  }
+
   function filterRestaurants() {
     const searchInput = document.getElementById('search').value.toLowerCase();
     const restaurantList = document.getElementById('restaurantList');
@@ -174,6 +256,8 @@
       }
     }
   }
+
+  document.addEventListener('click', closeMenu);
 </script>
 
 </body>
