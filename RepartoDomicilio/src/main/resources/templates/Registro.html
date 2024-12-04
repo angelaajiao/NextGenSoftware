@@ -1,23 +1,171 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
-    <title>Registro de Usuario</title>
+    <meta charset="UTF-8">
+    <title>Registro - FastEat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #ffffff;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            color: #333333;
+        }
+
+        .logo span {
+            font-weight: bold;
+            color: #44ad2d;
+        }
+
+        #main-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: calc(100vh - 70px);
+            padding: 20px;
+        }
+
+        #register-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            gap: 20px;
+        }
+
+        #image-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #image-container img {
+            width: 100px;
+            height: auto;
+        }
+
+        #form-container {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #form-container h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        #form-container form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        #form-container label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        #form-container select, #form-container input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        #form-container button {
+            background-color: #a2e067;
+            color: white;
+            font-size: 16px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #form-container button:hover {
+            background-color: #44ad2d;
+        }
+
+        #form-container p {
+            margin: 15px 0 0;
+            font-size: 14px;
+            color: #666;
+        }
+
+        #form-container a {
+            color: #a2e067;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        #form-container a:hover {
+            text-decoration: underline;
+        }
+
+
+    </style>
     <script>
         function mostrarFormulario() {
             var tipoUsuario = document.getElementById("tipoUsuario").value;
-            window.location.href = "/registro/" + tipoUsuario.toLowerCase();
+            if (tipoUsuario) {
+                window.location.href = "/registro/" + tipoUsuario.toLowerCase();
+            }
         }
     </script>
 </head>
 <body>
-<h1>Registro de Usuario</h1>
-<label for="tipoUsuario">Elige el tipo de usuario:</label>
-<select id="tipoUsuario" onchange="mostrarFormulario()">
-    <option value="">--Seleccionar--</option>
-    <option value="CLIENTE">Cliente</option>
-    <option value="RESTAURANTE">Restaurante</option>
-    <option value="REPARTIDOR">Repartidor</option>
-</select>
-<a href="/login">Volver a login</a> <!-- Enlace para volver a login -->
+
+<header>
+    <div class="logo">
+        Fast<span> Eat</span>
+    </div>
+</header>
+
+<div id="main-container">
+    <div id="register-container">
+
+        <div id="image-container">
+            <img src="/registro.jpeg" alt="Logo">
+        </div>
+
+        <div id="form-container">
+            <h1>    <span style="color: #44ad2d;">Registro</span> de Usuario
+            </h1>
+            <form>
+                <label for="tipoUsuario">Elige el tipo de usuario:</label>
+                <select id="tipoUsuario" onchange="mostrarFormulario()">
+                    <option value="">--Seleccionar--</option>
+                    <option value="CLIENTE">Cliente</option>
+                    <option value="RESTAURANTE">Restaurante</option>
+                    <option value="REPARTIDOR">Repartidor</option>
+                </select>
+            </form>
+
+            <p>¿Ya tienes cuenta? <a href="/login">Inicia sesión aquí</a></p>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
