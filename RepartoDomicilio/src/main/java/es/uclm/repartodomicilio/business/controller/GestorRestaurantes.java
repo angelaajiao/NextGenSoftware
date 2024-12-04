@@ -92,6 +92,7 @@ public class GestorRestaurantes {
 
     }
 
+    //Funciona bien
     @GetMapping("/restaurante/{id}/menu")
     public String verMenuRestauranteAnonimo(@PathVariable Long id, Model model) {
         Restaurante restaurante = restauranteDAO.findById(id)
@@ -124,7 +125,8 @@ public class GestorRestaurantes {
         return "verCartaMenuAnonimo";
     }
 
-    @GetMapping("/restaurante/{id}/verCartaMenu")
+    //Esto esta bien
+    @GetMapping("/restaurante/{id}/inicio")
     public String verCartaMenu(@PathVariable Long id, Model model) {
         Restaurante restaurante = restauranteDAO.findById(id)
                 .orElseThrow(() -> new RuntimeException("Restaurante no encontrado"));
@@ -144,6 +146,7 @@ public class GestorRestaurantes {
 
 
 
+    //Esto va bien
     @GetMapping("/restaurante/{id}/agregarItem")
     public String agregarItemMenu(@PathVariable Long id, Model model) {
         // Obtener restaurante
@@ -201,6 +204,8 @@ public class GestorRestaurantes {
 
         return "redirect:/restaurante/" + id + "/verCartaMenu";  // Redirigir a la página del menú
     }
+
+
     @PostMapping("/restaurante/{id}/editarItem/{idItem}")
     public String guardarEdicionItemMenu(@PathVariable Long id, @PathVariable Long idItem,
                                          @ModelAttribute ItemMenu itemEditado) {

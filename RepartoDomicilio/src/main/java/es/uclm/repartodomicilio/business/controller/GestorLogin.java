@@ -1,6 +1,7 @@
 package es.uclm.repartodomicilio.business.controller;
 
 import es.uclm.repartodomicilio.business.entity.Login;
+import es.uclm.repartodomicilio.business.persistence.RestauranteDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
@@ -11,7 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import es.uclm.repartodomicilio.business.entity.*;
 
+import java.util.Optional;
 
 @Controller
 public class GestorLogin {
@@ -20,6 +23,8 @@ public class GestorLogin {
 
     @Autowired
     private Login loginService;
+    @Autowired
+    private RestauranteDAO restauranteDAO;
 
     @GetMapping("/login")
     public String mostrarlogin(Model model) {
@@ -40,7 +45,7 @@ public class GestorLogin {
                 case "Repartidor":
                     return "VistaRepartidor"; // vista repartidor
                 case "Restaurante":
-                    return "redirect:/restaurante"; // vista restaurante
+                    return "redirect:/restaurante/{id}/inicio"; // vista restaurante
             }
         }
         model.addAttribute("error", "Clave o contraseñas incorrectos");
