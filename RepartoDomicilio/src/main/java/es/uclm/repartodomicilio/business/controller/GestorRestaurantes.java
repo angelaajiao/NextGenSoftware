@@ -141,7 +141,7 @@ public class GestorRestaurantes {
             model.addAttribute("items", new ArrayList<>());  // Si no hay ítems, pasar una lista vacía
         }
 
-        return "verCartaMenu"; // Vista que muestra los ítems
+        return "VistaRestaurante"; // Vista que muestra los ítems
     }
 
 

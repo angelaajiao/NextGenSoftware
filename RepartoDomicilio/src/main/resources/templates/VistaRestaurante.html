@@ -43,7 +43,7 @@
 
 <nav>
     <a th:href="@{/restaurante/{idRestaurante}/menu(idRestaurante=${restaurante})}">Menú</a>
-    <a th:href="@{/restaurante/{idRestaurante}/agregarItem(idRestaurante=${restaurante})}">Agregar Ítem</a>
+    <a th:href="@{/restaurante/{cifRestaurante}/agregarItem(cifRestaurante=${restaurante.cif})}">Agregar Ítem</a>
     <a href="#" th:href="@{/logout}">Cerrar Sesión</a>
 </nav>
 
