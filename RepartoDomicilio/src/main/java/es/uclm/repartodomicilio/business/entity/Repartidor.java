@@ -20,7 +20,7 @@ public class Repartidor {
     private String apellidoRepartidor;
 
     @Column(nullable = false)
-    private String passwordRepartidor;
+    private String contrasena_Repartidor;
 
     @Column(nullable = false, unique = true)
     private String emailRepartidor;
@@ -40,7 +40,7 @@ public class Repartidor {
         this.dniRepartidor = dniRepartidor;
         this.nombreRepartidor = nombreRepartidor;
         this.apellidoRepartidor = apellidoRepartidor;
-        this.passwordRepartidor = passwordRepartidor;
+        this.contrasena_Repartidor = passwordRepartidor;
         this.emailRepartidor = emailRepartidor;
         this.disponible = disponible;
     }
@@ -77,11 +77,11 @@ public class Repartidor {
     public void setApellidoRepartidor(String apellidoRepartidor) {
         this.apellidoRepartidor = apellidoRepartidor;
     }
-    public String getPasswordRepartidor(){return  passwordRepartidor; }
+    public String getPasswordRepartidor(){return  contrasena_Repartidor; }
 
-    public  void setPasswordRepartidor(String passwordRepartidor) {
+    public  void setPasswordRepartidor(String contrasena_Repartidor) {
 
-        this.passwordRepartidor = passwordRepartidor;
+        this.contrasena_Repartidor = contrasena_Repartidor;
 
     }
 

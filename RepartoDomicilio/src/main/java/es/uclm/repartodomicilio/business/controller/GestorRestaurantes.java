@@ -94,21 +94,25 @@ public class GestorRestaurantes {
 
         System.out.println("Restaurante encontrado: " + restaurante.getNombre());
 
-        CartaMenu cartaMenu = restaurante.getCartaMenu();
-        System.out.println("Carta del menú encontrada: " + (cartaMenu != null ? cartaMenu.getId() : "null"));
+        if(restaurante.getCartaMenu() != null){
+            CartaMenu cartaMenu = restaurante.getCartaMenu();
+            System.out.println("Carta del menú encontrada: " + (cartaMenu != null ? cartaMenu.getId() : "null"));
 
-        List<ItemMenu> items = (cartaMenu != null && cartaMenu.getItems() != null)
-                ? cartaMenu.getItems()
-                : Collections.emptyList();
+            List<ItemMenu> items = (cartaMenu != null && cartaMenu.getItems() != null)
+                    ? cartaMenu.getItems()
+                    : Collections.emptyList();
 
-        // Log de cada ítem en el menú
-        items.forEach(item -> System.out.println(
-                "nombre: " + item.getNombre() + ", precio: " + item.getPrecio() + ", tipo: " + item.getTipo()
-        ));
+            // Log de cada ítem en el menú
+            items.forEach(item -> System.out.println(
+                    "nombre: " + item.getNombre() + ", precio: " + item.getPrecio() + ", tipo: " + item.getTipo()
+            ));
+
 
         model.addAttribute("items", items);
         model.addAttribute("restaurante", restaurante);
         model.addAttribute("mensaje", items.isEmpty() ? "Este restaurante no tiene ítems disponibles." : "");
+        }
+
 
         return "verCartaMenuAnonimo";
     }

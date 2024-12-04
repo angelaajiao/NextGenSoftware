@@ -20,7 +20,7 @@ public class Cliente {
     private String apellidos;
 
     @Column(nullable = false)
-    private String password;
+    private String contrasena;
 
     @Column (nullable = false, unique = true)
     private String email;
@@ -41,7 +41,7 @@ public class Cliente {
         this.dni = dni;
         this.nombre = nombre;
         this.apellidos = apellidos;
-        this.password = password;
+        this.contrasena = password;
         this.email = email;
     }
 
@@ -76,8 +76,8 @@ public class Cliente {
         this.apellidos = apellidos;
     }
 
-    public String getPassword() { return  password; }
-    public void setPassword(String password) { this.password = password; }
+    public String getPassword() { return  contrasena; }
+    public void setPassword(String password) { this.contrasena = password; }
 
     public String getEmail() {
         return email;
