@@ -127,8 +127,8 @@ public class GestorRestaurantes {
 
     //Esto esta bien
     @GetMapping("/restaurante/{id}/inicio")
-    public String verCartaMenu(@PathVariable Long id, Model model) {
-        Restaurante restaurante = restauranteDAO.findById(id)
+    public String verCartaMenu(@PathVariable String id, Model model) {
+        Restaurante restaurante = restauranteDAO.findBycif(id)
                 .orElseThrow(() -> new RuntimeException("Restaurante no encontrado"));
 
         model.addAttribute("restaurante", restaurante);
@@ -148,9 +148,9 @@ public class GestorRestaurantes {
 
     //Esto va bien
     @GetMapping("/restaurante/{id}/agregarItem")
-    public String agregarItemMenu(@PathVariable Long id, Model model) {
+    public String agregarItemMenu(@PathVariable String id, Model model) {
         // Obtener restaurante
-        Restaurante restaurante = restauranteDAO.findById(id)
+        Restaurante restaurante = restauranteDAO.findBycif(id)
                 .orElseThrow(() -> new RuntimeException("Restaurante no encontrado"));
 
         // Verificar si el restaurante ya tiene una carta de menú
@@ -173,7 +173,7 @@ public class GestorRestaurantes {
 
 
     @PostMapping("/restaurante/{id}/agregarItem")
-    public String agregarItemMenu(@PathVariable Long id, @ModelAttribute ItemMenu nuevoItem, Model model) {
+    public String agregarItemMenu(@PathVariable String id, @ModelAttribute ItemMenu nuevoItem, Model model) {
         // Validación de los campos del ítem
         if (nuevoItem.getNombre().trim().isEmpty()) {
             model.addAttribute("error", "El nombre del ítem no puede estar vacío.");
@@ -186,7 +186,7 @@ public class GestorRestaurantes {
         }
 
         // Obtener restaurante
-        Restaurante restaurante = restauranteDAO.findById(id)
+        Restaurante restaurante = restauranteDAO.findBycif(id)
                 .orElseThrow(() -> new RuntimeException("Restaurante no encontrado"));
 
         // Obtener la carta de menú del restaurante
@@ -207,7 +207,7 @@ public class GestorRestaurantes {
 
 
     @PostMapping("/restaurante/{id}/editarItem/{idItem}")
-    public String guardarEdicionItemMenu(@PathVariable Long id, @PathVariable Long idItem,
+    public String guardarEdicionItemMenu(@PathVariable String id, @PathVariable Long idItem,
                                          @ModelAttribute ItemMenu itemEditado) {
         ItemMenu item = itemMenuDAO.findById(idItem)
                 .orElseThrow(() -> new RuntimeException("Ítem no encontrado"));
