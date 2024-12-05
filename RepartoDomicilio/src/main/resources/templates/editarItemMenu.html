@@ -11,7 +11,7 @@
 </header>
 
 <div class="content">
-  <form th:action="@{/restaurante/{idRestaurante}/editarItem/{idItem}(idRestaurante=${restaurante}, idItem=${item})}"
+  <form th:action="@{/restaurante/{idRestaurante}/editarItem/{idItem}(idRestaurante=${restaurante.cif}, idItem=${item.id})}"
         th:object="${item}" method="post">
 
     <div class="form-group">
@@ -27,6 +27,7 @@
     <div class="form-group">
       <label for="tipo">Tipo de Ítem:</label>
       <select id="tipo" name="tipo" th:field="*{tipo}" required>
+        <option value="" disabled selected>Selecciona un tipo</option>
         <option th:each="tipo : ${tipos}" th:value="${tipo}" th:text="${tipo}"></option>
       </select>
     </div>

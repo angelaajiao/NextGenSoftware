@@ -202,13 +202,28 @@ public class GestorRestaurantes {
         nuevoItem.setCartaMenu(cartaMenu);
         itemMenuDAO.save(nuevoItem); // Guardar el nuevo ítem
 
-        return "redirect:/restaurante/" + id + "/verCartaMenu";  // Redirigir a la página del menú
+        return "redirect:/restaurante/" + id + "/inicio";  // Redirigir a la página del menú
+    }
+
+    @GetMapping("/restaurante/{id}/editarItem/{idItem}")
+    public String mostrarFormularioEdicion(@PathVariable String id, @PathVariable Long idItem, Model model) {
+        Restaurante restaurante = restauranteDAO.findBycif(id)
+                .orElseThrow(() -> new RuntimeException("Restaurante no encontrado"));
+        ItemMenu item = itemMenuDAO.findById(idItem)
+                .orElseThrow(() -> new RuntimeException("Ítem no encontrado"));
+
+        model.addAttribute("restaurante", restaurante);  // Agregar el restaurante
+        model.addAttribute("item", item);  // Pasar el ítem al modelo
+        model.addAttribute("tipos", Arrays.asList(TipoItemMenu.values()));  // Opciones de tipos
+        return "editarItemMenu";
     }
 
 
     @PostMapping("/restaurante/{id}/editarItem/{idItem}")
     public String guardarEdicionItemMenu(@PathVariable String id, @PathVariable Long idItem,
                                          @ModelAttribute ItemMenu itemEditado) {
+        Restaurante restaurante = restauranteDAO.findBycif(id)
+                .orElseThrow(() -> new RuntimeException("Restaurante no encontrado"));
         ItemMenu item = itemMenuDAO.findById(idItem)
                 .orElseThrow(() -> new RuntimeException("Ítem no encontrado"));
 
@@ -219,8 +234,9 @@ public class GestorRestaurantes {
 
         itemMenuDAO.save(item);  // Guardar el ítem actualizado
 
-        return "redirect:/restaurante/" + id + "/verCartaMenu";  // Redirigir a la página del menú
+        return "redirect:/restaurante/" + restaurante.getCif() + "/inicio";
     }
+
 
     @PostMapping("/restaurante/{id}/eliminarItem/{idItem}")
     public String eliminarItemMenu(@PathVariable Long id, @PathVariable Long idItem) {

@@ -38,7 +38,7 @@
 <body>
 
 <header>
-    <h1 th:text="'Bienvenido, ' + ${restaurante}">Bienvenido Restaurante</h1>
+    <h1 th:text="'Bienvenido, ' + ${restaurante.nombre}">Bienvenido Restaurante</h1>
 </header>
 
 <nav>
@@ -58,9 +58,11 @@
         <p th:text="'Precio: ' + ${item.precio} + ' €'"></p>
         <p th:text="'Tipo: ' + ${item.tipo.name()}"></p>
 
-        <div th:if="${isRestauranteLogueado}">
-            <a th:href="@{/restaurante/{idRestaurante}/editarItem/{idItem}(idRestaurante=${restaurante.id}, idItem=${item.id})}" class="button">Editar</a>
-        </div>
+
+        <a th:href="@{/restaurante/{idRestaurante}/editarItem/{idItem}(idRestaurante=${restaurante.cif}, idItem=${item.id})}"
+           class="button">Editar</a>
+
+
     </div>
 </div>
 
