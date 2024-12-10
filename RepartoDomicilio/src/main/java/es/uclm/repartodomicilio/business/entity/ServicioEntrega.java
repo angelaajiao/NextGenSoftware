@@ -11,7 +11,7 @@ public class ServicioEntrega {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; 
 
-    /*@ManyToOne(fetch = FetchType.LAZY)
+    /*@OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pedido_id", nullable = false)
     private Pedido pedido; */ 
 
