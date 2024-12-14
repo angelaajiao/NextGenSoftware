@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Carta</title>
+    <title>Ítems de la Carta</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -15,20 +15,6 @@
             color: white;
             padding: 1rem;
             text-align: center;
-        }
-        nav {
-            background-color: #333;
-            overflow: hidden;
-        }
-        nav a {
-            color: white;
-            padding: 14px 20px;
-            display: inline-block;
-            text-align: center;
-            text-decoration: none;
-        }
-        nav a:hover {
-            background-color: #575757;
         }
         .content {
             padding: 20px;
@@ -71,23 +57,20 @@
 <body>
 
 <header>
-    <h1 th:text="'Cartas de Menú del Restaurante: ' + ${restaurante.nombre}"></h1>
+    <h1 th:text="'Ítems de la Carta: ' + ${cartaMenu.nombreCarta}"></h1>
 </header>
 
 <div class="content">
-    <h2>Cartas de Menú</h2>
-    <div th:if="${cartasMenu != null and cartasMenu.size() == 0}">
-        <p>No hay cartas de menú disponibles actualmente.</p>
+    <div th:if="${items != null and items.size() == 0}">
+        <p>No hay ítems disponibles en esta carta actualmente.</p>
     </div>
-    <div th:each="carta : ${cartasMenu}" class="menu-card">
-        <h3 th:text="${carta.nombreCarta}">Nombre de la Carta</h3>
-        <p th:text="'Descripción: ' + ${carta.descripcion}">Descripción</p>
-        <a th:href="@{/restaurante/{restauranteId}/menu/{cartaId}(restauranteId=${restaurante.id}, cartaId=${carta.id})}"
-           class="button">Ver Ítems</a>
+    <div th:each="item : ${items}" class="menu-item">
+        <h3 th:text="${item.nombre}">Nombre del ítem</h3>
+        <p th:text="'Precio: ' + ${item.precio} + ' €'">Precio</p>
+        <p th:text="'Tipo: ' + ${item.tipo}">Tipo</p>
     </div>
-    <a th:href="@{/listarRestaurantes}" class="button">Volver a Restaurantes</a>
+    <a th:href="@{/restaurante/{id}/menu(restauranteId=${restaurante.id})}" class="button">Volver a Cartas</a>
 </div>
 
 </body>
 </html>
-

@@ -1,6 +1,9 @@
 package es.uclm.repartodomicilio.business.entity;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 public class Restaurante {
     @Id
@@ -19,10 +22,8 @@ public class Restaurante {
     @Column(nullable = false)
     private String password_restaurante;
 
-    @OneToOne(mappedBy = "restaurante", cascade = CascadeType.ALL)
-    private CartaMenu cartaMenu;
-
-
+    @OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CartaMenu> cartasMenu = new ArrayList<>();
 
     //Constructor vacío requerido por JPA
     public Restaurante(){}
@@ -71,9 +72,12 @@ public class Restaurante {
 
     public void setPassword_restaurante(String password_restaurante) {this.password_restaurante = password_restaurante;}
 
-    public CartaMenu getCartaMenu() { return cartaMenu;}
+    public List<CartaMenu> getCartasMenu() {
+        return cartasMenu;
+    }
 
-    public void setCartaMenu(CartaMenu cartaMenu) { this.cartaMenu = cartaMenu;}
-
+    public void setCartasMenu(List<CartaMenu> cartasMenu) {
+        this.cartasMenu = cartasMenu;
+    }
 }
 

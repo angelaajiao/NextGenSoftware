@@ -44,26 +44,23 @@
 <nav>
     <a th:href="@{/restaurante/{idRestaurante}/menu(idRestaurante=${restaurante})}">Menú</a>
     <a th:href="@{/restaurante/{cifRestaurante}/agregarItem(cifRestaurante=${restaurante.cif})}">Agregar Ítem</a>
+    <a th:href="@{/restaurante/{cifRestaurante}/agregarCartas(cifRestaurante=${restaurante.cif})}">Agregar Carta</a>
     <a href="#" th:href="@{/logout}">Cerrar Sesión</a>
 </nav>
 
 <div class="content">
     <h2>Menú del Restaurante</h2>
-    <div th:if="${items == null || items.isEmpty()}">
-        <p>No hay ítems en el menú actualmente.</p>
-    </div>
-
-    <div th:each="item : ${items}" class="menu-item">
-        <h3 th:text="${item.nombre}">Nombre del Ítem</h3>
-        <p th:text="'Precio: ' + ${item.precio} + ' €'"></p>
-        <p th:text="'Tipo: ' + ${item.tipo.name()}"></p>
-
-
-        <a th:href="@{/restaurante/{idRestaurante}/editarItem/{idItem}(idRestaurante=${restaurante.cif}, idItem=${item.id})}"
-           class="button">Editar</a>
-
-
-    </div>
+    <h2>Cartas disponibles</h2>
+    <ul>
+        <li th:each="carta : ${cartasMenu}">
+            <div class="menu-item">
+                <h3 th:text="${carta.nombreCarta}">Nombre de la Carta</h3>
+                <!-- Botón Ver Menú -->
+                <a th:href="@{/restaurante/{restauranteId}/menu/{cartaId}(restauranteId=${restaurante.cif}, cartaId=${carta.id})}"
+                   class="button">Ver Menú</a>
+            </div>
+        </li>
+    </ul>
 </div>
 
 </body>

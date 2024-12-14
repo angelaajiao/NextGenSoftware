@@ -12,12 +12,23 @@ public class CartaMenu {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "cartaMenu", cascade = CascadeType.ALL, orphanRemoval = true)
+    private String nombreCarta;
+
+    @OneToMany(mappedBy = "cartaMenu", cascade = CascadeType.ALL)
     private List<ItemMenu> items = new ArrayList<>();
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "restaurante_id")
     private Restaurante restaurante;
+
+    // Constructor vacío
+    public CartaMenu() {}
+
+    //Constructor
+    public CartaMenu(String nombreCarta, Restaurante restaurante) {
+        this.nombreCarta = nombreCarta;
+        this.restaurante = restaurante;
+    }
 
     // Getters y Setters
     public Long getId() {
@@ -26,6 +37,10 @@ public class CartaMenu {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getNombreCarta() {
+        return nombreCarta;
     }
 
     public List<ItemMenu> getItems() {
