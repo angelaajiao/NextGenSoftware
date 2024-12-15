@@ -1,6 +1,7 @@
 package es.uclm.repartodomicilio.business.controller;
 import es.uclm.repartodomicilio.business.persistence.CartaMenuDAO;
 import es.uclm.repartodomicilio.business.persistence.ItemMenuDAO;
+import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import es.uclm.repartodomicilio.business.entity.*;
@@ -182,10 +183,11 @@ public class GestorRestaurantes {
     }
 
     //Agregar la carta con los items
+    @Transactional
     @PostMapping("/restaurante/{cif}/agregarCartaMenu")
     public String agregarCartaMenu(@PathVariable String cif,
                                    @RequestParam String nombreCarta,
-                                   @ModelAttribute List<ItemMenu> items,
+                                   @RequestParam List<ItemMenu> items,
                                    Model model) {
         // Buscar el restaurante por su CIF
         Restaurante restaurante = restauranteDAO.findBycif(cif)
@@ -196,13 +198,11 @@ public class GestorRestaurantes {
         cartaMenuDAO.save(nuevaCarta); // Guardar la carta
 
         // Asignar la carta a los ítems y guardarlos
-        // Asegúrate de asignar la relación entre la carta y los ítems
         for (ItemMenu item : items) {
             item.setCartaMenu(nuevaCarta);  // Asignar la carta a cada ítem
+            itemMenuDAO.saveAll(items);
         }
 
-        // Guardar todos los ítems en una sola operación
-        itemMenuDAO.saveAll(items);
 
         // Redirigir a la vista del restaurante
         return "redirect:/restaurante/" + cif + "/inicio";

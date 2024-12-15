@@ -14,8 +14,8 @@ public class CartaMenu {
 
     private String nombreCarta;
 
-    @OneToMany(mappedBy = "cartaMenu", cascade = CascadeType.ALL)
-    private List<ItemMenu> items = new ArrayList<>();
+    @OneToMany(mappedBy = "cartaMenu", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ItemMenu> items;
 
     @ManyToOne
     @JoinColumn(name = "restaurante_id")
@@ -28,6 +28,15 @@ public class CartaMenu {
     public CartaMenu(String nombreCarta, Restaurante restaurante) {
         this.nombreCarta = nombreCarta;
         this.restaurante = restaurante;
+    }
+
+    // Método para añadir un ítem al menú
+    public void addItemMenu(ItemMenu itemMenu) {
+        if (this.items == null) {
+            this.items = new ArrayList<>();
+        }
+        this.items.add(itemMenu);
+        itemMenu.setCartaMenu(this); // Establece la relación bidireccional
     }
 
     // Getters y Setters
