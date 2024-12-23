@@ -11,10 +11,11 @@ public class CartaMenu {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String nombreCarta;
 
     @OneToMany(mappedBy = "cartaMenu", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ItemMenu> items;
+    private List<ItemMenu> items = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "restaurante_id")
@@ -64,5 +65,9 @@ public class CartaMenu {
 
     public void setRestaurante(Restaurante restaurante) {
         this.restaurante = restaurante;
+    }
+
+    public void setNombreCarta(String nombreCarta) {
+        this.nombreCarta = nombreCarta;
     }
 }

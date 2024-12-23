@@ -170,42 +170,44 @@ public class GestorRestaurantes {
         Restaurante restaurante = restauranteDAO.findBycif(cif)
                 .orElseThrow(() -> new RuntimeException("Restaurante no encontrado"));
 
-        // Crear una lista de cartas
+        // Crear un objeto CartaMenu inicializado
         CartaMenu carta = new CartaMenu();
-        carta.setRestaurante(restaurante);
-        List<CartaMenu> cartas = List.of(carta);
+        carta.setRestaurante(restaurante); // Asignar el restaurante
+        carta.setItems(new ArrayList<>()); // Inicializar la lista de ítems
 
         // Añadir datos al modelo
         model.addAttribute("restaurante", restaurante);
-        model.addAttribute("cartas", cartas);
+        model.addAttribute("cartaMenu", carta); // Pasar el objeto CartaMenu al modelo
 
         return "agregarCartaMenu";
     }
 
+
     //Agregar la carta con los items
     @PostMapping("/restaurante/{cif}/agregarCartaMenu")
     public String agregarCartaMenu(@PathVariable String cif,
-                                   @RequestParam String nombreCarta,
-                                   @RequestParam List<ItemMenu> items,
+                                   @ModelAttribute CartaMenu cartaMenu,
                                    Model model) {
-        // Buscar el restaurante por su CIF
+        // Buscar restaurante
         Restaurante restaurante = restauranteDAO.findBycif(cif)
                 .orElseThrow(() -> new RuntimeException("Restaurante no encontrado"));
 
-        // Crear y guardar la nueva carta
-        CartaMenu nuevaCarta = new CartaMenu(nombreCarta, restaurante);
-        cartaMenuDAO.save(nuevaCarta); // Guardar la carta
+        // Asociar restaurante con la carta
+        cartaMenu.setRestaurante(restaurante);
 
-        // Asignar la carta a los ítems y guardarlos
-        for (ItemMenu item : items) {
-            item.setCartaMenu(nuevaCarta);  // Asignar la carta a cada ítem
-            itemMenuDAO.saveAll(items);
+        // Asociar ítems con la carta
+        if (cartaMenu.getItems() != null) {
+            for (ItemMenu item : cartaMenu.getItems()) {
+                item.setCartaMenu(cartaMenu);
+            }
         }
 
+        // Guardar carta (cascada guardará los ítems)
+        cartaMenuDAO.save(cartaMenu);
 
-        // Redirigir a la vista del restaurante
         return "redirect:/restaurante/" + cif + "/inicio";
     }
+
 
     @GetMapping("/restaurante/{id}/agregarItem")
     public String agregarItemMenu(@PathVariable String id, Model model) {
