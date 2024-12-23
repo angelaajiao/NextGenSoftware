@@ -1,5 +1,4 @@
 package es.uclm.repartodomicilio.business.entity;
-//la carta del menú que pertenece a un restaurante y contiene varios ítems
 
 import jakarta.persistence.*;
 
@@ -21,10 +20,9 @@ public class CartaMenu {
     @JoinColumn(name = "restaurante_id")
     private Restaurante restaurante;
 
-    // Constructor vacío
+    //Constructor
     public CartaMenu() {}
 
-    //Constructor
     public CartaMenu(String nombreCarta, Restaurante restaurante) {
         this.nombreCarta = nombreCarta;
         this.restaurante = restaurante;

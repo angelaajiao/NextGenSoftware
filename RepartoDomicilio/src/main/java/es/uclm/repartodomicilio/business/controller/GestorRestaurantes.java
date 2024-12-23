@@ -89,7 +89,7 @@ public class GestorRestaurantes {
     public String buscarRestaurantes(@RequestParam String nombre, Model model) {
         List<Restaurante> restaurantes = restauranteDAO.findAllByNombre(nombre);
         model.addAttribute("restaurantes", restaurantes);
-        return "listarRestaurantes"; //
+        return "listarRestaurantes";
 
     }
 
@@ -183,7 +183,6 @@ public class GestorRestaurantes {
     }
 
     //Agregar la carta con los items
-    @Transactional
     @PostMapping("/restaurante/{cif}/agregarCartaMenu")
     public String agregarCartaMenu(@PathVariable String cif,
                                    @RequestParam String nombreCarta,
