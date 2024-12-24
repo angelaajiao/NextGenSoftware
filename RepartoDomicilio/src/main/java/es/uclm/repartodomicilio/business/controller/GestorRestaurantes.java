@@ -147,8 +147,6 @@ public class GestorRestaurantes {
     }
 
 
-
-
     // Para que salga la vista del restaurante
     @GetMapping("/restaurante/{id}/inicio")
     public String verCartaMenu(@PathVariable String id, Model model) {
@@ -178,7 +176,6 @@ public class GestorRestaurantes {
         // Crear un objeto CartaMenu inicializado
         CartaMenu carta = new CartaMenu();
         carta.setRestaurante(restaurante); // Asignar el restaurante
-        //carta.setItems(new ArrayList<>()); // Inicializar la lista de ítems
 
         // Añadir datos al modelo
         model.addAttribute("restaurante", restaurante);

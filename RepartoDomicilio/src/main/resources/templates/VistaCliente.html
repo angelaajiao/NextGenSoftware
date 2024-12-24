@@ -179,6 +179,8 @@
             <div class="restaurant-details">
                 <h3 th:text="${restaurante.nombre}">Nombre del Restaurante</h3>
                 <p th:text="${restaurante.direccion}">Dirección del Restaurante</p>
+                <a href="#" th:href="@{/restaurante/{id}/menu(id=${restaurante.id})}" class="button">Ver Menú</a>
+
             </div>
             <button class="heart-btn" onclick="toggleFavorite(this)">
                 <span>&#x2661;</span>
