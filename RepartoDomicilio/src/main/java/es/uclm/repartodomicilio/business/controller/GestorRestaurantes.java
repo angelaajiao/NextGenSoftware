@@ -214,61 +214,7 @@ public class GestorRestaurantes {
     }
 
 
-    @GetMapping("/restaurante/{id}/agregarItem")
-    public String agregarItemMenu(@PathVariable String id, Model model) {
-        // Obtener restaurante
-        Restaurante restaurante = restauranteDAO.findBycif(id)
-                .orElseThrow(() -> new RuntimeException("Restaurante no encontrado"));
 
-        // Obtener la lista de cartas de menú del restaurante (en lugar de un solo objeto)
-        List<CartaMenu> cartasMenu = restaurante.getCartasMenu(); // Aquí es una lista, no un solo objeto
-
-        if (cartasMenu.isEmpty()) {
-            // Si no hay cartas de menú, crear una nueva carta
-            CartaMenu nuevaCarta = new CartaMenu();
-            nuevaCarta.setRestaurante(restaurante);
-            cartasMenu.add(cartaMenuDAO.save(nuevaCarta)); // Guardamos la nueva carta
-        }
-
-        // Añadir los atributos necesarios para la vista
-        model.addAttribute("restaurante", restaurante);
-        model.addAttribute("nuevoItem", new ItemMenu());
-        model.addAttribute("tipos", Arrays.asList(TipoItemMenu.values()));
-        model.addAttribute("cartasMenu", cartasMenu); // Ahora mostramos la lista de cartas
-
-        return "agregarItemMenu";
-    }
-
-
-    @PostMapping("/restaurante/{id}/agregarItem")
-    public String agregarItemMenu(@PathVariable String id,
-                                  @RequestParam Long cartaId, // El ID de la carta seleccionada
-                                  @ModelAttribute ItemMenu nuevoItem, Model model) {
-        // Validación de los campos del ítem
-        if (nuevoItem.getNombre().trim().isEmpty()) {
-            model.addAttribute("error", "El nombre del ítem no puede estar vacío.");
-            return "agregarItemMenu";
-        }
-
-        if (nuevoItem.getPrecio() <= 0) {
-            model.addAttribute("error", "El precio debe ser mayor que cero.");
-            return "agregarItemMenu";
-        }
-
-        // Obtener restaurante
-        Restaurante restaurante = restauranteDAO.findBycif(id)
-                .orElseThrow(() -> new RuntimeException("Restaurante no encontrado"));
-
-        // Obtener la carta de menú seleccionada por ID
-        CartaMenu cartaMenu = cartaMenuDAO.findById(cartaId)
-                .orElseThrow(() -> new RuntimeException("Carta de menú no encontrada"));
-
-        // Relacionar el ítem con la carta del menú
-        nuevoItem.setCartaMenu(cartaMenu);
-        itemMenuDAO.save(nuevoItem); // Guardar el nuevo ítem
-
-        return "redirect:/restaurante/" + id + "/inicio";  // Redirigir a la página del menú
-    }
 
 
 
