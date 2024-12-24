@@ -73,23 +73,9 @@ public class GestorRestaurantes {
 
         model.addAttribute("cartasMenu", cartasMenu); // Pasamos la lista de cartas al modelo
 
-        /*// Si se desea, también se pueden agregar los ítems de todas las cartas combinadas
-        List<ItemMenu> todosLosItems = cartasMenu.stream()
-                .flatMap(carta -> carta.getItems().stream())
-                .toList();
-        model.addAttribute("todosLosItems", todosLosItems);*/
         model.addAttribute("isRestauranteLogueado", true);
         return "VistaRestaurante";
     }
-
-    /*// Manejador de excepciones
-    @ExceptionHandler(IllegalArgumentException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String handleIllegalArgumentException(IllegalArgumentException e, Model model) {
-        model.addAttribute("error", e.getMessage()); // Pasamos el mensaje de error a la vista
-        model.addAttribute("restaurante", new Restaurante()); // Para volver a cargar el formulario
-        return "Restaurante"; // Volvemos a la página de registro con el mensaje de error
-    }*/
 
     //Listar restaurantes desde usurio anonimo
     @GetMapping("/listarRestaurantes")
@@ -192,7 +178,7 @@ public class GestorRestaurantes {
         // Crear un objeto CartaMenu inicializado
         CartaMenu carta = new CartaMenu();
         carta.setRestaurante(restaurante); // Asignar el restaurante
-        carta.setItems(new ArrayList<>()); // Inicializar la lista de ítems
+        //carta.setItems(new ArrayList<>()); // Inicializar la lista de ítems
 
         // Añadir datos al modelo
         model.addAttribute("restaurante", restaurante);

@@ -8,35 +8,17 @@
 <body>
 <h1 th:text="'Agregar Carta para ' + ${restaurante.nombre}"></h1>
 
-<form th:action="@{/restaurante/{cif}/agregarCartaMenu(cif=${restaurante.cif})}" th:object="${cartaMenu}" method="post">
+<form th:action="@{/restaurante/{cif}/agregarCartaMenu(cif=${restaurante.cif})}" method="post">
   <!-- Nombre de la Carta -->
   <div>
     <label for="nombreCarta">Nombre de la carta:</label>
-    <input type="text" id="nombreCarta" th:field="*{nombreCarta}" required>
+    <input type="text" id="nombreCarta" name="nombreCarta" required>
   </div>
 
   <!-- Contenedor para los Ítems -->
   <div id="itemsContainer">
     <h3>Ítems de la Carta</h3>
-
-    <!-- Ítem por defecto -->
-    <div class="itemMenu" th:each="item, stat : *{items}">
-      <label for="itemNombre">Nombre del Ítem:</label>
-      <input type="text" id="itemNombre" th:field="*{items[__${stat.index}__].nombre}" required>
-
-      <label for="itemPrecio">Precio:</label>
-      <input type="number" step="0.01" id="itemPrecio" th:field="*{items[__${stat.index}__].precio}" required>
-
-      <label for="itemTipo">Tipo:</label>
-      <select id="itemTipo" th:field="*{items[__${stat.index}__].tipo}" required>
-        <option value="COMIDA">Comida</option>
-        <option value="BEBIDA">Bebida</option>
-        <option value="POSTRE">Postre</option>
-      </select>
-
-      <!-- Botón para eliminar el ítem -->
-      <button type="button" onclick="removeItem(this)">Eliminar Ítem</button>
-    </div>
+    <!-- Los ítems se agregarán dinámicamente con JavaScript -->
   </div>
 
   <!-- Botón para añadir más ítems -->
@@ -47,13 +29,14 @@
 </form>
 
 <script>
-  let itemCount = 1; // Contador para generar IDs únicos
+  let itemCount = 0; // Contador para generar IDs únicos
 
   function addNewItem() {
+    const itemsContainer = document.getElementById("itemsContainer");
+
     // Crear un contenedor para el nuevo ítem
     const newItem = document.createElement("div");
     newItem.classList.add("itemMenu");
-    newItem.id = `itemMenu_${itemCount}`;
 
     // Crear el contenido del nuevo ítem
     newItem.innerHTML = `
@@ -71,11 +54,11 @@
       </select>
 
       <!-- Botón para eliminar el ítem -->
-      <button type="button" onclick="removeItem('itemMenu_${itemCount}')">Eliminar Ítem</button>
+      <button type="button" onclick="removeItem(this)">Eliminar Ítem</button>
     `;
 
     // Añadir el nuevo ítem al contenedor
-    document.getElementById("itemsContainer").appendChild(newItem);
+    itemsContainer.appendChild(newItem);
 
     // Incrementar el contador para el próximo ítem
     itemCount++;

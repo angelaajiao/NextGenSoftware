@@ -40,8 +40,7 @@ public class GestorLogin {
                 case "Repartidor":
                     return "VistaRepartidor"; // vista repartidor
                 case "Restaurante":
-                    return "redirect:/restaurante"; // vista restaurante
-            }
+                    return "redirect:/restaurante/" + id + "/inicio";            }
         }
         model.addAttribute("error", "Clave o contraseñas incorrectos");
         return "login";
