@@ -1,32 +1,69 @@
 package es.uclm.repartodomicilio.business.entity;
-import java.util.*;
 
-/*public class Pedido {
-    Cliente cliente;
-    Pago pago;
-    Collection<ItemMenu> items;
-    Restaurante restaurante;
-    ServicioEntrega entrega;
-    EstadoPedido estado;
-    private Date fecha;
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
-    /**
-     * @param itemMenu
-     */
+@Entity
+public class Pedido {
 
-   /* public void add(iItemMenu itemMenu) {
-        // TODO - implement Pedido.add
-        throw new UnsupportedOperationException();
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "cliente_dni")
+    private Cliente cliente; // Asociar el pedido con un cliente
+
+    @ManyToMany
+    @JoinTable(
+            name = "pedido_items",
+            joinColumns = @JoinColumn(name = "pedido_id"),
+            inverseJoinColumns = @JoinColumn(name = "item_id")
+    )
+    private List<ItemMenu> items = new ArrayList<>(); // Ítems del pedido
+
+    private LocalDateTime fecha;
+
+    // Constructor vacío
+    public Pedido() {
+        this.fecha = LocalDateTime.now();
     }
 
-    /**
-     * @param itemMenu
-     */
-
-    /*public void delete(ItemMenu itemMenu) {
-        // TODO - implement Pedido.delete
-        throw new UnsupportedOperationException();
+    // Getters y setters
+    public Long getId() {
+        return id;
     }
-}*/
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public List<ItemMenu> getItems() {
+        return items;
+    }
+
+    public void setItems(List<ItemMenu> items) {
+        this.items = items;
+    }
+
+    public LocalDateTime getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(LocalDateTime fecha) {
+        this.fecha = fecha;
+    }
+}
+
 
 

@@ -1,52 +1,72 @@
- /* public void realizarPedido(Cliente c, Restaurante r, List<ItemMenu> items) {
-        // TODO - implement GestorPedidos.realizarPedido
-        throw new UnsupportedOperationException();
-    }
+package es.uclm.repartodomicilio.business.controller;
 
-    /**
-     *
-     * @param p
-     */
-   /* private boolean realizarPago(Pedido p) {
-        // TODO - implement GestorPedidos.realizarPago
-        throw new UnsupportedOperationException();
-    }
+import es.uclm.repartodomicilio.business.entity.Cliente;
+import es.uclm.repartodomicilio.business.entity.ItemMenu;
+import es.uclm.repartodomicilio.business.entity.Pedido;
+import es.uclm.repartodomicilio.business.persistence.ClienteDAO;
+import es.uclm.repartodomicilio.business.persistence.ItemMenuDAO;
+import es.uclm.repartodomicilio.business.persistence.PedidoDAO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
-    /**
-     *
-     * @param p
-     * @param d
-     */
-  /*  private ServicioEntrega crearServicioEntrega(Pedido p, Direccion d) {
-        // TODO - implement GestorPedidos.crearServicioEntrega
-        throw new UnsupportedOperationException();
-    }
+import java.util.ArrayList;
+import java.util.List;
 
-    /**
-     *
-     * @param item
-     */
- /*   public void anadirItemMenu(itemMenu item) {
-        // TODO - implement GestorPedidos.anadirItemMenu
-        throw new UnsupportedOperationException();
-    }
+@Controller
+@RequestMapping("/pedido")
+public class GestorPedidos {
 
-    /**
-     *
-     * @param item
-     */
- /*   public void eliminarItemMenu(itemMenu item) {
-        // TODO - implement GestorPedidos.eliminarItemMenu
-        throw new UnsupportedOperationException();
-    }
+    @Autowired
+    private ItemMenuDAO itemMenuDAO;
 
-    /**
-     *
-     * @param resaturante
-     */
- /*   public void comenzarPedido(Restaurante resaturante) {
-        // TODO - implement GestorPedidos.comenzarPedido
-        throw new UnsupportedOperationException();
+    @Autowired
+    private ClienteDAO clienteDAO;
+
+    @Autowired
+    private PedidoDAO pedidoDAO;
+
+    // Lista temporal para almacenar los ítems seleccionados por el cliente
+    private List<ItemMenu> pedidoActual = new ArrayList<>();
+
+    @GetMapping("/agregar/{itemId}")
+    public String agregarItemAPedido(@PathVariable Long itemId, Model model) {
+        // Obtener el ítem del menú
+        ItemMenu item = itemMenuDAO.findById(itemId)
+                .orElseThrow(() -> new RuntimeException("Ítem no encontrado"));
+
+        // Agregar el ítem al pedido actual
+        pedidoActual.add(item);
+
+        // Mostrar la lista actualizada de ítems en el pedido
+        model.addAttribute("pedidoActual", pedidoActual);
+        model.addAttribute("mensaje", "Ítem agregado al pedido: " + item.getNombre());
+
+        return "resumenPedido"; // Vista para revisar el pedido actual
+    }
+    @PostMapping("/confirmar")
+    public String confirmarPedido(@RequestParam("dni") String dni, Model model) {
+        // Buscar el cliente por su DNI
+        Cliente cliente = clienteDAO.findByDni(dni)
+                .orElseThrow(() -> new RuntimeException("Cliente no encontrado con DNI: " + dni));
+
+        // Crear un pedido con los ítems seleccionados
+        Pedido pedido = new Pedido();
+        pedido.setCliente(cliente);
+        pedido.setItems(new ArrayList<>(pedidoActual));
+
+        // Guardar el pedido en la base de datos
+        pedidoDAO.save(pedido);
+
+        // Limpiar el pedido temporal
+        pedidoActual.clear();
+
+        // Pasar los datos del pedido confirmado a la vista
+        model.addAttribute("pedidoConfirmado", pedido);
+        model.addAttribute("cliente", cliente);
+
+        return "pedidoConfirmado"; // Vista que muestra el pedido confirmado
     }
 }
-*/                                                          
+
