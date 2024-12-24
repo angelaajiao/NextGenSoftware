@@ -69,7 +69,7 @@
         <p th:text="'Precio: ' + ${item.precio} + ' €'">Precio</p>
         <p th:text="'Tipo: ' + ${item.tipo}">Tipo</p>
     </div>
-    <a th:href="@{/restaurante/{id}/menu(restauranteId=${restaurante.id})}" class="button">Volver a Cartas</a>
+    <a th:href="@{/restaurante/{id}/menu(id=${restaurante.id})}" class="button">Volver a Cartas</a>
 </div>
 
 </body>

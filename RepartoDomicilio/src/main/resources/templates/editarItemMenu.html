@@ -11,7 +11,7 @@
 </header>
 
 <div class="content">
-  <form th:action="@{/restaurante/{idRestaurante}/editarItem/{idItem}(idRestaurante=${restaurante.cif}, idItem=${item.id})}"
+  <form th:action="@{/restaurante/{cif}/editarItem/{idItem}(cif=${restaurante.cif}, idItem=${item.id})}"
         th:object="${item}" method="post">
 
     <div class="form-group">
