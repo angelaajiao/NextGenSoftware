@@ -12,6 +12,4 @@ public interface RestauranteDAO extends JpaRepository<Restaurante, Long>{
     boolean existsBycif(String cif); // para verificar si existe CIF
     Optional<Restaurante> findBycif(String cif);
     List<Restaurante> findAllByNombre(String nombre);
-
-
 }

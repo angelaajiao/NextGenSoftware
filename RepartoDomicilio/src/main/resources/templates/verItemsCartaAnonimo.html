@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ítems de la Carta</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #008080;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        .content {
+            padding: 20px;
+        }
+        .menu-item {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .menu-item h3 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: #333;
+        }
+        .menu-item p {
+            margin: 5px 0;
+            color: #555;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 15px;
+            font-size: 1rem;
+            color: white;
+            background-color: #008080;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: #005f5f;
+        }
+        .button:active {
+            background-color: #004747;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1 th:text="'Ítems de la Carta: ' + ${cartaMenu.nombreCarta}"></h1>
+</header>
+
+<h2>"ANONIMO"</h2>
+
+<div class="content">
+    <div th:if="${items != null and items.size() == 0}">
+        <p>No hay ítems disponibles en esta carta actualmente.</p>
+    </div>
+    <div th:each="item : ${items}" class="menu-item">
+        <h3 th:text="${item.nombre}">Nombre del ítem</h3>
+        <p th:text="'Precio: ' + ${item.precio} + ' €'">Precio</p>
+        <p th:text="'Tipo: ' + ${item.tipo}">Tipo</p>
+    </div>
+    <a th:href="@{/restaurante/{id}/menu(id=${restaurante.id})}" class="button">Volver a Cartas</a>
+</div>
+
+</body>
+</html>

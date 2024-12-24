@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Bienvenido Restaurante</title>
+    <title th:text="'Bienvenido, ' + ${restaurante.nombre}">Bienvenido Restaurante</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -33,27 +33,53 @@
         .content {
             padding: 20px;
         }
+        .menu-item {
+            margin-bottom: 15px;
+        }
+        .button {
+            background-color: #ec5353;
+            color: white;
+            padding: 10px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .button:hover {
+            background-color: #c43333;
+        }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>Bienvenido, Restaurante</h1>
+    <h1 th:text="'Bienvenido, ' + ${restaurante.nombre}">Bienvenido Restaurante</h1>
 </header>
 
 <nav>
-    <a href="#" th:href="@{/restaurante/perfilRepartidor}">Perfil</a>
-    <a href="#" th:href="@{/repartidor/serviciosEntregaRepartidor}">Servicios de Entrega</a>
-    <a href="#" th:href="@{/repartidor/zona}">Zona de Reparto</a>
-    <a href="#" th:href="@{/repartidor/estadisticas}">Estadísticas</a>
+    <a th:href="@{/restaurante/{id}/menu(id=${restaurante.id})}">Menú</a>
+    <a th:href="@{/restaurante/{cifRestaurante}/agregarCartas(cifRestaurante=${restaurante.cif})}">Agregar Carta</a>
     <a href="#" th:href="@{/logout}">Cerrar Sesión</a>
 </nav>
 
 <div class="content">
-    <h2 th:text="'Bienvenido, ' + '!'">Bienvenido</h2>
-    <p>Aquí puedes gestionar tus servicios y ver tus estadísticas.</p>
+    <h2>Menú del Restaurante</h2>
 
+    <!-- Mostrar mensaje si no hay cartas -->
+    <div th:if="${cartasMenu == null || cartasMenu.isEmpty()}">
+        <p>No hay cartas de menú disponibles.</p>
+    </div>
+
+    <h2>Cartas disponibles</h2>
+    <ul>
+        <li th:each="carta : ${cartasMenu}">
+            <div class="menu-item">
+                <h3 th:text="${carta.nombreCarta}">Nombre de la Carta</h3>
+                <a th:href="@{/restaurante/{restauranteId}/menu/{cartaId}(restauranteId=${restaurante.id}, cartaId=${carta.id})}"
+                   class="button">Ver Menú</a>
+            </div>
+        </li>
+    </ul>
 </div>
 
 </body>
 </html>
+

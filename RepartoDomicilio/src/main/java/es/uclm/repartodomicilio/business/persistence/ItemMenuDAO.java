@@ -14,5 +14,3 @@ public interface ItemMenuDAO extends JpaRepository<ItemMenu, Long> {
     List<ItemMenu> findByRestauranteId(@Param("restauranteId") Long restauranteId);
 
 }
-
-
