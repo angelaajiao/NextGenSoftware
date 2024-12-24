@@ -94,27 +94,30 @@ public class GestorRestaurantes {
     }
 
     // Para que en usuario anónimo se vea la carta (esto está bien)
-    @GetMapping("/restaurante/{id}/menu")
-    public String verMenuRestauranteAnonimo(@PathVariable Long id, Model model) {
-        Restaurante restaurante = restauranteDAO.findById(id)
+    @GetMapping("/restaurante/{restauranteId}/menu/{cartaId}")
+    public String verItemsDeCartaAnonimo(@PathVariable Long restauranteId, @PathVariable Long cartaId, Model model) {
+        // Obtener el restaurante por su ID
+        Restaurante restaurante = restauranteDAO.findById(restauranteId)
                 .orElseThrow(() -> new RuntimeException("Restaurante no encontrado"));
 
-        System.out.println("Restaurante encontrado: " + restaurante.getNombre());
+        // Obtener la carta específica por su ID
+        CartaMenu cartaMenu = cartaMenuDAO.findById(cartaId)
+                .orElseThrow(() -> new RuntimeException("Carta de menú no encontrada"));
 
-        List<CartaMenu> cartasMenu = restaurante.getCartasMenu();
-
-        if (cartasMenu.isEmpty()) {
-            System.out.println("Restaurante no tiene cartas de menú disponibles.");
-            model.addAttribute("mensaje", "Este restaurante no tiene cartas de menú disponibles.");
-            model.addAttribute("cartasMenu", Collections.emptyList());
-        } else {
-            System.out.println("Cartas de menú encontradas: " + cartasMenu.size());
-            model.addAttribute("cartasMenu", cartasMenu);
-            model.addAttribute("mensaje", "");
+        // Verificar que la carta pertenece al restaurante
+        if (!cartaMenu.getRestaurante().getId().equals(restauranteId)) {
+            throw new RuntimeException("La carta no pertenece al restaurante indicado.");
         }
 
+        // Cargar los ítems de la carta
+        List<ItemMenu> items = cartaMenu.getItems();
+
+        // Agregar los datos al modelo
         model.addAttribute("restaurante", restaurante);
-        return "verCartaMenuAnonimo";
+        model.addAttribute("cartaMenu", cartaMenu);
+        model.addAttribute("items", items);
+
+        return "verItemsCartaAnonimo";
     }
 
     // Para poder ver los items de cada carta
@@ -309,4 +312,5 @@ public class GestorRestaurantes {
 
         return "redirect:/restaurante/" + id + "/verCartaMenu";  // Redirigir a la página del menú
     }
+
 }
