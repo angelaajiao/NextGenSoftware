@@ -45,6 +45,30 @@ public class GestorRestaurantes {
         return datos;
     }
 
+    //Para encontrar el restaurante
+    private Restaurante obtenerRestaurantePorId(Long id) {
+        return restauranteDAO.findById(id)
+                .orElseThrow(() -> new RuntimeException("Restaurante no encontrado"));
+    }
+
+    // Para poder obtener las cartas
+    private void configurarModeloConCartas(Long id, Model model, String mensajeSiVacio) {
+        Restaurante restaurante = obtenerRestaurantePorId(id);
+        List<CartaMenu> cartasMenu = restaurante.getCartasMenu();
+
+        if (cartasMenu.isEmpty()) {
+            model.addAttribute("mensaje", mensajeSiVacio);
+            model.addAttribute("cartasMenu", Collections.emptyList());
+        } else {
+            model.addAttribute("mensaje", "");
+            model.addAttribute("cartasMenu", cartasMenu);
+        }
+
+        model.addAttribute("restaurante", restaurante);
+    }
+
+
+
     @GetMapping("/registro/restaurante")
     public String registroRestaurante(Model model) {
         model.addAttribute("restaurante", new Restaurante());
@@ -101,29 +125,20 @@ public class GestorRestaurantes {
 
     }
 
-    // Para que en usuario anónimo se vea la carta (esto está bien)
+    // Para que en usuario anónimo se vea la carta
     @GetMapping("/restaurante/{id}/menu")
     public String verMenuRestauranteAnonimo(@PathVariable Long id, Model model) {
-        Restaurante restaurante = restauranteDAO.findById(id)
-                .orElseThrow(() -> new RuntimeException("Restaurante no encontrado"));
-
-        System.out.println("Restaurante encontrado: " + restaurante.getNombre());
-
-        List<CartaMenu> cartasMenu = restaurante.getCartasMenu();
-
-        if (cartasMenu.isEmpty()) {
-            System.out.println("Restaurante no tiene cartas de menú disponibles.");
-            model.addAttribute("mensaje", "Este restaurante no tiene cartas de menú disponibles.");
-            model.addAttribute("cartasMenu", Collections.emptyList());
-        } else {
-            System.out.println("Cartas de menú encontradas: " + cartasMenu.size());
-            model.addAttribute("cartasMenu", cartasMenu);
-            model.addAttribute("mensaje", "");
-        }
-
-        model.addAttribute("restaurante", restaurante);
+        configurarModeloConCartas(id, model, "Este restaurante no tiene cartas de menú disponibles.");
         return "verCartaMenuAnonimo";
     }
+
+    // Para ver las cartas en el cliente
+    @GetMapping("/cliente/restaurante/{id}/menu")
+    public String verCartasCliente(@PathVariable Long id, Model model) {
+        configurarModeloConCartas(id, model, "Este restaurante no tiene cartas de menú disponibles.");
+        return "VerCartaMenuCliente";
+    }
+
 
     // Para poder ver los items de cada carta
     @GetMapping("/restaurante/{restauranteId}/menu/{cartaId}")
@@ -136,6 +151,7 @@ public class GestorRestaurantes {
         return "verItemsCarta";
     }
 
+    //Para anonimo
     @GetMapping("/anonimo/restaurante/{restauranteId}/menu/{cartaId}")
     public String verItemsDeCartaAnonimo(@PathVariable Long restauranteId, @PathVariable Long cartaId, Model model) {
         Map<String, Object> datos = obtenerDatosCarta(restauranteId, cartaId);
@@ -146,6 +162,16 @@ public class GestorRestaurantes {
         return "verItemsCartaAnonimo";
     }
 
+    // para el cliente
+    @GetMapping("/cliente/restaurante/{restauranteId}/menu/{cartaId}")
+    public String verItemsDeCartaCliente(@PathVariable Long restauranteId, @PathVariable Long cartaId, Model model) {
+        Map<String, Object> datos = obtenerDatosCarta(restauranteId, cartaId);
+        model.addAttribute("restaurante", datos.get("restaurante"));
+        model.addAttribute("cartaMenu", datos.get("cartaMenu"));
+        model.addAttribute("items", datos.get("items"));
+
+        return "verItemsCartaCliente";
+    }
 
     // Para que salga la vista del restaurante
     @GetMapping("/restaurante/{id}/inicio")
