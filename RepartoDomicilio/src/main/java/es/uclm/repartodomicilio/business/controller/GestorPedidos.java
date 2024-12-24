@@ -1,18 +1,18 @@
 package es.uclm.repartodomicilio.business.controller;
 
-import es.uclm.repartodomicilio.business.entity.Cliente;
-import es.uclm.repartodomicilio.business.entity.ItemMenu;
-import es.uclm.repartodomicilio.business.entity.Pedido;
-import es.uclm.repartodomicilio.business.persistence.ClienteDAO;
-import es.uclm.repartodomicilio.business.persistence.ItemMenuDAO;
-import es.uclm.repartodomicilio.business.persistence.PedidoDAO;
+import es.uclm.repartodomicilio.business.entity.*;
+import es.uclm.repartodomicilio.business.persistence.*;
+import jakarta.servlet.http.HttpSession;
+import org.hibernate.cache.spi.support.AbstractReadWriteAccess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/pedido")
@@ -26,6 +26,7 @@ public class GestorPedidos {
 
     @Autowired
     private PedidoDAO pedidoDAO;
+
 
     // Lista temporal para almacenar los ítems seleccionados por el cliente
     private List<ItemMenu> pedidoActual = new ArrayList<>();
@@ -45,6 +46,7 @@ public class GestorPedidos {
 
         return "resumenPedido"; // Vista para revisar el pedido actual
     }
+
     @PostMapping("/confirmar")
     public String confirmarPedido(@RequestParam("dni") String dni, Model model) {
         // Buscar el cliente por su DNI
@@ -66,7 +68,7 @@ public class GestorPedidos {
         model.addAttribute("pedidoConfirmado", pedido);
         model.addAttribute("cliente", cliente);
 
-        return "pedidoConfirmado"; // Vista que muestra el pedido confirmado
+        return "pedidoConfirmado";
     }
 }
 

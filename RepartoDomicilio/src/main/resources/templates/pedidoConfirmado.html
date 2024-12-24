@@ -1,10 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedido Confirmado</title>
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
+<h1>Pedido Confirmado</h1>
+<p>Gracias por tu pedido, <strong th:text="${cliente.nombre}"></strong>!</p>
+<p>Fecha del pedido: <strong th:text="${pedido.fecha}"></strong></p>
+<p>Total del pedido: <strong th:text="${pedido.total}"></strong> €</p>
 
+<a href="/pedidos/resumen/${pedido.id}">Ver Resumen del Pedido</a>
+<br>
+<a href="/">Volver a Inicio</a>
 </body>
 </html>

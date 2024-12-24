@@ -1,6 +1,8 @@
 package es.uclm.repartodomicilio.business.controller;
 import es.uclm.repartodomicilio.business.persistence.CartaMenuDAO;
 import es.uclm.repartodomicilio.business.persistence.ItemMenuDAO;
+import es.uclm.repartodomicilio.business.persistence.PedidoDAO;
+import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
@@ -10,10 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Controller
 public class GestorRestaurantes {
+    @Autowired
+    private PedidoDAO pedidoDAO;
+
     @Autowired
     private RestauranteDAO restauranteDAO;
 
@@ -236,11 +242,6 @@ public class GestorRestaurantes {
         return "redirect:/restaurante/" + cif + "/inicio";
     }
 
-
-
-
-
-
     @GetMapping("/restaurante/{id}/editarItem/{idItem}")
     public String mostrarFormularioEdicion(@PathVariable String id, @PathVariable Long idItem, Model model) {
         Restaurante restaurante = restauranteDAO.findBycif(id)
@@ -282,6 +283,51 @@ public class GestorRestaurantes {
         itemMenuDAO.delete(item);  // Eliminar el ítem del menú
 
         return "redirect:/restaurante/" + id + "/verCartaMenu";  // Redirigir a la página del menú
+    }
+    @PostMapping("/restaurante/{restauranteId}/menu/{cartaId}/agregarPedido")
+    public String agregarPedido(@PathVariable Long restauranteId, @PathVariable Long cartaId,@RequestParam List<Long> itemIds, @RequestParam int cantidad,
+                                Model model) {
+        try {
+            // Obtener los datos de la carta y restaurante
+            Map<String, Object> datos = obtenerDatosCarta(restauranteId, cartaId);
+            Restaurante restaurante = (Restaurante) datos.get("restaurante");
+            CartaMenu cartaMenu = (CartaMenu) datos.get("cartaMenu");
+            List<ItemMenu> itemsDisponibles = (List<ItemMenu>) datos.get("items");
+
+            model.addAttribute("items", itemsDisponibles);
+
+            // Validar los ítems seleccionados
+            List<ItemMenu> itemsSeleccionados = new ArrayList<>();
+            for (Long itemId : itemIds) {
+                ItemMenu item = itemsDisponibles.stream()
+                        .filter(i -> i.getId().equals(itemId))
+                        .findFirst()
+                        .orElseThrow(() -> new RuntimeException("Ítem no encontrado"));
+                itemsSeleccionados.add(item);
+            }
+
+            // Crear el pedido
+            Pedido pedido = new Pedido();
+            pedido.setRestaurante(restaurante);
+            pedido.setCartaMenu(cartaMenu);
+            pedido.setItems(itemsSeleccionados);
+            pedido.setCantidad(cantidad);
+            pedido.setFechaPedido(LocalDateTime.now());
+
+            // Guardar el pedido (suponiendo que tienes un DAO o repositorio de Pedido)
+            pedidoDAO.save(pedido);
+
+            // Agregar al modelo para mostrar en la vista
+            model.addAttribute("restaurante", restaurante);
+            model.addAttribute("cartaMenu", cartaMenu);
+            model.addAttribute("pedido", pedido);
+            model.addAttribute("mensajeExito", "Pedido agregado con éxito.");
+
+            return "resumenPedido";
+
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

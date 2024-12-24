@@ -63,6 +63,19 @@ public class Pedido {
     public void setFecha(LocalDateTime fecha) {
         this.fecha = fecha;
     }
+
+    public void setFechaPedido(LocalDateTime now) {
+    }
+
+    public void setCantidad(int cantidad) {
+    }
+
+    public void setCartaMenu(CartaMenu cartaMenu) {
+    }
+
+    public void setRestaurante(Restaurante restaurante) {
+
+    }
 }
 
 

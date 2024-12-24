@@ -1,10 +1,96 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultado de la Redirección</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 800px;
+            text-align: center;
+        }
+        h1 {
+            color: #008080;
+            font-size: 2rem;
+        }
+        .menu-item {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin: 10px 0;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .menu-item h3 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: #333;
+        }
+        .menu-item p {
+            margin: 5px 0;
+            color: #555;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 1rem;
+            color: white;
+            background-color: #008080;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: #005f5f;
+        }
+        .button:active {
+            background-color: #004747;
+        }
+    </style>
 </head>
 <body>
 
+<div class="container">
+    <h1>Resumen del pedido</h1>
+
+    <!-- Mensaje de éxito -->
+    <div class="result-success">
+        <p>¡Los ítems han sido agregados exitosamente al pedido!</p>
+    </div>
+
+    <!-- Mostrar ítems agregados -->
+    <div th:if="${items != null and items.size() > 0}">
+        <h2>Ítems Agregados</h2>
+        <div th:each="item : ${items}" class="menu-item">
+            <h3 th:text="${item.nombre}">Nombre del ítem</h3>
+            <p th:text="'Precio: ' + ${item.precio} + ' €'">Precio</p>
+            <p th:text="'Tipo: ' + ${item.tipo}">Tipo</p>
+        </div>
+    </div>
+    <div th:if="${items == null or items.size() == 0}">
+        <p>No se han agregado ítems al pedido aún.</p>
+    </div>
+
+    <a href="/Cliente" class="button">Volver a Cartas</a>
+</div>
+
 </body>
 </html>
+
+
