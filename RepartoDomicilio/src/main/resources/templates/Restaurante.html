@@ -1,23 +1,152 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
-    <title>Registro de Restaurante</title>
+    <meta charset="UTF-8">
+    <title>Registro de Restaurante - FastEat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #ffffff;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            color: #333333;
+        }
+
+        .logo span {
+            font-weight: bold;
+            color: #44ad2d;
+        }
+
+        #main-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: calc(100vh - 70px);
+            padding: 20px;
+        }
+
+        #register-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #register-container h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        select, input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #a2e067;
+            color: white;
+            font-size: 16px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #44ad2d;
+        }
+
+        .form-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        p {
+            margin: 15px 0 0;
+            font-size: 14px;
+            color: #666;
+        }
+
+        a {
+            color: #a2e067;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-<h1>Registro de Restaurante</h1>
-<div th:if="${error}" style="color: red;">
-    <p th:text="${error}"></p>
+<header>
+    <div class="logo">
+        Fast<span>Eat</span>
+    </div>
+</header>
+
+<div id="main-container">
+    <div id="register-container">
+        <h1>Registro de <span style="color: #44ad2d;">Restaurante</span></h1>
+        <div th:if="${error}" style="color: red; text-align: center;">
+            <p th:text="${error}"></p>
+        </div>
+        <form action="#" th:action="@{/registro/restaurante}" th:object="${restaurante}" method="post">
+            <label for="nombre">Nombre del Restaurante:</label>
+            <input type="text" id="nombre" th:field="*{nombre}" />
+
+            <label for="cif">CIF:</label>
+            <input type="text" id="cif" th:field="*{cif}" />
+
+            <label for="password_restaurante">Contraseña:</label>
+            <input type="password" id="password_restaurante" th:field="*{password_restaurante}" />
+
+            <label for="direccion">Dirección:</label>
+            <input type="text" id="direccion" th:field="*{direccion}" />
+
+            <div class="form-buttons">
+                <button type="reset">Limpiar</button>
+                <button type="submit">Registrar Restaurante</button>
+            </div>
+        </form>
+        <p>¿Ya tienes cuenta? <a href="/login">Inicia sesión aquí</a></p>
+        <p><a href="/registro">Volver </a></p>
+    </div>
 </div>
-<form action="#" th:action="@{/registro/restaurante}" th:object="${restaurante}" method="post">
-    <p>Nombre del Restaurante: <input type="text" th:field="*{nombre}" /></p>
-    <p>CIF: <input type="text" th:field="*{cif}" /></p>
-    <p>Contraseña: <input type="text" th:field="*{password_restaurante}"></p>
-    <p>Dirección: <input type="text" th:field="*{direccion}" /></p>
-    <p>
-        <input type="submit" value="Registrar Restaurante">
-        <input type="reset" value="Limpiar" />
-    </p>
-</form>
-<a href="/registro">Volver</a>
 </body>
 </html>
