@@ -74,6 +74,9 @@
     <h1 th:text="'Cartas de Menú del Restaurante: ' + ${restaurante.nombre}"></h1>
 </header>
 
+<h2
+    >"ANONIMO"</h2>
+
 <div class="content">
     <h2>Cartas de Menú</h2>
     <div th:if="${cartasMenu != null and cartasMenu.size() == 0}">
@@ -82,7 +85,7 @@
     <div th:each="carta : ${cartasMenu}" class="menu-card">
         <h3 th:text="${carta.nombreCarta}">Nombre de la Carta</h3>
        <!--- <p th:text="'Descripción: ' + ${carta.descripcion}">Descripción</p> -->
-        <a th:href="@{/restaurante/{restauranteId}/menu/{cartaId}(restauranteId=${restaurante.id}, cartaId=${carta.id})}" class="button">Ver Ítems</a>
+        <a th:href="@{/anonimo/restaurante/{restauranteId}/menu/{cartaId}(restauranteId=${restaurante.id}, cartaId=${carta.id})}" class="button">Ver Ítems</a>
     </div>
     <a th:href="@{/listarRestaurantes}" class="button">Volver a Restaurantes</a>
 </div>

@@ -68,7 +68,7 @@
     <div th:each="restaurante : ${restaurantes}" class="restaurant-item">
       <h3 th:text="${restaurante.nombre}">Nombre del Restaurante</h3>
       <p th:text="${restaurante.direccion}">Dirección del Restaurante</p>
-      <a th:href="@{/restaurante/{restauranteId}/menu/{cartaId}(restauranteId=${restaurante.id}, cartaId=${carta.id})}" class="button">Ver Menú</a>
+      <a th:href="@{/restaurante/{id}/menu(id=${restaurante.id})}" class="button">Ver Menú</a>
     </div>
   </div>
 </div>

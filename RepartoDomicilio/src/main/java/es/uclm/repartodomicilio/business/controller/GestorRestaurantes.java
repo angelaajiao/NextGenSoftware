@@ -23,6 +23,28 @@ public class GestorRestaurantes {
     @Autowired
     private ItemMenuDAO itemMenuDAO;
 
+    //Obtener los datos de la carta
+    private Map<String, Object> obtenerDatosCarta(Long restauranteId, Long cartaId) {
+        Restaurante restaurante = restauranteDAO.findById(restauranteId)
+                .orElseThrow(() -> new RuntimeException("Restaurante no encontrado"));
+
+        CartaMenu cartaMenu = cartaMenuDAO.findById(cartaId)
+                .orElseThrow(() -> new RuntimeException("Carta de menú no encontrada"));
+
+        if (!cartaMenu.getRestaurante().getId().equals(restauranteId)) {
+            throw new RuntimeException("La carta de menú no pertenece al restaurante indicado.");
+        }
+
+        List<ItemMenu> items = cartaMenu.getItems();
+
+        Map<String, Object> datos = new HashMap<>();
+        datos.put("restaurante", restaurante);
+        datos.put("cartaMenu", cartaMenu);
+        datos.put("items", items);
+
+        return datos;
+    }
+
     @GetMapping("/registro/restaurante")
     public String registroRestaurante(Model model) {
         model.addAttribute("restaurante", new Restaurante());
@@ -94,58 +116,52 @@ public class GestorRestaurantes {
     }
 
     // Para que en usuario anónimo se vea la carta (esto está bien)
-    @GetMapping("/restaurante/{restauranteId}/menu/{cartaId}")
-    public String verItemsDeCartaAnonimo(@PathVariable Long restauranteId, @PathVariable Long cartaId, Model model) {
-        // Obtener el restaurante por su ID
-        Restaurante restaurante = restauranteDAO.findById(restauranteId)
+    @GetMapping("/restaurante/{id}/menu")
+    public String verMenuRestauranteAnonimo(@PathVariable Long id, Model model) {
+        Restaurante restaurante = restauranteDAO.findById(id)
                 .orElseThrow(() -> new RuntimeException("Restaurante no encontrado"));
 
-        // Obtener la carta específica por su ID
-        CartaMenu cartaMenu = cartaMenuDAO.findById(cartaId)
-                .orElseThrow(() -> new RuntimeException("Carta de menú no encontrada"));
+        System.out.println("Restaurante encontrado: " + restaurante.getNombre());
 
-        // Verificar que la carta pertenece al restaurante
-        if (!cartaMenu.getRestaurante().getId().equals(restauranteId)) {
-            throw new RuntimeException("La carta no pertenece al restaurante indicado.");
+        List<CartaMenu> cartasMenu = restaurante.getCartasMenu();
+
+        if (cartasMenu.isEmpty()) {
+            System.out.println("Restaurante no tiene cartas de menú disponibles.");
+            model.addAttribute("mensaje", "Este restaurante no tiene cartas de menú disponibles.");
+            model.addAttribute("cartasMenu", Collections.emptyList());
+        } else {
+            System.out.println("Cartas de menú encontradas: " + cartasMenu.size());
+            model.addAttribute("cartasMenu", cartasMenu);
+            model.addAttribute("mensaje", "");
         }
 
-        // Cargar los ítems de la carta
-        List<ItemMenu> items = cartaMenu.getItems();
-
-        // Agregar los datos al modelo
         model.addAttribute("restaurante", restaurante);
-        model.addAttribute("cartaMenu", cartaMenu);
-        model.addAttribute("items", items);
-
-        return "verItemsCartaAnonimo";
+        return "verCartaMenuAnonimo";
     }
 
     // Para poder ver los items de cada carta
     @GetMapping("/restaurante/{restauranteId}/menu/{cartaId}")
     public String verItemsDeCarta(@PathVariable Long restauranteId, @PathVariable Long cartaId, Model model) {
-        // Buscar el restaurante
-        Restaurante restaurante = restauranteDAO.findById(restauranteId)
-                .orElseThrow(() -> new RuntimeException("Restaurante no encontrado"));
-
-        // Buscar la carta de menú
-        CartaMenu cartaMenu = cartaMenuDAO.findById(cartaId)
-                .orElseThrow(() -> new RuntimeException("Carta de menú no encontrada"));
-
-        // Verificar que la carta pertenece al restaurante
-        if (!cartaMenu.getRestaurante().getId().equals(restauranteId)) {
-            throw new RuntimeException("La carta de menú no pertenece al restaurante indicado.");
-        }
-
-        // Obtener los ítems de la carta
-        List<ItemMenu> items = cartaMenu.getItems();
-
-        // Añadir datos al modelo
-        model.addAttribute("restaurante", restaurante);
-        model.addAttribute("cartaMenu", cartaMenu);
-        model.addAttribute("items", items);
+        Map<String, Object> datos = obtenerDatosCarta(restauranteId, cartaId);
+        model.addAttribute("restaurante", datos.get("restaurante"));
+        model.addAttribute("cartaMenu", datos.get("cartaMenu"));
+        model.addAttribute("items", datos.get("items"));
 
         return "verItemsCarta";
     }
+
+    @GetMapping("/anonimo/restaurante/{restauranteId}/menu/{cartaId}")
+    public String verItemsDeCartaAnonimo(@PathVariable Long restauranteId, @PathVariable Long cartaId, Model model) {
+        Map<String, Object> datos = obtenerDatosCarta(restauranteId, cartaId);
+        model.addAttribute("restaurante", datos.get("restaurante"));
+        model.addAttribute("cartaMenu", datos.get("cartaMenu"));
+        model.addAttribute("items", datos.get("items"));
+
+        return "verItemsCartaAnonimo";
+    }
+
+
+
 
     // Para que salga la vista del restaurante
     @GetMapping("/restaurante/{id}/inicio")
