@@ -2,94 +2,227 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Carta</title>
+    <title>Cartas de Menú</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background-color: #f9f9f9;
             margin: 0;
             padding: 0;
         }
+
         header {
-            background-color: #008080;
-            color: white;
-            padding: 1rem;
-            text-align: center;
+            background-color: #ffffff;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
         }
-        nav {
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            color: #333333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo span {
+            font-weight: bold;
+            color: #44ad2d;
+        }
+
+        .menu-icon {
+            display: block;
+            width: 20px;
+            height: 3px;
             background-color: #333;
-            overflow: hidden;
+            position: relative;
+            cursor: pointer;
         }
+
+        .menu-icon:before, .menu-icon:after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 2px;
+            background-color: #333;
+            transition: 0.3s;
+        }
+
+        .menu-icon:before {
+            top: -6px;
+        }
+
+        .menu-icon:after {
+            bottom: -6px;
+        }
+
+        nav {
+            background-color: rgba(0, 0, 0, 0.9);
+            position: fixed;
+            top: 0;
+            left: -250px;
+            width: 250px;
+            height: 100%;
+            overflow: hidden;
+            transition: left 0.3s ease-in-out;
+            z-index: 10;
+        }
+
         nav a {
             color: white;
             padding: 14px 20px;
-            display: inline-block;
+            display: block;
             text-align: center;
             text-decoration: none;
         }
+
         nav a:hover {
             background-color: #575757;
         }
+
+        .menu-button {
+            background-color: transparent;
+            color: white;
+            padding: 14px 75px;
+            text-align: center;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 20px;
+        }
+
+        .menu-button:hover {
+            background-color: #44ad2d;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .header-button {
+            background-color: #a2e067;
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 20px;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .header-button:hover {
+            background-color: #44ad2d;
+        }
+
         .content {
             padding: 20px;
         }
+
         .menu-item {
-            border: 1px solid #ccc;
-            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 20px;
             margin-bottom: 20px;
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+
         .menu-item h3 {
             margin: 0;
             font-size: 1.5rem;
             color: #333;
         }
+
         .menu-item p {
             margin: 5px 0;
             color: #555;
         }
+
+        .menu-item .button-container {
+            margin-top: 20px;
+        }
+
         .button {
-            display: inline-block;
-            padding: 10px 15px;
-            font-size: 1rem;
+            background-color: #a2e067;
             color: white;
-            background-color: #008080;
+            padding: 8px 16px;
             text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
+            border-radius: 20px;
+            font-size: 14px;
+            display: inline-block;
+            text-align: center;
         }
+
         .button:hover {
-            background-color: #005f5f;
-        }
-        .button:active {
-            background-color: #004747;
+            background-color: #44ad2d;
         }
     </style>
 </head>
 <body>
 
 <header>
-    <h1 th:text="'Cartas de Menú del Restaurante: ' + ${restaurante.nombre}"></h1>
+    <div class="logo">
+        <div class="menu-icon" onclick="toggleMenu(event)"></div>
+        Fast<span>Eat</span>
+    </div>
+    <div class="header-buttons">
+        <a href="#" th:href="@{/login}" class="header-button">Iniciar Sesión</a>
+        <a href="#" th:href="@{/registro}" class="header-button">Registro</a>
+    </div>
 </header>
 
-<h2
-    >"ANONIMO"</h2>
+<nav id="menu">
+    <button class="menu-button" onclick="window.location.href='/login'">Iniciar Sesión</button>
+    <button class="menu-button" onclick="window.location.href='/registro'">Registro</button>
+    <a href="#" th:href="@{/registro/restaurante}">Añade tu restaurante</a>
+    <a href="#" th:href="@{/registro/repartidor}">Únete como repartidor</a>
+</nav>
 
 <div class="content">
-    <h2>Cartas de Menú</h2>
+    <h2 th:text="'Cartas de Menú del Restaurante: ' + ${restaurante.nombre}"></h2>
+
     <div th:if="${cartasMenu != null and cartasMenu.size() == 0}">
         <p>No hay cartas de menú disponibles actualmente.</p>
     </div>
-    <div th:each="carta : ${cartasMenu}" class="menu-card">
+
+    <div th:each="carta : ${cartasMenu}" class="menu-item">
         <h3 th:text="${carta.nombreCarta}">Nombre de la Carta</h3>
-       <!--- <p th:text="'Descripción: ' + ${carta.descripcion}">Descripción</p> -->
-        <a th:href="@{/anonimo/restaurante/{restauranteId}/menu/{cartaId}(restauranteId=${restaurante.id}, cartaId=${carta.id})}" class="button">Ver Ítems</a>
+        <div class="button-container">
+            <a th:href="@{/anonimo/restaurante/{restauranteId}/menu/{cartaId}(restauranteId=${restaurante.id}, cartaId=${carta.id})}" class="button">Ver Ítems</a>
+        </div>
     </div>
+
     <a th:href="@{/}" class="button">Volver a Restaurantes</a>
 </div>
 
+<script>
+    function toggleMenu(event) {
+        const menu = document.getElementById('menu');
+        const menuStyle = menu.style.left;
+
+        if (menuStyle === '0px') {
+            menu.style.left = '-250px';
+        } else {
+            menu.style.left = '0';
+        }
+
+        event.stopPropagation();
+    }
+
+    function closeMenu(event) {
+        const menu = document.getElementById('menu');
+        if (!menu.contains(event.target) && !document.querySelector('.menu-icon').contains(event.target)) {
+            menu.style.left = '-250px';
+        }
+    }
+
+    document.addEventListener('click', closeMenu);
+</script>
+
 </body>
 </html>
-

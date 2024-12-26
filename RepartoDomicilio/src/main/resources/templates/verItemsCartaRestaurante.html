@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title th:text="'Bienvenido, ' + ${restaurante.nombre}">Bienvenido Restaurante</title>
+    <title th:text="'Items | ' + ${cartaMenu.nombreCarta}">Ítems de la Carta </title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -28,7 +28,7 @@
 
         .logo span {
             font-weight: bold;
-            color: #ec5353;
+            color: #c43333;
         }
 
         .menu-icon {
@@ -87,13 +87,13 @@
         .menu-item {
             border: 1px solid #eee;
             border-radius: 8px;
-            padding: 10px;
+            padding: 20px;
             margin-bottom: 10px;
             background-color: #ffffff;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-direction: column;
+            gap: 10px;
         }
 
         .menu-item h3 {
@@ -115,44 +115,55 @@
             font-size: 14px;
             display: inline-block;
             text-align: center;
+            transition: background-color 0.3s ease;
+        }
+        .editar {
+            background-color: #ec5353;
+            color: white;
+            padding: 5px 5px;
+            text-decoration: none;
+            border-radius: 20px;
+            font-size: 14px;
+            display: inline-block;
+            text-align: center;
+            transition: background-color 0.3s ease;
         }
 
         .button:hover {
             background-color: #c43333;
         }
+        .editar:hover{
+            background-color: #c43333;
+        }
+
     </style>
 </head>
 <body>
 
 <header>
     <div class="logo">
-        Bienvenido, <span th:text="${restaurante.nombre}">Restaurante</span>
+        Ítems de la Carta: <span th:text="${cartaMenu.nombreCarta}"></span>
     </div>
     <div class="menu-icon" onclick="toggleMenu(event)"></div>
 </header>
 
 <nav id="menu">
-    <a th:href="@{/restaurante/{id}/menu(id=${restaurante.id})}">Menú</a>
-    <a th:href="@{/restaurante/{cifRestaurante}/agregarCartas(cifRestaurante=${restaurante.cif})}">Agregar Carta</a>
-    <a href="#" th:href="@{/logout}">Cerrar Sesión</a>
+    <a th:href="@{/restaurante/{id}/inicio(id=${restaurante.cif})}">Inicio</a>
+    <a th:href="@{/logout}">Cerrar Sesión</a>
 </nav>
 
 <div class="content">
-    <h2>Menú del Restaurante</h2>
-
-    <!-- Mostrar mensaje si no hay cartas -->
-    <div th:if="${cartasMenu == null || cartasMenu.isEmpty()}">
-        <p>No hay cartas de menú disponibles.</p>
+    <div th:if="${items != null and items.size() == 0}">
+        <p>No hay ítems disponibles en esta carta actualmente.</p>
     </div>
-
-    <h2>Cartas disponibles</h2>
-    <div th:each="carta : ${cartasMenu}" class="menu-item">
-        <div class="restaurant-details">
-            <h3 th:text="${carta.nombreCarta}">Nombre de la Carta</h3>
-            <a th:href="@{/restaurante/{restauranteId}/menu/{cartaId}(restauranteId=${restaurante.id}, cartaId=${carta.id})}"
-               class="button">Ver Menú</a>
-        </div>
+    <div th:each="item : ${items}" class="menu-item">
+        <h3 th:text="${item.nombre}">Nombre del ítem</h3>
+        <p th:text="'Precio: ' + ${item.precio} + ' €'">Precio</p>
+        <p th:text="'Tipo: ' + ${item.tipo}">Tipo</p>
+        <a th:href="@{/restaurante/{id}/editarItem/{idItem}(id=${restaurante.cif}, idItem=${item.id})}"
+           class="editar">Editar</a>
     </div>
+    <a th:href="@{/restaurante/{id}/inicio(id=${restaurante.cif})}" class="button">Volver a Cartas</a>
 </div>
 
 <script>

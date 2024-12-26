@@ -2,39 +2,230 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Editar Ítem del Menú</title>
+  <title th:text="'Edición | ' + ${item.nombre}">Edición</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    header {
+      background-color: #ffffff;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #ddd;
+      width: 100%;
+      position: fixed;
+      top: 0;
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: bold;
+      color: #333333;
+    }
+
+    .logo span {
+      font-weight: bold;
+      color: #ec5353;
+    }
+
+    .menu-icon {
+      display: block;
+      width: 30px;
+      height: 3px;
+      background-color: #333;
+      position: relative;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .menu-icon:before, .menu-icon:after {
+      content: '';
+      position: absolute;
+      width: 30px;
+      height: 3px;
+      background-color: #333;
+      transition: all 0.3s ease;
+    }
+
+    .menu-icon:before {
+      top: -8px;
+    }
+
+    .menu-icon:after {
+      bottom: -8px;
+    }
+
+    nav {
+      background-color: #333;
+      position: fixed;
+      top: 0;
+      right: -250px;
+      width: 250px;
+      height: 100%;
+      overflow: hidden;
+      transition: right 0.3s ease-in-out;
+    }
+
+    nav a {
+      color: white;
+      padding: 14px 20px;
+      display: block;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    nav a:hover {
+      background-color: #575757;
+    }
+
+    .content {
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+      margin-top: 60px; /* Espacio para el encabezado */
+    }
+
+    .form-container {
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      width: 400px; /* Ancho fijo para el formulario */
+      box-sizing: border-box;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 8px;
+      font-size: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+
+    .form-group input:focus, .form-group select:focus {
+      border-color: #ec5353;
+    }
+
+    button {
+      background-color: #ec5353;
+      color: white;
+      padding: 8px 16px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      width: 100%;
+    }
+
+    button:hover {
+      background-color: #c43333;
+    }
+  </style>
 </head>
 <body>
 
 <header>
-  <h1>Editar Ítem del Menú</h1>
+  <div class="logo">
+    Edición de <span th:text="${item.nombre}">Restaurante</span>
+  </div>
+  <!-- Icono del menú hamburguesa -->
+  <div class="menu-icon" onclick="toggleMenu(event)">
+    <!-- Las 3 rayitas del menú hamburguesa -->
+    <div></div>
+  </div>
 </header>
 
+<nav id="menu">
+  <a th:href="@{/restaurante/{id}/menu(id=${restaurante.id})}">Menú</a>
+  <a th:href="@{/restaurante/{cifRestaurante}/agregarCartas(cifRestaurante=${restaurante.cif})}">Agregar Carta</a>
+  <a href="#" th:href="@{/logout}">Cerrar Sesión</a>
+</nav>
+
 <div class="content">
-  <form th:action="@{/restaurante/{cif}/editarItem/{idItem}(cif=${restaurante.cif}, idItem=${item.id})}"
-        th:object="${item}" method="post">
+  <div class="form-container">
+    <h1>Editar Ítem del Menú</h1>
 
-    <div class="form-group">
-      <label for="nombre">Nombre del Ítem:</label>
-      <input type="text" id="nombre" name="nombre" th:field="*{nombre}" required />
-    </div>
+    <form th:action="@{/restaurante/{cif}/editarItem/{idItem}(cif=${restaurante.cif}, idItem=${item.id})}"
+          th:object="${item}" method="post">
 
-    <div class="form-group">
-      <label for="precio">Precio:</label>
-      <input type="number" id="precio" name="precio" th:field="*{precio}" step="0.01" required />
-    </div>
+      <div class="form-group">
+        <label for="nombre">Nombre del Ítem:</label>
+        <input type="text" id="nombre" name="nombre" th:field="*{nombre}" required />
+      </div>
 
-    <div class="form-group">
-      <label for="tipo">Tipo de Ítem:</label>
-      <select id="tipo" name="tipo" th:field="*{tipo}" required>
-        <option value="" disabled selected>Selecciona un tipo</option>
-        <option th:each="tipo : ${tipos}" th:value="${tipo}" th:text="${tipo}"></option>
-      </select>
-    </div>
+      <div class="form-group">
+        <label for="precio">Precio:</label>
+        <input type="number" id="precio" name="precio" th:field="*{precio}" step="0.01" required />
+      </div>
 
-    <button type="submit">Guardar Cambios</button>
-  </form>
+      <div class="form-group">
+        <label for="tipo">Tipo de Ítem:</label>
+        <select id="tipo" name="tipo" th:field="*{tipo}" required>
+          <option value="" disabled selected>Selecciona un tipo</option>
+          <option th:each="tipo : ${tipos}" th:value="${tipo}" th:text="${tipo}"></option>
+        </select>
+      </div>
+
+      <button type="submit">Guardar Cambios</button>
+    </form>
+  </div>
 </div>
+
+<script>
+  function toggleMenu(event) {
+    const menu = document.getElementById('menu');
+    const menuStyle = menu.style.right;
+
+    if (menuStyle === '0px') {
+      menu.style.right = '-250px';
+    } else {
+      menu.style.right = '0';
+    }
+
+    event.stopPropagation();
+  }
+
+  function closeMenu(event) {
+    const menu = document.getElementById('menu');
+    if (!menu.contains(event.target) && !document.querySelector('.menu-icon').contains(event.target)) {
+      menu.style.right = '-250px';
+    }
+  }
+
+  document.addEventListener('click', closeMenu);
+</script>
 
 </body>
 </html>

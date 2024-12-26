@@ -99,7 +99,7 @@ public class GestorRestaurantes {
 
     }
 
-    // Para que en usuario anónimo se vea la carta (esto está bien)
+    // Para que en usuario anónimo se vea la carta
     @GetMapping("/restaurante/{id}/menu")
     public String verMenuRestauranteAnonimo(@PathVariable Long id, Model model) {
         Restaurante restaurante = restauranteDAO.findById(id)
@@ -131,7 +131,7 @@ public class GestorRestaurantes {
         model.addAttribute("cartaMenu", datos.get("cartaMenu"));
         model.addAttribute("items", datos.get("items"));
 
-        return "verItemsCarta";
+        return "verItemsCartaRestaurante";
     }
 
     @GetMapping("/anonimo/restaurante/{restauranteId}/menu/{cartaId}")
@@ -209,10 +209,6 @@ public class GestorRestaurantes {
     }
 
 
-
-
-
-
     @GetMapping("/restaurante/{id}/editarItem/{idItem}")
     public String mostrarFormularioEdicion(@PathVariable String id, @PathVariable Long idItem, Model model) {
         Restaurante restaurante = restauranteDAO.findBycif(id)
@@ -253,7 +249,7 @@ public class GestorRestaurantes {
 
         itemMenuDAO.delete(item);  // Eliminar el ítem del menú
 
-        return "redirect:/restaurante/" + id + "/verCartaMenu";  // Redirigir a la página del menú
+        return "redirect:/restaurante/" + id + "verCartaMenuRestaurante";  // Redirigir a la página del menú
     }
 
 }
