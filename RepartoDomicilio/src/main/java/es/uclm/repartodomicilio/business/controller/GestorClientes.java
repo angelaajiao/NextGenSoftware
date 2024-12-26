@@ -48,7 +48,7 @@ public class GestorClientes {
         //Guardamos el cliente
         Cliente savedCliente = clienteDAO.save(cliente);
         model.addAttribute("cliente", savedCliente);
-        return "registradoCliente";
+        return "resultCliente";
     }
 
 

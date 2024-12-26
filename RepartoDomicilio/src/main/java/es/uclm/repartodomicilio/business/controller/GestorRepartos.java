@@ -22,7 +22,7 @@ public class GestorRepartos {
     public String registroRepartidor(Model model) {
         model.addAttribute("repartidor", new Repartidor());
        // log.info(repartidorDAO.findAll().toString());
-        return "Repartidor";
+        return "registroRepartidor";
     }
     @PostMapping("/registro/repartidor")
     public String registrarRepartidor(@ModelAttribute Repartidor repartidor, Model model) {
@@ -30,14 +30,14 @@ public class GestorRepartos {
         if (repartidorDAO.existsByDniRepartidor(repartidor.getDniRepartidor())) {
             model.addAttribute("error", "El DNI ya está registrado.");
             model.addAttribute("repartidor", repartidor);  // Mantener los datos del formulario
-            return "Repartidor";  // Volver al formulario con el mensaje de error
+            return "registroRepartidor";  // Volver al formulario con el mensaje de error
         }
 
         // Verificamos si ya existe un repartidor con el mismo correo electrónico
         if (repartidorDAO.existsByEmailRepartidor(repartidor.getEmailRepartidor())) {
             model.addAttribute("error", "El correo electrónico ya está registrado.");
             model.addAttribute("repartidor", repartidor);  // Mantener los datos del formulario
-            return "Repartidor";  // Volver al formulario con el mensaje de error
+            return "registroRepartidor";  // Volver al formulario con el mensaje de error
         }
 
         // Guardamos el repartidor en la base de datos

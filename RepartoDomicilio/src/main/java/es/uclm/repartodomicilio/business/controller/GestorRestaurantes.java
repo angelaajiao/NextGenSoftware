@@ -1,8 +1,6 @@
 package es.uclm.repartodomicilio.business.controller;
 import es.uclm.repartodomicilio.business.persistence.CartaMenuDAO;
 import es.uclm.repartodomicilio.business.persistence.ItemMenuDAO;
-import jakarta.transaction.Transactional;
-import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import es.uclm.repartodomicilio.business.entity.*;
 import es.uclm.repartodomicilio.business.persistence.RestauranteDAO;
@@ -48,7 +46,7 @@ public class GestorRestaurantes {
     @GetMapping("/registro/restaurante")
     public String registroRestaurante(Model model) {
         model.addAttribute("restaurante", new Restaurante());
-        return "Restaurante";
+        return "registroRestaurante";
     }
 
     @PostMapping("/registro/restaurante")

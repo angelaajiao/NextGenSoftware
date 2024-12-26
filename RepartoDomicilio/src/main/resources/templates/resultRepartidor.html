@@ -1,16 +1,107 @@
 <!DOCTYPE HTML>
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
-    <title>REPARTIDOR REGISTRADO</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta charset="UTF-8">
+    <title>Repartidor Registrado - FastEat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #ffffff;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            color: #333333;
+        }
+
+        .logo span {
+            font-weight: bold;
+            color: #44ad2d;
+        }
+
+        #main-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: calc(100vh - 70px);
+            padding: 20px;
+        }
+
+        #register-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1, h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+
+        p {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #666;
+        }
+
+        a {
+            color: #a2e067;
+            text-decoration: none;
+            font-weight: bold;
+            text-align: center;
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            border-radius: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        a:hover {
+            background-color: #44ad2d;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+        }
+    </style>
 </head>
 <body>
-<h1>REPARTIDOR REGISTRADO</h1>
-<p th:text="'DNI: ' + ${repartidor.dniRepartidor}" />
-<p th:text="'Nombre Repartidor: ' + ${repartidor.nombreRepartidor}" />
-<p th:text="'Apellido: ' + ${repartidor.apellidoRepartidor}" />
-<p th:text="'email: ' + ${repartidor.emailRepartidor}" />
-<p th:text="'disponible: ' + ${repartidor.disponible}" />
-<a href="/registro">Volver</a> <!-- Enlace para volver al menú -->
+<header>
+    <div class="logo">
+        Fast<span>Eat</span>
+    </div>
+</header>
+
+<div id="main-container">
+    <div id="register-container">
+        <h1>Repartidor Registrado</h1>
+        <p th:text="'DNI: ' + ${repartidor.dniRepartidor}"></p>
+        <p th:text="'Nombre Repartidor: ' + ${repartidor.nombreRepartidor}"></p>
+        <p th:text="'Apellido: ' + ${repartidor.apellidoRepartidor}"></p>
+        <p th:text="'Email: ' + ${repartidor.emailRepartidor}"></p>
+        <p th:text="'Disponible: ' + ${repartidor.disponible}"></p>
+
+        <a href="/registro">Volver</a>
+        <a href="/login">Inicia sesión</a>
+    </div>
+</div>
 </body>
 </html>
