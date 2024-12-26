@@ -84,8 +84,6 @@
       width: 100%;
     }
 
-
-
     button {
       background-color: #a2e067;
       color: white;
@@ -133,7 +131,71 @@
       font-weight: bold;
       padding: 0 10px;
     }
+
+
+    .custom-alert {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+      border-radius: 5px;
+      padding: 50px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      display: none;
+      text-align: center;
+    }
+
+    .custom-alert button {
+      background-color: #721c24;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 10px 20px;
+      margin-top: 20px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .custom-alert button:hover {
+      background-color: #501218;
+    }
+
+    .custom-alert.show {
+      display: block;
+    }
   </style>
+  <script>
+    function validarFormulario(event) {
+
+      const inputs = document.querySelectorAll("input, select");
+
+
+      for (const input of inputs) {
+        if (!input.value.trim()) {
+
+          mostrarAlerta("Por favor, completa todos los campos.");
+          event.preventDefault();
+          return false;
+        }
+      }
+      return true;
+    }
+
+    function mostrarAlerta(mensaje) {
+      const alerta = document.getElementById("custom-alert");
+      alerta.querySelector(".alert-message").innerText = mensaje;
+      alerta.classList.add("show");
+    }
+
+    function cerrarAlerta() {
+      const alerta = document.getElementById("custom-alert");
+      alerta.classList.remove("show");
+    }
+  </script>
 </head>
 <body>
 <header>
@@ -148,10 +210,9 @@
     <div th:if="${error}" style="color: red; text-align: center;">
       <p th:text="${error}"></p>
     </div>
-    <form action="#" th:action="@{/registro/cliente}" th:object="${cliente}" method="post">
+    <form action="#" th:action="@{/registro/cliente}" th:object="${cliente}" method="post" onsubmit="return validarFormulario(event);">
 
       <div class="form-columns">
-
         <div>
           <label for="dni">DNI:</label>
           <input type="text" id="dni" th:field="*{dni}" />
@@ -189,7 +250,6 @@
         </fieldset>
       </div>
 
-      <!-- Botones del formulario -->
       <div class="form-buttons">
         <button type="reset">Limpiar</button>
         <button type="submit">Registrar Cliente</button>
@@ -198,6 +258,12 @@
     <p>¿Ya tienes cuenta? <a href="/login">Inicia sesión aquí</a></p>
     <p><a href="/registro">Volver </a></p>
   </div>
+</div>
+
+
+<div id="custom-alert" class="custom-alert">
+  <span class="alert-message"></span>
+  <button onclick="cerrarAlerta()">Cerrar</button>
 </div>
 </body>
 </html>
