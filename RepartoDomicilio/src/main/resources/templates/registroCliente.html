@@ -45,7 +45,7 @@
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
       padding: 40px;
       width: 100%;
-      max-width: 600px;
+      max-width: 900px;
       display: flex;
       flex-direction: column;
     }
@@ -63,17 +63,28 @@
       gap: 15px;
     }
 
+    .form-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+    }
+
     label {
       font-weight: bold;
       margin-bottom: 5px;
     }
 
     select, input {
+      margin-bottom: 5px;
+      margin-top: 5px;
       padding: 10px;
       border: 1px solid #ccc;
       border-radius: 5px;
       font-size: 16px;
+      width: 100%;
     }
+
+
 
     button {
       background-color: #a2e067;
@@ -111,6 +122,17 @@
     a:hover {
       text-decoration: underline;
     }
+
+    fieldset {
+      border: 1px solid #a2e067;
+      border-radius: 5px;
+      padding: 30px;
+    }
+
+    legend {
+      font-weight: bold;
+      padding: 0 10px;
+    }
   </style>
 </head>
 <body>
@@ -127,45 +149,51 @@
       <p th:text="${error}"></p>
     </div>
     <form action="#" th:action="@{/registro/cliente}" th:object="${cliente}" method="post">
-      <label for="dni">DNI:</label>
-      <input type="text" id="dni" th:field="*{dni}" />
 
-      <label for="nombre">Nombre:</label>
-      <input type="text" id="nombre" th:field="*{nombre}" />
+      <div class="form-columns">
 
-      <label for="apellidos">Apellidos:</label>
-      <input type="text" id="apellidos" th:field="*{apellidos}" />
+        <div>
+          <label for="dni">DNI:</label>
+          <input type="text" id="dni" th:field="*{dni}" />
 
-      <label for="contrasena">Contraseña:</label>
-      <input type="password" id="contrasena" th:field="*{contrasena}" />
+          <label for="nombre">Nombre:</label>
+          <input type="text" id="nombre" th:field="*{nombre}" />
 
-      <label for="email">Email:</label>
-      <input type="email" id="email" th:field="*{email}" />
+          <label for="apellidos">Apellidos:</label>
+          <input type="text" id="apellidos" th:field="*{apellidos}" />
 
-      <fieldset>
-        <legend>Dirección</legend>
-        <label for="calle">Calle:</label>
-        <input type="text" id="calle" th:field="*{direccion.calle}" />
+          <label for="contrasena">Contraseña:</label>
+          <input type="password" id="contrasena" th:field="*{contrasena}" />
 
-        <label for="numero">Número:</label>
-        <input type="text" id="numero" th:field="*{direccion.numero}" />
+          <label for="email">Email:</label>
+          <input type="email" id="email" th:field="*{email}" />
+        </div>
 
-        <label for="municipio">Municipio:</label>
-        <input type="text" id="municipio" th:field="*{direccion.municipio}" />
+        <fieldset>
+          <legend>Dirección</legend>
+          <label for="calle">Calle:</label>
+          <input type="text" id="calle" th:field="*{direccion.calle}" />
 
-        <label for="codigoPostal">Código Postal:</label>
-        <select id="codigoPostal" th:field="*{direccion.codigoPostal}">
-          <option th:value="TALAVERA" th:text="'Talavera (45600)'"></option>
-          <option th:value="MADRID" th:text="'Madrid (28000)'"></option>
-          <option th:value="TOLEDO" th:text="'Toledo (45007)'"></option>
-        </select>
-      </fieldset>
+          <label for="numero">Número:</label>
+          <input type="text" id="numero" th:field="*{direccion.numero}" />
 
+          <label for="municipio">Municipio:</label>
+          <input type="text" id="municipio" th:field="*{direccion.municipio}" />
+
+          <label for="codigoPostal">Código Postal:</label>
+          <select id="codigoPostal" th:field="*{direccion.codigoPostal}">
+            <option th:value="TALAVERA" th:text="'Talavera (45600)'"></option>
+            <option th:value="MADRID" th:text="'Madrid (28000)'"></option>
+            <option th:value="TOLEDO" th:text="'Toledo (45007)'"></option>
+          </select>
+        </fieldset>
+      </div>
+
+      <!-- Botones del formulario -->
       <div class="form-buttons">
         <button type="reset">Limpiar</button>
         <button type="submit">Registrar Cliente</button>
       </div>
-
     </form>
     <p>¿Ya tienes cuenta? <a href="/login">Inicia sesión aquí</a></p>
     <p><a href="/registro">Volver </a></p>
