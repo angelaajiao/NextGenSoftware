@@ -132,7 +132,7 @@
 </header>
 
 <nav id="menu">
-    <a th:href="@{/restaurante/{id}/menu(id=${restaurante.id})}">Menú</a>
+    <!-- <a th:href="@{/restaurante/{id}/menu(id=${restaurante.id})}">Menú</a> (esto redirige al menu de Anonimo)-->
     <a th:href="@{/restaurante/{cifRestaurante}/agregarCartas(cifRestaurante=${restaurante.cif})}">Agregar Carta</a>
     <a href="#" th:href="@{/logout}">Cerrar Sesión</a>
 </nav>
