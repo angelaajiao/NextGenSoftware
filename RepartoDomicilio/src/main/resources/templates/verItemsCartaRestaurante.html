@@ -117,22 +117,29 @@
             text-align: center;
             transition: background-color 0.3s ease;
         }
+
         .editar {
             background-color: #ec5353;
             color: white;
-            padding: 5px 5px;
+            padding: 12px 20px;
             text-decoration: none;
-            border-radius: 20px;
+            border-radius: 50px;
             font-size: 14px;
             display: inline-block;
             text-align: center;
             transition: background-color 0.3s ease;
+            width: auto;
+            max-width: 200px; /* Límite en el ancho del botón */
+            white-space: nowrap; /* Evita que el texto se divida en varias líneas y así aumente su tamaño */
+            margin: 0 auto; /* Centra el botón en su contenedor */
+            display: block;
         }
 
         .button:hover {
             background-color: #c43333;
         }
-        .editar:hover{
+
+        .editar:hover {
             background-color: #c43333;
         }
 
