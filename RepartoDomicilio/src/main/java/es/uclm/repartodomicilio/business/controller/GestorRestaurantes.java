@@ -51,15 +51,23 @@ public class GestorRestaurantes {
 
     @PostMapping("/registro/restaurante")
     public String registrarRestaurante(@ModelAttribute Restaurante restaurante, Model model) {
-        if (restauranteDAO.existsBycif(restaurante.getCif())) {
-            throw new IllegalArgumentException("El CIF ya existe en otro restaurante");
+        try {
+            // Verifica si ya existe un restaurante con ese CIF
+            if (restauranteDAO.existsBycif(restaurante.getCif())) {
+                // Si ya existe, se lanza una excepción
+                model.addAttribute("error", "El CIF ya existe en otro Restaurante");
+                return "registroRestaurante";
+            }
+
+            // Si no existe, guarda el restaurante
+            restauranteDAO.save(restaurante);
+            model.addAttribute("restaurante", restaurante);
+            return "resultRestaurante";
+        } catch (Exception e) {
+            // Manejo general de errores
+            model.addAttribute("error", e.getMessage());
+            return "registroRestaurante";
         }
-
-       // Guardar el restaurante
-        restauranteDAO.save(restaurante);
-
-        model.addAttribute("restaurante", restaurante);
-        return "resultRestaurante";
     }
 
     @GetMapping("/restaurante")

@@ -32,20 +32,22 @@ public class GestorClientes {
 
     @PostMapping("/registro/cliente")
     public String registrarCliente(@ModelAttribute Cliente cliente, Model model) {
-        //Verificamos si ya existe un cliente con el mismo DNI o correo
+        String errorMessage = null;
+
+        // Verificamos si ya existe un cliente con el mismo DNI o email
         if (clienteDAO.existsByDni(cliente.getDni())) {
-            model.addAttribute("error", "El DNI ya está registrado.");
+            errorMessage = "El DNI ya está registrado.";
+        } else if (clienteDAO.existsByEmail(cliente.getEmail())) {
+            errorMessage = "El correo electrónico ya está registrado.";
+        }
+
+        if (errorMessage != null) {
             model.addAttribute("cliente", cliente); // Mantener los datos del formulario
+            model.addAttribute("error", errorMessage);
             return "registroCliente"; // Volver al formulario con el mensaje de error
         }
 
-        if (clienteDAO.existsByEmail(cliente.getEmail())) {
-            model.addAttribute("error", "El correo electrónico ya está registrado.");
-            model.addAttribute("cliente", cliente); // Mantener los datos del formulario
-            return "registroCliente"; // Volver al formulario con el mensaje de error
-        }
-
-        //Guardamos el cliente
+        // Guardamos el cliente
         Cliente savedCliente = clienteDAO.save(cliente);
         model.addAttribute("cliente", savedCliente);
         return "resultCliente";

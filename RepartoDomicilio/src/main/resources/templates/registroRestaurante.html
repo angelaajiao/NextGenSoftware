@@ -112,7 +112,6 @@
             text-decoration: underline;
         }
 
-
         .custom-alert {
             position: fixed;
             top: 50%;
@@ -188,9 +187,7 @@
 <div id="main-container">
     <div id="register-container">
         <h1>Registro de <span style="color: #44ad2d;">Restaurante</span></h1>
-        <div th:if="${error}" style="color: red; text-align: center;">
-            <p th:text="${error}"></p>
-        </div>
+
         <form action="#" th:action="@{/registro/restaurante}" th:object="${restaurante}" method="post" onsubmit="return validarFormulario(event);">
             <label for="nombre">Nombre del Restaurante:</label>
             <input type="text" id="nombre" th:field="*{nombre}" />
@@ -215,10 +212,9 @@
 </div>
 
 
-<div id="custom-alert" class="custom-alert">
-    <span class="alert-message"></span>
+<div id="custom-alert" class="custom-alert" th:classappend="${error} != null ? 'show' : ''">
+    <span class="alert-message" th:text="${error}"></span>
     <button onclick="cerrarAlerta()">Cerrar</button>
 </div>
-
 </body>
 </html>

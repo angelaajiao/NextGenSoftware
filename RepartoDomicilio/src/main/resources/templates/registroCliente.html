@@ -208,9 +208,6 @@
 <div id="main-container">
   <div id="register-container">
     <h1>Registro de <span style="color: #44ad2d;">Cliente</span></h1>
-    <div th:if="${error}" style="color: red; text-align: center;">
-      <p th:text="${error}"></p>
-    </div>
     <form action="#" th:action="@{/registro/cliente}" th:object="${cliente}" method="post" onsubmit="return validarFormulario(event);">
       <div class="form-columns">
         <div>
@@ -251,9 +248,11 @@
   </div>
 </div>
 
-<div id="custom-alert" class="custom-alert">
-  <span class="alert-message"></span>
+
+<div id="custom-alert" class="custom-alert" th:classappend="${error} != null ? 'show' : ''">
+  <span class="alert-message" th:text="${error}"></span>
   <button onclick="cerrarAlerta()">Cerrar</button>
 </div>
 </body>
 </html>
+

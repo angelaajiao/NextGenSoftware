@@ -9,7 +9,7 @@ public class Repartidor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "dni_repartidor", nullable = false)
+    @Column(name = "dni_repartidor", nullable = false, unique = true)
     private String dniRepartidor;
 
     @Column(nullable = false)

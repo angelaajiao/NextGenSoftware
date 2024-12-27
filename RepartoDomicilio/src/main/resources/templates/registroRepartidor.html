@@ -200,9 +200,8 @@
 <div id="main-container">
     <div id="register-container">
         <h1>Registro de <span style="color: #44ad2d;">Repartidor</span></h1>
-        <div th:if="${error}" style="color: red; text-align: center;">
-            <p th:text="${error}"></p>
-        </div>
+
+
         <form th:action="@{/registro/repartidor}" th:object="${repartidor}" method="post" onsubmit="return validarFormulario(event);">
             <label for="dniRepartidor">DNI:</label>
             <input type="text" id="dniRepartidor" th:field="*{dniRepartidor}" />
@@ -234,8 +233,8 @@
     </div>
 </div>
 
-<div id="custom-alert" class="custom-alert">
-    <span class="alert-message"></span>
+<div id="custom-alert" class="custom-alert" th:classappend="${error} != null ? 'show' : ''">
+    <span class="alert-message" th:text="${error}"></span>
     <button onclick="cerrarAlerta()">Cerrar</button>
 </div>
 
