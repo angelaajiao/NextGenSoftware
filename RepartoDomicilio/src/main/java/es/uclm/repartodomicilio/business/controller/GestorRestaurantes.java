@@ -4,7 +4,6 @@ import es.uclm.repartodomicilio.business.persistence.ItemMenuDAO;
 import org.springframework.ui.Model;
 import es.uclm.repartodomicilio.business.entity.*;
 import es.uclm.repartodomicilio.business.persistence.RestauranteDAO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +16,7 @@ public class GestorRestaurantes {
     private final CartaMenuDAO cartaMenuDAO;
 
     private final ItemMenuDAO itemMenuDAO;
+
 
     // Constructor para poder eliminar el Autowired
     public GestorRestaurantes(RestauranteDAO restauranteDAO, CartaMenuDAO cartaMenuDAO, ItemMenuDAO itemMenuDAO){

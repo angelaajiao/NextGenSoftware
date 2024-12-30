@@ -6,22 +6,21 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-
 import  org.springframework.beans.factory.annotation.Autowired;
 import es.uclm.repartodomicilio.business.persistence.RepartidorDAO;
 
 @Controller
 public class GestorRepartos {
 
-//    private static final Logger log = LoggerFactory.getLogger(GestorRepartos.class);
+    private final RepartidorDAO repartidorDAO;
+    public static final String STRING_REPARTIDOR = "repartidor";
 
-    @Autowired
-    private RepartidorDAO repartidorDAO;
-
+    public GestorRepartos(RepartidorDAO repartidorDAO){
+        this.repartidorDAO = repartidorDAO;
+    }
     @GetMapping("/registro/repartidor")
     public String registroRepartidor(Model model) {
-        model.addAttribute("repartidor", new Repartidor());
-       // log.info(repartidorDAO.findAll().toString());
+        model.addAttribute(STRING_REPARTIDOR, new Repartidor());
         return "registroRepartidor";
     }
     @PostMapping("/registro/repartidor")
@@ -36,14 +35,14 @@ public class GestorRepartos {
         }
 
         if (errorMessage != null) {
-            model.addAttribute("repartidor", repartidor);  // Mantener los datos del formulario
+            model.addAttribute(STRING_REPARTIDOR, repartidor);  // Mantener los datos del formulario
             model.addAttribute("error", errorMessage);
             return "registroRepartidor";  // Volver al formulario con el mensaje de error
         }
 
         // Guardamos el repartidor en la base de datos
         repartidorDAO.save(repartidor);
-        model.addAttribute("repartidor", repartidor);
+        model.addAttribute(STRING_REPARTIDOR, repartidor);
         return "resultRepartidor";
     }
 

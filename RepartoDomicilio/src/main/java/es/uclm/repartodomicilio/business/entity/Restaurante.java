@@ -20,7 +20,7 @@ public class Restaurante {
     private String nombre;
 
     @Column(nullable = false)
-    private String password_restaurante;
+    private String passwordRestaurante;
 
     @OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CartaMenu> cartasMenu = new ArrayList<>();
@@ -32,7 +32,7 @@ public class Restaurante {
     public Restaurante(String nombre, String cif, String password_restaurante, String direccion){
         this.nombre = nombre;
         this.cif = cif;
-        this.password_restaurante = password_restaurante;
+        this.passwordRestaurante = password_restaurante;
         this.direccion = direccion;
     }
 
@@ -68,9 +68,9 @@ public class Restaurante {
         this.cif = cif;
     }
 
-    public String getPassword_restaurante() { return  password_restaurante; }
+    public String getpasswordRestaurante() { return  passwordRestaurante; }
 
-    public void setPassword_restaurante(String password_restaurante) {this.password_restaurante = password_restaurante;}
+    public void setPassword_restaurante(String password_restaurante) {this.passwordRestaurante = password_restaurante;}
 
     public List<CartaMenu> getCartasMenu() {
         return cartasMenu;

@@ -16,6 +16,8 @@ public class GestorClientes {
 
     private final ClienteDAO clienteDAO;
     private final RestauranteDAO restauranteDAO;
+    public static final String STRING_CLIENTE = "cliente";
+    public static final String STRING_RESTAURANTE = "restaurantes";
 
     public GestorClientes(ClienteDAO clienteDAO, RestauranteDAO restauranteDAO) {
         this.clienteDAO = clienteDAO;
@@ -24,7 +26,7 @@ public class GestorClientes {
 
     @GetMapping("/registro/cliente")
     public String registroCliente(Model model) {
-        model.addAttribute("cliente", new Cliente());
+        model.addAttribute(STRING_CLIENTE, new Cliente());
         return "registroCliente";
     }
 
@@ -40,14 +42,14 @@ public class GestorClientes {
         }
 
         if (errorMessage != null) {
-            model.addAttribute("cliente", cliente); // Mantener los datos del formulario
+            model.addAttribute(STRING_CLIENTE, cliente); // Mantener los datos del formulario
             model.addAttribute("error", errorMessage);
             return "registroCliente"; // Volver al formulario con el mensaje de error
         }
 
         // Guardamos el cliente
         Cliente savedCliente = clienteDAO.save(cliente);
-        model.addAttribute("cliente", savedCliente);
+        model.addAttribute(STRING_CLIENTE, savedCliente);
         return "resultCliente";
     }
 
@@ -55,7 +57,7 @@ public class GestorClientes {
     @GetMapping("/")
     public String inicio(Model model) {
         List<Restaurante> restaurantes = restauranteDAO.findAll();
-        model.addAttribute("restaurantes", restaurantes);
+        model.addAttribute(STRING_RESTAURANTE, restaurantes);
         return "Inicio";
     }
     // Método para la vista de favoritos
@@ -71,18 +73,16 @@ public class GestorClientes {
 
     @GetMapping("/Cliente")
     public String mostrarCliente(Model model) {
-
-        List<Restaurante> restaurantes = restauranteDAO.findAll(); // Obtener todos los restaurantes
-        model.addAttribute("restaurantes", restaurantes);
-        return "VistaCliente";
+        return listarRestaurantes(model); // Reutilizar el método
     }
 
     @PostMapping("/Cliente")
     public String listarRestaurantes(Model model) {
         List<Restaurante> restaurantes = restauranteDAO.findAll();
-        model.addAttribute("restaurantes", restaurantes);
+        model.addAttribute(STRING_RESTAURANTE, restaurantes);
         return "VistaCliente"; // Nombre de la vista donde se mostrará la lista
     }
+
 
 
 

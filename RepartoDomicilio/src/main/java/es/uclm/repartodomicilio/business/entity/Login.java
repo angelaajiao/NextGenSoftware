@@ -3,21 +3,21 @@ package es.uclm.repartodomicilio.business.entity;
 import es.uclm.repartodomicilio.business.persistence.ClienteDAO;
 import es.uclm.repartodomicilio.business.persistence.RepartidorDAO;
 import es.uclm.repartodomicilio.business.persistence.RestauranteDAO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
 public class Login {
-    @Autowired
-    private ClienteDAO clienteDAO;
+    private final ClienteDAO clienteDAO;
+    private final RestauranteDAO restauranteDAO;
+    private final RepartidorDAO repartidorDAO;
 
-    @Autowired
-    private RestauranteDAO restauranteDAO;
-
-    @Autowired
-    private RepartidorDAO repartidorDAO;
+    public Login(ClienteDAO clienteDAO, RestauranteDAO restauranteDAO, RepartidorDAO repartidorDAO){
+        this.clienteDAO = clienteDAO;
+        this.restauranteDAO = restauranteDAO;
+        this.repartidorDAO = repartidorDAO;
+    }
 
     public String autenticarUser(String claveUnica, String contra){
         // VERIFICAR CLIENTE
@@ -34,7 +34,7 @@ public class Login {
 
         //VERIFICAR RESTAURANTE
         Optional<Restaurante> restaurante = restauranteDAO.findBycif(claveUnica);
-        if (restaurante.isPresent() && restaurante.get().getPassword_restaurante().equals(contra)) {
+        if (restaurante.isPresent() && restaurante.get().getpasswordRestaurante().equals(contra)) {
             return "Restaurante";
         }
 

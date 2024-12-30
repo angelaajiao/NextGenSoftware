@@ -1,25 +1,22 @@
 package es.uclm.repartodomicilio.business.controller;
 
 import es.uclm.repartodomicilio.business.entity.Login;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
-
-
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class GestorLogin {
 
-    private String rolActivo;
+    private final Login loginService;
 
-    @Autowired
-    private Login loginService;
+    // Constructor
+    public GestorLogin(Login loginService){
+        this.loginService = loginService;
+    }
 
     @GetMapping("/login")
     public String mostrarlogin(Model model) {
@@ -27,11 +24,11 @@ public class GestorLogin {
     }
 
     @PostMapping("/login")
-    public String login(@RequestParam String id, @RequestParam String pass, Model model) {
+    public String login(@RequestParam String id, @RequestParam String pass, Model model, HttpSession session) {
         String rol = loginService.autenticarUser(id, pass);
 
         if (rol != null) {
-            rolActivo = rol;
+            session.setAttribute("rolActivo", rol);
             model.addAttribute("rol", rol);
             //Redirige a la vista correspondiente según el rol
             switch (rol) {
@@ -40,7 +37,12 @@ public class GestorLogin {
                 case "Repartidor":
                     return "VistaRepartidor"; // vista repartidor
                 case "Restaurante":
-                    return "redirect:/restaurante/" + id + "/inicio";            }
+                    return "redirect:/restaurante/" + id + "/inicio"; // vista restaurante
+
+                default:
+                    throw new IllegalArgumentException("Rol desconocido: " + rol + "\nSeleccione Cliente, Repartidor o Restaurante");
+
+            }
         }
         model.addAttribute("error", "Clave o contraseñas incorrectos");
         return "login";
@@ -48,10 +50,8 @@ public class GestorLogin {
 
 
     @GetMapping("/logout")
-    public String logout() {
-        rolActivo = null;
+    public String logout(HttpSession session) {
+        session.invalidate();
         return "login";
     }
-
-
 }
