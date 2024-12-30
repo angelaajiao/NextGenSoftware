@@ -260,4 +260,48 @@ public class GestorRestaurantes {
         return "redirect:/restaurante/" + id + "verCartaMenuRestaurante";  // Redirigir a la página del menú
     }
 
+    @GetMapping("/restaurante/{id}/agregarItem/{idcarta}")
+    public String mostrarFormularioAgregarItem(@PathVariable String id, @PathVariable Long idcarta, Model model) {
+        Restaurante restaurante = restauranteDAO.findBycif(id)
+                .orElseThrow(() -> new RuntimeException("Restaurante no encontrado"));
+
+        CartaMenu cartaMenu = cartaMenuDAO.findById(idcarta)
+                .orElseThrow(() -> new RuntimeException("Carta no encontrada"));
+
+        model.addAttribute("restaurante", restaurante);
+        model.addAttribute("cartaMenu", cartaMenu);
+        model.addAttribute("tipos", Arrays.asList(TipoItemMenu.values())); // Opciones para el tipo
+        return "agregarItemMenu";
+    }
+
+    @PostMapping("/restaurante/{id}/agregarItem/{idcarta}")
+    public String agregarItem(@PathVariable String id,
+                              @ModelAttribute("items") List<ItemMenu> items,
+                              @PathVariable Long idcarta) {
+
+        // logs
+        System.out.println("ID recibido en POST: " + id);
+        System.out.println("ID de carta recibido en POST: " + idcarta);
+
+        Restaurante restaurante = restauranteDAO.findBycif(id)
+                .orElseThrow(() -> new RuntimeException("Restaurante no encontrado con CIF: " + id));
+        System.out.println("Restaurante encontrado: " + restaurante.getNombre());
+
+        CartaMenu carta = cartaMenuDAO.findById(idcarta)
+                .orElseThrow(() -> new RuntimeException("Carta de menú no encontrada"));
+        System.out.println("Carta encontrada: " + carta.getNombreCarta());
+
+        for (ItemMenu item : items) {
+            System.out.println("Nombre del ítem recibido: " + item.getNombre());
+            System.out.println("Precio del ítem recibido: " + item.getPrecio());
+            System.out.println("Tipo del ítem recibido: " + item.getTipo());
+
+            item.setCartaMenu(carta); // Asociar cada ítem con la carta
+            itemMenuDAO.save(item);   // Guardar cada ítem
+        }
+
+
+        return "redirect:/restaurante/" + restaurante.getCif() + "/menu/" + carta.getId(); // vista de ítems
+    }
+
 }

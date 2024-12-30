@@ -165,7 +165,29 @@
   <!-- Contenedor para los Ítems -->
   <div id="itemsContainer">
     <h3>Ítems de la Carta</h3>
-    <!-- Los ítems se agregarán dinámicamente con JavaScript -->
+    <div class="itemMenu">
+      <div class="form-group">
+        <label for="itemNombre_0">Nombre del Ítem:</label>
+        <input type="text" id="itemNombre_0" name="items[0].nombre" required>
+      </div>
+
+      <div class="form-group">
+        <label for="itemPrecio_0">Precio:</label>
+        <input type="number" step="0.01" id="itemPrecio_0" name="items[0].precio" required>
+      </div>
+
+      <div class="form-group">
+        <label for="itemTipo_0">Tipo:</label>
+        <select id="itemTipo_0" name="items[0].tipo" required>
+          <option value="COMIDA">Comida</option>
+          <option value="BEBIDA">Bebida</option>
+          <option value="POSTRE">Postre</option>
+        </select>
+      </div>
+
+      <!-- Botón para eliminar el ítem -->
+      <button type="button" onclick="removeItem(this)">Eliminar Ítem</button>
+    </div>
   </div>
 
   <!-- Botón para añadir más ítems -->
@@ -176,7 +198,7 @@
 </form>
 
 <script>
-  let itemCount = 0; // Contador para generar IDs únicos
+  let itemCount = 1; // Contador para generar IDs únicos iniciado en 1 porque ya hay un item por defecto
 
   function addNewItem() {
     const itemsContainer = document.getElementById("itemsContainer");

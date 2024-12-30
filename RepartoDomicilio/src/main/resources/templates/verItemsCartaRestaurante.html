@@ -170,6 +170,7 @@
         <a th:href="@{/restaurante/{id}/editarItem/{idItem}(id=${restaurante.cif}, idItem=${item.id})}"
            class="editar">Editar</a>
     </div>
+    <a th:href="@{/restaurante/{id}/agregarItem/{idcarta}(id=${restaurante.cif}, idcarta=${cartaMenu.id})}" class="button">Añadir Ítem</a>
     <a th:href="@{/restaurante/{id}/inicio(id=${restaurante.cif})}" class="button">Volver a Cartas</a>
 </div>
 

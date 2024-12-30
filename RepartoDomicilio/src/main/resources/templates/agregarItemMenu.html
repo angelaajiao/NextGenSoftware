@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Añadir Ítem</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: #ffffff;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            width: 100%;
+            position: fixed;
+            top: 0;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            color: #333333;
+        }
+
+        .logo span {
+            font-weight: bold;
+            color: #ec5353;
+        }
+
+        .content {
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+            margin-top: 60px;
+        }
+
+        .form-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 8px;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            border-color: #ec5353;
+        }
+
+        button {
+            background-color: #ec5353;
+            color: white;
+            padding: 8px 16px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #c43333;
+        }
+
+        #itemsContainer {
+            margin-bottom: 20px;
+        }
+
+        .itemMenu {
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #f4f4f4;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .itemMenu label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .itemMenu input, .itemMenu select {
+            width: 100%;
+            padding: 8px;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .itemMenu input:focus, .itemMenu select:focus {
+            border-color: #ec5353;
+        }
+
+        button[type="button"] {
+            background-color: #f0f0f0;
+            color: #333;
+            padding: 8px 16px;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button[type="button"]:hover {
+            background-color: #ddd;
+        }
+
+        .remove-btn {
+            background-color: #f0f0f0;
+            color: #333;
+            padding: 8px 16px;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .remove-btn:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">Añadir Ítem a: <span th:text="${cartaMenu.nombreCarta}"></span></div>
+</header>
+
+<div class="content">
+    <div class="form-container">
+        <h1>Añadir Ítem</h1>
+        <form th:action="@{/restaurante/{id}/agregarItem/{idcarta}(id=${restaurante.cif}, idcarta=${cartaMenu.id})}" method="post">
+            <div id="itemsContainer">
+                <h3>Ítems de la Carta</h3>
+                <div class="itemMenu">
+                    <div class="form-group">
+                        <label for="itemNombre_0">Nombre del Ítem:</label>
+                        <input type="text" id="itemNombre_0" name="items[0].nombre" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="itemPrecio_0">Precio:</label>
+                        <input type="number" step="0.01" id="itemPrecio_0" name="items[0].precio" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="itemTipo_0">Tipo:</label>
+                        <select id="itemTipo_0" name="items[0].tipo" required>
+                            <option value="COMIDA">Comida</option>
+                            <option value="BEBIDA">Bebida</option>
+                            <option value="POSTRE">Postre</option>
+                        </select>
+                    </div>
+
+                    <!-- Botón para eliminar el ítem -->
+                    <button type="button" class="remove-btn" onclick="removeItem(this)">Eliminar Ítem</button>
+                </div>
+            </div>
+
+            <!-- Botón para añadir más ítems -->
+            <button type="button" onclick="addNewItem()">Agregar otro ítem</button>
+
+            <!-- Botón para enviar el formulario -->
+            <button type="submit">Guardar Ítems</button>
+        </form>
+
+        <script>
+            let itemCount = 1; // Contador para generar IDs únicos iniciado en 1 porque ya hay un item por defecto
+
+            function addNewItem() {
+                const itemsContainer = document.getElementById("itemsContainer");
+
+                // Crear un contenedor para el nuevo ítem
+                const newItem = document.createElement("div");
+                newItem.classList.add("itemMenu");
+
+                // Crear el contenido del nuevo ítem
+                newItem.innerHTML = `
+                  <div class="form-group">
+                    <label for="itemNombre_${itemCount}">Nombre del Ítem:</label>
+                    <input type="text" id="itemNombre_${itemCount}" name="items[${itemCount}].nombre" required>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="itemPrecio_${itemCount}">Precio:</label>
+                    <input type="number" step="0.01" id="itemPrecio_${itemCount}" name="items[${itemCount}].precio" required>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="itemTipo_${itemCount}">Tipo:</label>
+                    <select id="itemTipo_${itemCount}" name="items[${itemCount}].tipo" required>
+                      <option value="COMIDA">Comida</option>
+                      <option value="BEBIDA">Bebida</option>
+                      <option value="POSTRE">Postre</option>
+                    </select>
+                  </div>
+
+                  <!-- Botón para eliminar el ítem -->
+                  <button type="button" class="remove-btn" onclick="removeItem(this)">Eliminar Ítem</button>
+                `;
+
+                // Añadir el nuevo ítem al contenedor
+                itemsContainer.appendChild(newItem);
+
+                // Incrementar el contador para el próximo ítem
+                itemCount++;
+            }
+
+            function removeItem(button) {
+                const itemToRemove = button.parentNode;
+                if (itemToRemove) {
+                    itemToRemove.remove(); // Elimina el ítem del DOM
+                }
+            }
+        </script>
+    </div>
+</div>
+
+</body>
+</html>
