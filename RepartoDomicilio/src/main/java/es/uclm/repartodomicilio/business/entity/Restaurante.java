@@ -70,7 +70,7 @@ public class Restaurante {
 
     public String getPasswordRestaurante() { return passwordRestaurante; }
 
-    public void setPassword_restaurante(String passwordRestaurante) {this.passwordRestaurante = passwordRestaurante;}
+    public void setPasswordRestaurante(String passwordRestaurante) {this.passwordRestaurante = passwordRestaurante;}
 
     public List<CartaMenu> getCartasMenu() {
         return cartasMenu;
