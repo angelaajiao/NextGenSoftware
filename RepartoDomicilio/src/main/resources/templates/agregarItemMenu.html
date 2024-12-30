@@ -175,7 +175,7 @@
 <div class="content">
     <div class="form-container">
         <h1>Añadir Ítem</h1>
-        <form th:action="@{/restaurante/{id}/agregarItem/{idcarta}(id=${restaurante.cif}, idcarta=${cartaMenu.id})}" method="post">
+        <form th:action="@{/restaurante/{id}/agregarItem/{idcarta}(id=${restaurante.id}, idcarta=${cartaMenu.id})}" method="post">
             <div id="itemsContainer">
                 <h3>Ítems de la Carta</h3>
                 <div class="itemMenu">
