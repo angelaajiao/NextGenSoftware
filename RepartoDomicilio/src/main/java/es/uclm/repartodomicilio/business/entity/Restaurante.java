@@ -68,9 +68,9 @@ public class Restaurante {
         this.cif = cif;
     }
 
-    public String getpasswordRestaurante() { return  passwordRestaurante; }
+    public String getPasswordRestaurante() { return passwordRestaurante; }
 
-    public void setPassword_restaurante(String password_restaurante) {this.passwordRestaurante = password_restaurante;}
+    public void setPassword_restaurante(String passwordRestaurante) {this.passwordRestaurante = passwordRestaurante;}
 
     public List<CartaMenu> getCartasMenu() {
         return cartasMenu;

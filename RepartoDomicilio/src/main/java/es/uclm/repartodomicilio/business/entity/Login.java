@@ -34,7 +34,7 @@ public class Login {
 
         //VERIFICAR RESTAURANTE
         Optional<Restaurante> restaurante = restauranteDAO.findBycif(claveUnica);
-        if (restaurante.isPresent() && restaurante.get().getpasswordRestaurante().equals(contra)) {
+        if (restaurante.isPresent() && restaurante.get().getPasswordRestaurante().equals(contra)) {
             return "Restaurante";
         }
 
