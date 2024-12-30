@@ -12,14 +12,18 @@ import java.util.*;
 
 @Controller
 public class GestorRestaurantes {
-    @Autowired
-    private RestauranteDAO restauranteDAO;
+    private final RestauranteDAO restauranteDAO;
 
-    @Autowired
-    private CartaMenuDAO cartaMenuDAO;
+    private final CartaMenuDAO cartaMenuDAO;
 
-    @Autowired
-    private ItemMenuDAO itemMenuDAO;
+    private final ItemMenuDAO itemMenuDAO;
+
+    // Constructor para poder eliminar el Autowired
+    public GestorRestaurantes(RestauranteDAO restauranteDAO, CartaMenuDAO cartaMenuDAO, ItemMenuDAO itemMenuDAO){
+        this.restauranteDAO = restauranteDAO;
+        this.cartaMenuDAO = cartaMenuDAO;
+        this.itemMenuDAO = itemMenuDAO;
+    }
 
     //Obtener los datos de la carta
     private Map<String, Object> obtenerDatosCarta(Long restauranteId, Long cartaId) {

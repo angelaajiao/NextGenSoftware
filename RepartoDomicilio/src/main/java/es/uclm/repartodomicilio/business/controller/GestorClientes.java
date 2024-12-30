@@ -4,8 +4,6 @@ package es.uclm.repartodomicilio.business.controller;
 import es.uclm.repartodomicilio.business.entity.Cliente;
 import es.uclm.repartodomicilio.business.entity.Restaurante;
 import es.uclm.repartodomicilio.business.persistence.ClienteDAO;
-import jakarta.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,16 +14,16 @@ import java.util.List;
 @Controller
 public class GestorClientes {
 
-    @Autowired
-    private ClienteDAO clienteDAO; // Asegúrate de que este DAO esté bien definido
+    private final ClienteDAO clienteDAO;
+    private final RestauranteDAO restauranteDAO;
 
-    @Autowired
-    private HttpSession session;
-    @Autowired
-    private RestauranteDAO restauranteDAO;
+    public GestorClientes(ClienteDAO clienteDAO, RestauranteDAO restauranteDAO) {
+        this.clienteDAO = clienteDAO;
+        this.restauranteDAO = restauranteDAO;
+    }
 
     @GetMapping("/registro/cliente")
-    public String RegistroCliente(Model model) {
+    public String registroCliente(Model model) {
         model.addAttribute("cliente", new Cliente());
         return "registroCliente";
     }
@@ -55,7 +53,7 @@ public class GestorClientes {
 
 
     @GetMapping("/")
-    public String Inicio(Model model) {
+    public String inicio(Model model) {
         List<Restaurante> restaurantes = restauranteDAO.findAll();
         model.addAttribute("restaurantes", restaurantes);
         return "Inicio";
