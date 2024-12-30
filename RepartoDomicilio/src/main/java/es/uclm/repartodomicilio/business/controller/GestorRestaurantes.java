@@ -265,8 +265,8 @@ public class GestorRestaurantes {
     }
 
     @GetMapping("/restaurante/{id}/agregarItem/{idcarta}")
-    public String mostrarFormularioAgregarItem(@PathVariable String id, @PathVariable Long idcarta, Model model) {
-        Restaurante restaurante = restauranteDAO.findBycif(id)
+    public String mostrarFormularioAgregarItem(@PathVariable Long id, @PathVariable Long idcarta, Model model) {
+        Restaurante restaurante = restauranteDAO.findById(id)
                 .orElseThrow(() -> new RuntimeException("Restaurante no encontrado"));
 
         CartaMenu cartaMenu = cartaMenuDAO.findById(idcarta)
@@ -279,33 +279,49 @@ public class GestorRestaurantes {
     }
 
     @PostMapping("/restaurante/{id}/agregarItem/{idcarta}")
-    public String agregarItem(@PathVariable String id,
-                              @ModelAttribute("items") List<ItemMenu> items,
+    public String agregarItem(@PathVariable Long id,
+                              @RequestParam Map<String, String> requestParams,
                               @PathVariable Long idcarta) {
-
-        // logs
-        System.out.println("ID recibido en POST: " + id);
-        System.out.println("ID de carta recibido en POST: " + idcarta);
-
-        Restaurante restaurante = restauranteDAO.findBycif(id)
-                .orElseThrow(() -> new RuntimeException("Restaurante no encontrado con CIF: " + id));
-        System.out.println("Restaurante encontrado: " + restaurante.getNombre());
 
         CartaMenu carta = cartaMenuDAO.findById(idcarta)
                 .orElseThrow(() -> new RuntimeException("Carta de menú no encontrada"));
-        System.out.println("Carta encontrada: " + carta.getNombreCarta());
 
-        for (ItemMenu item : items) {
-            System.out.println("Nombre del ítem recibido: " + item.getNombre());
-            System.out.println("Precio del ítem recibido: " + item.getPrecio());
-            System.out.println("Tipo del ítem recibido: " + item.getTipo());
+        //Se crea una lista a partir de los datos recibidos
+        List<ItemMenu> items = new ArrayList<>();
+        int index = 0;
 
-            item.setCartaMenu(carta); // Asociar cada ítem con la carta
-            itemMenuDAO.save(item);   // Guardar cada ítem
+        while (requestParams.containsKey("items[" + index + "].nombre")) {
+            try {
+                String nombre = requestParams.get("items[" + index + "].nombre");
+                String precioStr = requestParams.get("items[" + index + "].precio");
+                String tipoStr = requestParams.get("items[" + index + "].tipo");
+
+                double precio = Double.parseDouble(precioStr);
+                TipoItemMenu tipo = TipoItemMenu.valueOf(tipoStr.toUpperCase());
+
+                // Crear un nuevo ítem
+                ItemMenu item = new ItemMenu();
+                item.setNombre(nombre);
+                item.setPrecio(precio);
+                item.setTipo(tipo);
+                item.setCartaMenu(carta); // Establecer la relación con la carta
+
+                items.add(item); // Agregar a la lista de ítems
+            } catch (Exception e) {
+                System.err.println("Error al procesar ítem en índice " + index + ": " + e.getMessage());
+            }
+            index++;
         }
 
+        // Agregar los ítems a la carta
+        for (ItemMenu item : items) {
+            carta.addItemMenu(item);
+        }
 
-        return "redirect:/restaurante/" + restaurante.getCif() + "/menu/" + carta.getId(); // vista de ítems
+        // Guardar la carta y los ítems
+        cartaMenuDAO.save(carta);
+
+        return "redirect:/restaurante/" + id + "/menu/" + idcarta;
     }
 
 }
