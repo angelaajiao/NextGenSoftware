@@ -29,10 +29,10 @@ public class Restaurante {
     public Restaurante(){}
 
     // Constructor con parametros
-    public Restaurante(String nombre, String cif, String password_restaurante, String direccion){
+    public Restaurante(String nombre, String cif, String passwordRestaurante, String direccion){
         this.nombre = nombre;
         this.cif = cif;
-        this.passwordRestaurante = password_restaurante;
+        this.passwordRestaurante = passwordRestaurante;
         this.direccion = direccion;
     }
 
