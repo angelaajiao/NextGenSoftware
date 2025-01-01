@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="'Bienvenido, ' + ${restaurante.nombre}">Bienvenido Restaurante</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #ec5353;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+    nav {
+      background-color: #333;
+      overflow: hidden;
+    }
+    nav a {
+      color: white;
+      padding: 14px 20px;
+      display: inline-block;
+      text-align: center;
+      text-decoration: none;
+    }
+    nav a:hover {
+      background-color: #575757;
+    }
+    .content {
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1 th:text="'Bienvenido, ' + ${restaurante.nombre}">Bienvenido Restaurante</h1>
+</header>
+
+<nav>
+  <a th:href="@{/restaurante/{id}/menu(id=${restaurante.id})}">Menú</a>
+  <a th:href="@{/restaurante/{id}/agregarItem(id=${restaurante.cif})}">Agregar Ítem</a>
+  <a href="#" th:href="@{/logout}">Cerrar Sesión</a>
+</nav>
+
+
+
+<div class="content">
+  <h2>Menú del Restaurante</h2>
+
+  <div th:if="${items == null || items.isEmpty()}">
+    <p>No hay ítems en el menú actualmente.</p>
+  </div>
+
+  <div th:each="item : ${items}" class="menu-item">
+    <h3 th:text="${item.nombre}">Nombre del Ítem</h3>
+    <p th:text="'Precio: ' + ${item.precio} + ' €'"></p>
+    <p th:text="'Tipo: ' + ${item.tipo.name()}"></p>
+
+    <div th:if="${isRestauranteLogueado}">
+      <a th:href="@{/restaurante/{id}/editarItem/{idItem}(id=${restaurante.id}, idItem=${item.id})}" class="button">Editar</a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
