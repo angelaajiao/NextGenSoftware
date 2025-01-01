@@ -8,7 +8,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-
+/*class MensajesdeError extends RuntimeException{
+    public RestauranteNoEncontrado(String mensaje){
+        super(mensaje);
+    }
+}*/
 @Controller
 public class GestorRestaurantes {
     private final RestauranteDAO restauranteDAO;
@@ -17,6 +21,15 @@ public class GestorRestaurantes {
 
     private final ItemMenuDAO itemMenuDAO;
 
+    // Mensajes de error
+    private static final String ERROR_RESTAURANTE_NO_ENCONTRADO = "Restaurante no encontrado";
+    private static final String ERROR_CARTA_NO_ENCONTRADA = "Carta de menú no encontrada";
+    private static final String ERROR_CARTA_NO_PERTENECE = "La carta de menú no pertenece al restaurante indicado.";
+    private static final String ERROR_ITEM_NO_ENCONTRADO = "Ítem no encontrado";
+    public static final String STRING_RESTAURANTE = "restaurante";
+    public static final String STRING_RESTAURANTES = "restaurantes";
+    public static final String STRING_CARTAMENU = "cartaMenu";
+    public static final String STRING_ITEMS = "items";
 
     // Constructor para poder eliminar el Autowired
     public GestorRestaurantes(RestauranteDAO restauranteDAO, CartaMenuDAO cartaMenuDAO, ItemMenuDAO itemMenuDAO){
@@ -28,28 +41,28 @@ public class GestorRestaurantes {
     //Obtener los datos de la carta
     private Map<String, Object> obtenerDatosCarta(Long restauranteId, Long cartaId) {
         Restaurante restaurante = restauranteDAO.findById(restauranteId)
-                .orElseThrow(() -> new RuntimeException("Restaurante no encontrado"));
+                .orElseThrow(() -> new RuntimeException(ERROR_RESTAURANTE_NO_ENCONTRADO));
 
         CartaMenu cartaMenu = cartaMenuDAO.findById(cartaId)
-                .orElseThrow(() -> new RuntimeException("Carta de menú no encontrada"));
+                .orElseThrow(() -> new RuntimeException(ERROR_CARTA_NO_ENCONTRADA));
 
         if (!cartaMenu.getRestaurante().getId().equals(restauranteId)) {
-            throw new RuntimeException("La carta de menú no pertenece al restaurante indicado.");
+            throw new RuntimeException(ERROR_CARTA_NO_PERTENECE);
         }
 
         List<ItemMenu> items = cartaMenu.getItems();
 
         Map<String, Object> datos = new HashMap<>();
-        datos.put("restaurante", restaurante);
-        datos.put("cartaMenu", cartaMenu);
-        datos.put("items", items);
+        datos.put(STRING_RESTAURANTE, restaurante);
+        datos.put(STRING_CARTAMENU, cartaMenu);
+        datos.put(STRING_ITEMS, items);
 
         return datos;
     }
 
     @GetMapping("/registro/restaurante")
     public String registroRestaurante(Model model) {
-        model.addAttribute("restaurante", new Restaurante());
+        model.addAttribute(STRING_RESTAURANTE, new Restaurante());
         return "registroRestaurante";
     }
 
@@ -65,7 +78,7 @@ public class GestorRestaurantes {
 
             // Si no existe, guarda el restaurante
             restauranteDAO.save(restaurante);
-            model.addAttribute("restaurante", restaurante);
+            model.addAttribute(STRING_RESTAURANTE, restaurante);
             return "resultRestaurante";
         } catch (Exception e) {
             // Manejo general de errores
@@ -76,12 +89,12 @@ public class GestorRestaurantes {
 
     @GetMapping("/restaurante")
     public String vistaRestaurante(@ModelAttribute Restaurante restaurante, Model model) {
-        model.addAttribute("restaurante", restaurante);
+        model.addAttribute(STRING_RESTAURANTE, restaurante);
 
         // Obtenemos todas las cartas del restaurante
         List<CartaMenu> cartasMenu = restaurante.getCartasMenu();
 
-        model.addAttribute("cartasMenu", cartasMenu); // Pasamos la lista de cartas al modelo
+        model.addAttribute(STRING_CARTAMENU, cartasMenu); // Pasamos la lista de cartas al modelo
 
         model.addAttribute("isRestauranteLogueado", true);
         return "VistaRestaurante";
@@ -91,14 +104,14 @@ public class GestorRestaurantes {
     @GetMapping("/listarRestaurantes")
     public String mostrarRestaurantesLogin(Model model) {
         List<Restaurante> restaurantes = restauranteDAO.findAll();
-        model.addAttribute("restaurantes", restaurantes);
+        model.addAttribute(STRING_RESTAURANTES, restaurantes);
         return "listarRestaurantes";
     }
 
     @PostMapping("/listarRestaurantes")
     public String listarRestaurantes(Model model) {
         List<Restaurante> restaurantes = restauranteDAO.findAll(); // Obtener todos los restaurantes
-        model.addAttribute("restaurantes", restaurantes);
+        model.addAttribute(STRING_RESTAURANTES, restaurantes);
         return "listarRestaurantes"; // Nombre de la vista donde se mostrará la lista
     }
 
@@ -106,7 +119,7 @@ public class GestorRestaurantes {
     @GetMapping("/AnonimoBuscarRestaurantes")
     public String buscarRestaurantes(@RequestParam String nombre, Model model) {
         List<Restaurante> restaurantes = restauranteDAO.findAllByNombre(nombre);
-        model.addAttribute("restaurantes", restaurantes);
+        model.addAttribute(STRING_RESTAURANTES, restaurantes);
         return "listarRestaurantes";
 
     }
@@ -115,7 +128,7 @@ public class GestorRestaurantes {
     @GetMapping("/restaurante/{id}/menu")
     public String verMenuRestauranteAnonimo(@PathVariable Long id, Model model) {
         Restaurante restaurante = restauranteDAO.findById(id)
-                .orElseThrow(() -> new RuntimeException("Restaurante no encontrado"));
+                .orElseThrow(() -> new RuntimeException(ERROR_RESTAURANTE_NO_ENCONTRADO));
 
         System.out.println("Restaurante encontrado: " + restaurante.getNombre());
 
@@ -124,14 +137,14 @@ public class GestorRestaurantes {
         if (cartasMenu.isEmpty()) {
             System.out.println("Restaurante no tiene cartas de menú disponibles.");
             model.addAttribute("mensaje", "Este restaurante no tiene cartas de menú disponibles.");
-            model.addAttribute("cartasMenu", Collections.emptyList());
+            model.addAttribute(STRING_CARTAMENU, Collections.emptyList());
         } else {
             System.out.println("Cartas de menú encontradas: " + cartasMenu.size());
-            model.addAttribute("cartasMenu", cartasMenu);
+            model.addAttribute(STRING_CARTAMENU, cartasMenu);
             model.addAttribute("mensaje", "");
         }
 
-        model.addAttribute("restaurante", restaurante);
+        model.addAttribute(STRING_RESTAURANTE, restaurante);
         return "verCartaMenuAnonimo";
     }
 
@@ -139,9 +152,9 @@ public class GestorRestaurantes {
     @GetMapping("/restaurante/{restauranteId}/menu/{cartaId}")
     public String verItemsDeCarta(@PathVariable Long restauranteId, @PathVariable Long cartaId, Model model) {
         Map<String, Object> datos = obtenerDatosCarta(restauranteId, cartaId);
-        model.addAttribute("restaurante", datos.get("restaurante"));
-        model.addAttribute("cartaMenu", datos.get("cartaMenu"));
-        model.addAttribute("items", datos.get("items"));
+        model.addAttribute(STRING_RESTAURANTE, datos.get(STRING_RESTAURANTE));
+        model.addAttribute(STRING_CARTAMENU, datos.get("cartaMenu"));
+        model.addAttribute(STRING_ITEMS, datos.get("items"));
 
         return "verItemsCartaRestaurante";
     }
@@ -149,9 +162,9 @@ public class GestorRestaurantes {
     @GetMapping("/anonimo/restaurante/{restauranteId}/menu/{cartaId}")
     public String verItemsDeCartaAnonimo(@PathVariable Long restauranteId, @PathVariable Long cartaId, Model model) {
         Map<String, Object> datos = obtenerDatosCarta(restauranteId, cartaId);
-        model.addAttribute("restaurante", datos.get("restaurante"));
-        model.addAttribute("cartaMenu", datos.get("cartaMenu"));
-        model.addAttribute("items", datos.get("items"));
+        model.addAttribute(STRING_RESTAURANTE, datos.get(STRING_RESTAURANTE));
+        model.addAttribute(STRING_CARTAMENU, datos.get("cartaMenu"));
+        model.addAttribute(STRING_ITEMS, datos.get("items"));
 
         return "verItemsCartaAnonimo";
     }
@@ -161,9 +174,9 @@ public class GestorRestaurantes {
     @GetMapping("/restaurante/{id}/inicio")
     public String verCartaMenu(@PathVariable String id, Model model) {
         Restaurante restaurante = restauranteDAO.findBycif(id)
-                .orElseThrow(() -> new RuntimeException("Restaurante no encontrado"));
+                .orElseThrow(() -> new RuntimeException(ERROR_RESTAURANTE_NO_ENCONTRADO));
 
-        model.addAttribute("restaurante", restaurante);
+        model.addAttribute(STRING_RESTAURANTE, restaurante);
 
         // Obtener todas las cartas de menú del restaurante
         List<CartaMenu> cartasMenu = restaurante.getCartasMenu(); // Supongamos que un restaurante puede tener múltiples cartas
@@ -181,15 +194,15 @@ public class GestorRestaurantes {
     public String mostrarFormularioAgregarCartas(@PathVariable String cif, Model model) {
         // Buscar el restaurante por CIF
         Restaurante restaurante = restauranteDAO.findBycif(cif)
-                .orElseThrow(() -> new RuntimeException("Restaurante no encontrado"));
+                .orElseThrow(() -> new RuntimeException(ERROR_RESTAURANTE_NO_ENCONTRADO));
 
         // Crear un objeto CartaMenu inicializado
         CartaMenu carta = new CartaMenu();
         carta.setRestaurante(restaurante); // Asignar el restaurante
 
         // Añadir datos al modelo
-        model.addAttribute("restaurante", restaurante);
-        model.addAttribute("cartaMenu", carta); // Pasar el objeto CartaMenu al modelo
+        model.addAttribute(STRING_RESTAURANTE, restaurante);
+        model.addAttribute(STRING_CARTAMENU, carta); // Pasar el objeto CartaMenu al modelo
 
         return "agregarCartaMenu";
     }
@@ -202,7 +215,7 @@ public class GestorRestaurantes {
                                    Model model) {
         // Buscar restaurante
         Restaurante restaurante = restauranteDAO.findBycif(cif)
-                .orElseThrow(() -> new RuntimeException("Restaurante no encontrado"));
+                .orElseThrow(() -> new RuntimeException(ERROR_RESTAURANTE_NO_ENCONTRADO));
 
         // Asociar restaurante con la carta
         cartaMenu.setRestaurante(restaurante);
@@ -224,11 +237,11 @@ public class GestorRestaurantes {
     @GetMapping("/restaurante/{id}/editarItem/{idItem}")
     public String mostrarFormularioEdicion(@PathVariable String id, @PathVariable Long idItem, Model model) {
         Restaurante restaurante = restauranteDAO.findBycif(id)
-                .orElseThrow(() -> new RuntimeException("Restaurante no encontrado"));
+                .orElseThrow(() -> new RuntimeException(ERROR_RESTAURANTE_NO_ENCONTRADO));
         ItemMenu item = itemMenuDAO.findById(idItem)
-                .orElseThrow(() -> new RuntimeException("Ítem no encontrado"));
+                .orElseThrow(() -> new RuntimeException(ERROR_ITEM_NO_ENCONTRADO));
 
-        model.addAttribute("restaurante", restaurante);  // Agregar el restaurante
+        model.addAttribute(STRING_RESTAURANTE, restaurante);  // Agregar el restaurante
         model.addAttribute("item", item);  // Pasar el ítem al modelo
         model.addAttribute("tipos", Arrays.asList(TipoItemMenu.values()));  // Opciones de tipos
         return "editarItemMenu";
@@ -239,9 +252,9 @@ public class GestorRestaurantes {
     public String guardarEdicionItemMenu(@PathVariable String id, @PathVariable Long idItem,
                                          @ModelAttribute ItemMenu itemEditado) {
         Restaurante restaurante = restauranteDAO.findBycif(id)
-                .orElseThrow(() -> new RuntimeException("Restaurante no encontrado"));
+                .orElseThrow(() -> new RuntimeException(ERROR_RESTAURANTE_NO_ENCONTRADO));
         ItemMenu item = itemMenuDAO.findById(idItem)
-                .orElseThrow(() -> new RuntimeException("Ítem no encontrado"));
+                .orElseThrow(() -> new RuntimeException(ERROR_ITEM_NO_ENCONTRADO));
 
         // Actualizar los campos del ítem
         item.setNombre(itemEditado.getNombre());
@@ -267,13 +280,13 @@ public class GestorRestaurantes {
     @GetMapping("/restaurante/{id}/agregarItem/{idcarta}")
     public String mostrarFormularioAgregarItem(@PathVariable Long id, @PathVariable Long idcarta, Model model) {
         Restaurante restaurante = restauranteDAO.findById(id)
-                .orElseThrow(() -> new RuntimeException("Restaurante no encontrado"));
+                .orElseThrow(() -> new RuntimeException(ERROR_RESTAURANTE_NO_ENCONTRADO));
 
         CartaMenu cartaMenu = cartaMenuDAO.findById(idcarta)
-                .orElseThrow(() -> new RuntimeException("Carta no encontrada"));
+                .orElseThrow(() -> new RuntimeException(ERROR_CARTA_NO_ENCONTRADA));
 
-        model.addAttribute("restaurante", restaurante);
-        model.addAttribute("cartaMenu", cartaMenu);
+        model.addAttribute(STRING_RESTAURANTE, restaurante);
+        model.addAttribute(STRING_CARTAMENU, cartaMenu);
         model.addAttribute("tipos", Arrays.asList(TipoItemMenu.values())); // Opciones para el tipo
         return "agregarItemMenu";
     }
@@ -284,7 +297,7 @@ public class GestorRestaurantes {
                               @PathVariable Long idcarta) {
 
         CartaMenu carta = cartaMenuDAO.findById(idcarta)
-                .orElseThrow(() -> new RuntimeException("Carta de menú no encontrada"));
+                .orElseThrow(() -> new RuntimeException(ERROR_CARTA_NO_ENCONTRADA));
 
         //Se crea una lista a partir de los datos recibidos
         List<ItemMenu> items = new ArrayList<>();
