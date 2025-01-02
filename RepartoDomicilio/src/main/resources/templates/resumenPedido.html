@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resultado de la Redirección</title>
+    <title>Resumen del Pedido</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -70,27 +70,26 @@
     <h1>Resumen del pedido</h1>
 
     <!-- Mensaje de éxito -->
-    <div class="result-success">
+    <div>
         <p>¡Los ítems han sido agregados exitosamente al pedido!</p>
     </div>
 
     <!-- Mostrar ítems agregados -->
-    <div th:if="${items != null and items.size() > 0}">
+    <div th:if="${pedido.items != null and !pedido.items.isEmpty()}">
         <h2>Ítems Agregados</h2>
-        <div th:each="item : ${items}" class="menu-item">
+        <div th:each="item : ${pedido.items}" class="menu-item">
             <h3 th:text="${item.nombre}">Nombre del ítem</h3>
             <p th:text="'Precio: ' + ${item.precio} + ' €'">Precio</p>
             <p th:text="'Tipo: ' + ${item.tipo}">Tipo</p>
         </div>
     </div>
-    <div th:if="${items == null or items.size() == 0}">
+    <div th:if="${pedido.items == null or pedido.items.isEmpty()}">
         <p>No se han agregado ítems al pedido aún.</p>
     </div>
 
-    <a href="/Cliente" class="button">Volver a Cartas</a>
+    <a th:href="@{/Cliente}" class="button">Volver a Cartas</a>
 </div>
 
 </body>
 </html>
-
 

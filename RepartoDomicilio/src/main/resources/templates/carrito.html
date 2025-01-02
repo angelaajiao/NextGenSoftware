@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carrito de Compras</title>
+  <style>
+    /* Estilos generales */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      text-align: center;
+      margin-top: 20px;
+      color: #4CAF50;
+    }
+
+    h3 {
+      color: #444;
+    }
+
+    /* Estilos del carrito */
+    .carrito-container {
+      width: 80%;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+    }
+
+    .item-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .item-list li {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #ddd;
+      font-size: 18px;
+    }
+
+    .item-list li:last-child {
+      border-bottom: none;
+    }
+
+    .item {
+      font-weight: bold;
+    }
+
+    .precio {
+      color: #ff5722;
+    }
+
+    /* Botones y enlaces */
+    .btn {
+      display: inline-block;
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 5px;
+      margin: 10px 5px;
+      font-size: 16px;
+      text-align: center;
+    }
+
+    .btn:hover {
+      background-color: #45a049;
+    }
+
+    /* Enlace de volver a agregar ítems */
+    .add-items {
+      display: inline-block;
+      color: #2196F3;
+      text-decoration: none;
+      margin-top: 10px;
+    }
+
+    .add-items:hover {
+      text-decoration: underline;
+    }
+
+    /* Mensajes */
+    .mensaje {
+      text-align: center;
+      font-size: 18px;
+      margin-top: 20px;
+      color: #ff5722;
+    }
+  </style>
+</head>
+<body>
+<h1>Carrito de Compras</h1>
+
+<div class="carrito-container">
+  <h3>Items en tu carrito:</h3>
+
+  <!-- Si el carrito está vacío -->
+  <div th:if="${#lists.isEmpty(pedidoActual.items)}" class="mensaje">
+    ¡Tu carrito está vacío! Añade algunos productos.
+  </div>
+
+  <!-- Lista de productos en el carrito -->
+  <ul class="item-list" th:each="item : ${pedidoActual.items}">
+    <li>
+      <span class="item" th:text="${item.nombre}"></span>
+      <span class="precio" th:text="${item.precio} + ' €'"></span>
+    </li>
+  </ul>
+
+  <!-- Botón para confirmar el pedido -->
+  <div>
+    <a th:href="@{/pedido/confirmar}" class="btn">Confirmar Pedido</a>
+  </div>
+
+  <!-- Enlace para seguir agregando ítems -->
+  <div th:if="${not #lists.isEmpty(pedidoActual.items)}">
+    <a th:href="@{/pedido/agregar/{itemId}(itemId=${item.id})}" class="add-items">Seguir Agregando Ítems</a>
+  </div>
+</div>
+</body>
+</html>
