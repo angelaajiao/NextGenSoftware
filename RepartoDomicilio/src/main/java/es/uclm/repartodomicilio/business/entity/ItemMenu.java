@@ -22,6 +22,15 @@ public class ItemMenu {
     // Constructor vacío requerido por JPA
     public ItemMenu() {}
 
+    // Constructor
+    public ItemMenu(String nombre, double precio, TipoItemMenu tipo, CartaMenu cartaMenu) {
+        this.nombre = nombre;
+        this.precio = precio;
+        this.tipo = tipo;
+        this.cartaMenu = cartaMenu;
+    }
+
+
     // Getters y Setters
     public Long getId() {
         return id;
