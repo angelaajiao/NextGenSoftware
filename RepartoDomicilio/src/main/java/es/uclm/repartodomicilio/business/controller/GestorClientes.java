@@ -1,6 +1,8 @@
 package es.uclm.repartodomicilio.business.controller;
 
-
+import jakarta.servlet.http.HttpSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import es.uclm.repartodomicilio.business.entity.Cliente;
 import es.uclm.repartodomicilio.business.entity.Restaurante;
 import es.uclm.repartodomicilio.business.persistence.ClienteDAO;
@@ -10,7 +12,11 @@ import org.springframework.web.bind.annotation.*;
 import es.uclm.repartodomicilio.business.persistence.RestauranteDAO;
 
 import java.util.List;
-
+class ClienteNoEncontradoException extends RuntimeException {
+    public ClienteNoEncontradoException(String message) {
+        super(message);
+    }
+}
 @Controller
 public class GestorClientes {
 
@@ -18,6 +24,8 @@ public class GestorClientes {
     private final RestauranteDAO restauranteDAO;
     public static final String STRING_CLIENTE = "cliente";
     public static final String STRING_RESTAURANTE = "restaurantes";
+    // Creamos logger para evitar usar System.out.println()
+    private static final Logger logger = LoggerFactory.getLogger(GestorClientes.class);
 
     public GestorClientes(ClienteDAO clienteDAO, RestauranteDAO restauranteDAO) {
         this.clienteDAO = clienteDAO;
@@ -61,30 +69,38 @@ public class GestorClientes {
         return "Inicio";
     }
     // Método para la vista de favoritos
-    @GetMapping("cliente/favoritos")
-    public String mostrarFavoritos() {
+    @GetMapping("cliente/{id}/favoritos")
+    public String mostrarFavoritos(@PathVariable Long id, Model model) {
+        Cliente cliente = clienteDAO.findById(id)
+                .orElseThrow(() -> new ClienteNoEncontradoException("No hemos encontrado el cliente"));
+        model.addAttribute(STRING_CLIENTE, cliente);
         return "VistaFavoritos";
     }
 
-    @PostMapping("cliente/favoritos")
-    public String mostrarFavs() {
+    @PostMapping("cliente/{id}/favoritos")
+    public String mostrarFavs(@PathVariable Long id, Model model) {
+        Cliente cliente = clienteDAO.findById(id)
+                .orElseThrow(() -> new ClienteNoEncontradoException("No hemos encontrado el cliente"));
+        logger.info("Cliente encontrado: {}", cliente.getNombre());
+        model.addAttribute(STRING_CLIENTE, cliente);
+
         return "VistaFavoritos";
     }
 
-    @GetMapping("/Cliente")
-    public String mostrarCliente(Model model) {
-        return listarRestaurantes(model); // Reutilizar el método
-    }
+    //Loggeo
+    @GetMapping("/Cliente/{id}")
+    public String mostrarCliente(@PathVariable String id, Model model) {
+        // Buscar cliente por ID o DNI
+        Cliente cliente = clienteDAO.findByDni(id) // Si estás usando DNI como identificador
+                .orElseThrow(() -> new ClienteNoEncontradoException("Cliente no encontrado con ID: " + id));
 
-    @PostMapping("/Cliente")
-    public String listarRestaurantes(Model model) {
+        // Añadir atributos al modelo
+        model.addAttribute(STRING_CLIENTE, cliente);
         List<Restaurante> restaurantes = restauranteDAO.findAll();
         model.addAttribute(STRING_RESTAURANTE, restaurantes);
-        return "VistaCliente"; // Nombre de la vista donde se mostrará la lista
+
+        return "VistaCliente";
     }
-
-
-
 
 }
 

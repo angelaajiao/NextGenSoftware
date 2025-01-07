@@ -96,6 +96,6 @@
 
     document.addEventListener('DOMContentLoaded', loadFavoriteRestaurants);
 </script>
-<a href="/Cliente">Volver</a>
+<a th:href="@{/Cliente/{id}(id=${cliente.dni})}">Volver</a>
 </body>
 </html>

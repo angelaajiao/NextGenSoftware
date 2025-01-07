@@ -1,5 +1,4 @@
 package es.uclm.repartodomicilio.business.entity;
-
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
