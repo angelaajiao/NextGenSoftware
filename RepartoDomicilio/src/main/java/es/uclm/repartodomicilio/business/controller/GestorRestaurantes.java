@@ -125,6 +125,7 @@ public class GestorRestaurantes {
         return VISTA_REGISTRO_RESTAURANTE;
     }
 
+
     @PostMapping("/registro/restaurante")
     public String registrarRestaurante(@ModelAttribute Restaurante restaurante, Model model) {
         try {
