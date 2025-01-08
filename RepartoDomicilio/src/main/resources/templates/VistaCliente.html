@@ -179,7 +179,7 @@
             <div class="restaurant-details">
                 <h3 th:text="${restaurante.nombre}">Nombre del Restaurante</h3>
                 <p th:text="${restaurante.direccion}">Dirección del Restaurante</p>
-                <a href="#" th:href="@{/restaurante/{id}/menu(id=${restaurante.id})}" class="button">Ver Menú</a>
+                <a th:href="@{/usuario/restaurante/{id}/menu(id=${restaurante.id})}" class="button">Ver Menú</a>
             </div>
             <form th:action="@{/Cliente/{id}(id=${cliente.id})}" method="post" class="favorite-form">
                 <input type="hidden" name="restauranteId" th:value="${restaurante.id}" />
