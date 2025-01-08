@@ -87,7 +87,8 @@
         <p>No se han agregado ítems al pedido aún.</p>
     </div>
 
-    <a th:href="@{/Cliente}" class="button">Volver a Cartas</a>
+
+    <a th:href="@{/Cliente/{id}(id=${cliente.dni})}"  class="button">Volver</a>
 </div>
 
 </body>

@@ -71,13 +71,14 @@
         <p th:text="'Precio: ' + ${item.precio} + ' €'">Precio</p>
         <p th:text="'Tipo: ' + ${item.tipo}">Tipo</p>
 
-        <form th:action="@{/restaurante/{restauranteId}/menu/{cartaId}/agregarPedido(restauranteId=${restauranteId}, cartaId=${cartaId})}" method="post">
+        <form th:action="@{/Cliente/{clienteId}/restaurante/{restauranteId}/menu/{cartaId}/agregarPedido(clienteId=${clienteId},restauranteId=${restauranteId}, cartaId=${cartaId})}" method="post">
             <input type="hidden" name="itemIds" th:value="${item.id}" />
+
             <input type="number" name="cantidad" min="1" value="1" required />
             <button type="submit" class="button">Agregar al pedido</button>
         </form>
     </div>
-    <a th:href="@{/Cliente}" class="button">Volver a Cartas</a>
+    <a th:href="@{/Cliente/{clienteId}/restaurante/{restauranteId}/menu(clienteId=${clienteId}, restauranteId=${restauranteId})}" class="button">Volver a Cartas</a>
 </div>
 
 </body>

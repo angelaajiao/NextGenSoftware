@@ -158,14 +158,14 @@
 
 <header>
     <div class="logo">
-        Bienvenido, <span>Cliente</span>
+        Bienvenido, <span  th:text="${cliente.nombre}">Cliente</span>
     </div>
     <div class="menu-icon" onclick="toggleMenu(event)"></div>
 </header>
 
 <nav id="menu">
     <a href="#" th:href="@{/cliente/perfilCliente}">Perfil</a>
-    <a href="#" th:href="@{/cliente/favoritos}">Favoritos</a>
+    <a href="#" th:href="@{/cliente/{id}/favoritos(id=${cliente.id})}">Favoritos</a>
     <a href="#" th:href="@{/cliente/historialPedidos}">Historial de pedidos</a>
     <a href="#" th:href="@{/cliente/ajustes}">Ajustes</a>
     <a href="#" th:href="@{/login}">Cerrar Sesión</a>
@@ -179,7 +179,7 @@
             <div class="restaurant-details">
                 <h3 th:text="${restaurante.nombre}">Nombre del Restaurante</h3>
                 <p th:text="${restaurante.direccion}">Dirección del Restaurante</p>
-                <a href="#" th:href="@{/cliente/restaurante/{id}/menu(id=${restaurante.id})}" class="button">Ver Cartas</a>
+                <a href="#" th:href="@{/Cliente/{clienteId}/restaurante/{restauranteId}/menu(clienteId=${cliente.id}, restauranteId=${restaurante.id})}" class="button">Ver Cartas</a>
 
             </div>
             <button class="heart-btn" onclick="toggleFavorite(this)">

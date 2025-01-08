@@ -1,13 +1,10 @@
 package es.uclm.repartodomicilio.business.controller;
-import es.uclm.repartodomicilio.business.persistence.CartaMenuDAO;
-import es.uclm.repartodomicilio.business.persistence.ItemMenuDAO;
-import es.uclm.repartodomicilio.business.persistence.PedidoDAO;
+import es.uclm.repartodomicilio.business.persistence.*;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import es.uclm.repartodomicilio.business.entity.*;
-import es.uclm.repartodomicilio.business.persistence.RestauranteDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +25,9 @@ public class GestorRestaurantes {
 
     @Autowired
     private ItemMenuDAO itemMenuDAO;
+
+    @Autowired
+    private ClienteDAO clienteDAO;
 
     //Obtener los datos de la carta
     private Map<String, Object> obtenerDatosCarta(Long restauranteId, Long cartaId) {
@@ -139,11 +139,16 @@ public class GestorRestaurantes {
     }
 
     // Para ver las cartas en el cliente
-    @GetMapping("/cliente/restaurante/{id}/menu")
-    public String verCartasCliente(@PathVariable Long id, Model model) {
-        configurarModeloConCartas(id, model, "Este restaurante no tiene cartas de menú disponibles.");
+    @GetMapping("/Cliente/{clienteId}/restaurante/{restauranteId}/menu")
+    public String verCartasCliente(@PathVariable Long clienteId, @PathVariable Long restauranteId, Model model) {
+        configurarModeloConCartas(restauranteId, model, "Este restaurante no tiene cartas de menú disponibles.");
+        Cliente cliente = clienteDAO.findById(clienteId)
+                .orElseThrow(() -> new ClienteNoEncontradoException("No hemos encontrado el cliente"));
+        model.addAttribute("cliente", cliente);
+
+
         return "VerCartaMenuCliente";
-    }
+    }// revisar porque  sigue apareciendo el anterior link(la pagina si que va)
 
 
     // Para poder ver los items de cada carta
@@ -169,14 +174,14 @@ public class GestorRestaurantes {
     }
 
     // para el cliente
-    @GetMapping("/cliente/restaurante/{restauranteId}/menu/{cartaId}")
-    public String verItemsDeCartaCliente(@PathVariable Long restauranteId, @PathVariable Long cartaId, Model model) {
+    @GetMapping("/Cliente/{clienteId}/restaurante/{restauranteId}/menu/{cartaId}")
+    public String verItemsDeCartaCliente(@PathVariable Long clienteId, @PathVariable Long restauranteId, @PathVariable Long cartaId, Model model) {
         Map<String, Object> datos = obtenerDatosCarta(restauranteId, cartaId);
         model.addAttribute("restaurante", datos.get("restaurante"));
         model.addAttribute("cartaMenu", datos.get("cartaMenu"));
         model.addAttribute("items", datos.get("items"));
-
-        return "verItemsCartaCliente";
+        model.addAttribute("clienteId", clienteId); // Agregar clienteId al modelo
+        return "verItemsCartaCliente"; //funciona url
     }
 
     // Para que salga la vista del restaurante
@@ -284,10 +289,14 @@ public class GestorRestaurantes {
 
         return "redirect:/restaurante/" + id + "/verCartaMenu";  // Redirigir a la página del menú
     }
-    @PostMapping("/restaurante/{restauranteId}/menu/{cartaId}/agregarPedido")
-    public String agregarPedido(@PathVariable Long restauranteId, @PathVariable Long cartaId,@RequestParam List<Long> itemIds, @RequestParam int cantidad,
+    @PostMapping("/Cliente/{clienteId}/restaurante/{restauranteId}/menu/{cartaId}/agregarPedido")
+    public String agregarPedido(@PathVariable Long clienteId, @PathVariable Long restauranteId, @PathVariable Long cartaId,@RequestParam List<Long> itemIds, @RequestParam int cantidad,
                                 Model model) {
         try {
+
+            // Obtener cliente
+            Cliente cliente = clienteDAO.findById(clienteId)
+                    .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
             // Obtener los datos de la carta y restaurante
             Map<String, Object> datos = obtenerDatosCarta(restauranteId, cartaId);
             Restaurante restaurante = (Restaurante) datos.get("restaurante");
@@ -314,7 +323,7 @@ public class GestorRestaurantes {
             pedido.setCantidad(cantidad);
             pedido.setFechaPedido(LocalDateTime.now());
 
-            // Guardar el pedido (suponiendo que tienes un DAO o repositorio de Pedido)
+            // Guardar el pedido
             pedidoDAO.save(pedido);
 
             // Agregar al modelo para mostrar en la vista
@@ -322,8 +331,9 @@ public class GestorRestaurantes {
             model.addAttribute("cartaMenu", cartaMenu);
             model.addAttribute("pedido", pedido);
             model.addAttribute("mensajeExito", "Pedido agregado con éxito.");
+            model.addAttribute("cliente", cliente);
 
-            return "resumenPedido";
+            return "resumenPedido"; //este no funciona
 
         } catch (RuntimeException e) {
             throw new RuntimeException(e);

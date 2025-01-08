@@ -36,7 +36,7 @@ public class GestorLogin {
             //Redirige a la vista correspondiente según el rol
             switch (rol) {
                 case "Cliente":
-                    return "redirect:/Cliente"; // vista cliente
+                    return "redirect:/Cliente/" + id; // vista cliente
                 case "Repartidor":
                     return "VistaRepartidor"; // vista repartidor
                 case "Restaurante":
