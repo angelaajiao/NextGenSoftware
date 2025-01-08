@@ -290,13 +290,29 @@ public class GestorRestaurantes {
         return "redirect:/restaurante/" + id + "/verCartaMenu";  // Redirigir a la página del menú
     }
     @PostMapping("/Cliente/{clienteId}/restaurante/{restauranteId}/menu/{cartaId}/agregarPedido")
-    public String agregarPedido(@PathVariable Long clienteId, @PathVariable Long restauranteId, @PathVariable Long cartaId,@RequestParam List<Long> itemIds, @RequestParam int cantidad,
-                                Model model) {
+    public String agregarPedido(
+            @PathVariable Long clienteId,
+            @PathVariable Long restauranteId,
+            @PathVariable Long cartaId,
+            @RequestParam List<Long> itemIds,
+            @RequestParam List<Integer> cantidades,
+            Model model) {
         try {
+            // Validar parámetros
+            if (itemIds == null || itemIds.isEmpty()) {
+                model.addAttribute("error", "Debe seleccionar al menos un ítem.");
+                return "error"; // Vista de error amigable
+            }
+
+            if (cantidades == null || cantidades.size() != itemIds.size()) {
+                model.addAttribute("error", "Debe proporcionar cantidades válidas para los ítems seleccionados.");
+                return "error";
+            }
 
             // Obtener cliente
             Cliente cliente = clienteDAO.findById(clienteId)
                     .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
+
             // Obtener los datos de la carta y restaurante
             Map<String, Object> datos = obtenerDatosCarta(restauranteId, cartaId);
             Restaurante restaurante = (Restaurante) datos.get("restaurante");
@@ -306,21 +322,33 @@ public class GestorRestaurantes {
             model.addAttribute("items", itemsDisponibles);
 
             // Validar los ítems seleccionados
-            List<ItemMenu> itemsSeleccionados = new ArrayList<>();
-            for (Long itemId : itemIds) {
+            List<ItemPedido> itemsPedido = new ArrayList<>();
+            for (int i = 0; i < itemIds.size(); i++) {
+                Long itemId = itemIds.get(i);
+                int cantidad = cantidades.get(i);
+
+                if (cantidad <= 0) {
+                    throw new RuntimeException("Cantidad inválida para el ítem con ID: " + itemId);
+                }
+
                 ItemMenu item = itemsDisponibles.stream()
                         .filter(i -> i.getId().equals(itemId))
                         .findFirst()
-                        .orElseThrow(() -> new RuntimeException("Ítem no encontrado"));
-                itemsSeleccionados.add(item);
+                        .orElseThrow(() -> new RuntimeException("Ítem no encontrado: " + itemId));
+
+                // Crear relación ítem-pedido
+                ItemPedido itemPedido = new ItemPedido();
+                itemPedido.setItem(item);
+                itemPedido.setCantidad(cantidad);
+                itemsPedido.add(itemPedido);
             }
 
             // Crear el pedido
             Pedido pedido = new Pedido();
+            pedido.setCliente(cliente);
             pedido.setRestaurante(restaurante);
             pedido.setCartaMenu(cartaMenu);
-            pedido.setItems(itemsSeleccionados);
-            pedido.setCantidad(cantidad);
+            pedido.setItems(itemsPedido);
             pedido.setFechaPedido(LocalDateTime.now());
 
             // Guardar el pedido
@@ -333,11 +361,13 @@ public class GestorRestaurantes {
             model.addAttribute("mensajeExito", "Pedido agregado con éxito.");
             model.addAttribute("cliente", cliente);
 
-            return "resumenPedido"; //este no funciona
+            return "resumenPedido";
 
         } catch (RuntimeException e) {
-            throw new RuntimeException(e);
+            model.addAttribute("error", e.getMessage());
+            return "error";
         }
     }
+
 
 }

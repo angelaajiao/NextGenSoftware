@@ -9,6 +9,7 @@
             background-color: #f9f9f9;
             margin: 0;
             padding: 0;
+            display: flex;
         }
 
         header {
@@ -82,6 +83,7 @@
 
         .content {
             padding: 20px;
+            width: 70%;
         }
 
         #search {
@@ -152,13 +154,43 @@
         .button:hover {
             background-color: #44ad2d;
         }
+
+        .cart {
+            width: 30%;
+            background-color: #ffffff;
+            border-left: 2px solid #ddd;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .cart h2 {
+            margin-top: 0;
+        }
+
+        .cart-item {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item p {
+            margin: 5px 0;
+        }
+
+        .cart-total {
+            margin-top: 20px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
 
 <header>
     <div class="logo">
-        Bienvenido, <span  th:text="${cliente.nombre}">Cliente</span>
+        Bienvenido, <span th:text="${cliente.nombre}">Cliente</span>
     </div>
     <div class="menu-icon" onclick="toggleMenu(event)"></div>
 </header>
@@ -180,7 +212,6 @@
                 <h3 th:text="${restaurante.nombre}">Nombre del Restaurante</h3>
                 <p th:text="${restaurante.direccion}">Dirección del Restaurante</p>
                 <a href="#" th:href="@{/Cliente/{clienteId}/restaurante/{restauranteId}/menu(clienteId=${cliente.id}, restauranteId=${restaurante.id})}" class="button">Ver Cartas</a>
-
             </div>
             <button class="heart-btn" onclick="toggleFavorite(this)">
                 <span>&#x2661;</span>
@@ -189,7 +220,20 @@
     </div>
 </div>
 
+<div class="cart">
+    <h2>Carrito</h2>
+    <div id="cartItems">
+        <p>Tu carrito está vacío.</p>
+    </div>
+    <div class="cart-total">
+        Total: <span id="cartTotal">0</span> €
+    </div>
+    <button class="button" onclick="checkout()">Realizar Pedido</button>
+</div>
+
 <script>
+    let cart = []; // Array para almacenar los ítems del carrito
+
     function toggleMenu(event) {
         const menu = document.getElementById('menu');
         const menuStyle = menu.style.right;
@@ -259,8 +303,70 @@
         localStorage.setItem('favorites', JSON.stringify(favorites));
     }
 
+    function addToCart(itemName, itemPrice) {
+        const existingItem = cart.find(item => item.name === itemName);
+
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cart.push({ name: itemName, price: itemPrice, quantity: 1 });
+        }
+
+        updateCart();
+    }
+
+    function updateCart() {
+        const cartItemsContainer = document.getElementById('cartItems');
+        const cartTotalElement = document.getElementById('cartTotal');
+
+        cartItemsContainer.innerHTML = '';
+
+        if (cart.length === 0) {
+            cartItemsContainer.innerHTML = '<p>Tu carrito está vacío.</p>';
+            cartTotalElement.textContent = '0';
+            return;
+        }
+
+        let total = 0;
+
+        cart.forEach(item => {
+            total += item.price * item.quantity;
+
+            const cartItemElement = document.createElement('div');
+            cartItemElement.classList.add('cart-item');
+
+            cartItemElement.innerHTML = `
+                <p><strong>${item.name}</strong></p>
+                <p>Precio: ${item.price} €</p>
+                <p>Cantidad: ${item.quantity}</p>
+                <button class="button" style="background-color: red;" onclick="removeFromCart('${item.name}')">Eliminar</button>
+            `;
+
+            cartItemsContainer.appendChild(cartItemElement);
+        });
+
+        cartTotalElement.textContent = total.toFixed(2);
+    }
+
+    function removeFromCart(itemName) {
+        cart = cart.filter(item => item.name !== itemName);
+        updateCart();
+    }
+
+    function checkout() {
+        if (cart.length === 0) {
+            alert('El carrito está vacío. Por favor, agrega ítems antes de realizar el pedido.');
+            return;
+        }
+
+        alert('Pedido realizado con éxito. ¡Gracias por tu compra!');
+
+        cart = [];
+        updateCart();
+    }
+
     document.addEventListener('DOMContentLoaded', loadFavorites);
-    document.addEventListener('click', closeMenu); // Cerrar el menú al hacer clic fuera de él
+    document.addEventListener('click', closeMenu);
 </script>
 
 </body>

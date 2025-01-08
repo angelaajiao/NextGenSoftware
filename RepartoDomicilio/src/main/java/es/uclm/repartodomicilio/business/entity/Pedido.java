@@ -52,7 +52,7 @@ public class Pedido {
         return items;
     }
 
-    public void setItems(List<ItemMenu> items) {
+    public void setItems(List<ItemPedido> items) {
         this.items = items;
     }
 

@@ -2,84 +2,372 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Ítems de la Carta</title>
+    <title>Bienvenido Cliente</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background-color: #f9f9f9;
             margin: 0;
             padding: 0;
+            display: flex;
         }
+
         header {
-            background-color: #008080;
-            color: white;
-            padding: 1rem;
-            text-align: center;
+            background-color: #ffffff;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
         }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            color: #333333;
+        }
+
+        .logo span {
+            font-weight: bold;
+            color: #44ad2d;
+        }
+
+        .menu-icon {
+            display: block;
+            width: 30px;
+            height: 3px;
+            background-color: #333;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .menu-icon:before, .menu-icon:after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 3px;
+            background-color: #333;
+            transition: 0.3s;
+        }
+
+        .menu-icon:before {
+            top: -8px;
+        }
+
+        .menu-icon:after {
+            bottom: -8px;
+        }
+
+        nav {
+            background-color: #333;
+            position: fixed;
+            top: 0;
+            right: -250px;
+            width: 250px;
+            height: 100%;
+            overflow: hidden;
+            transition: right 0.3s ease-in-out;
+        }
+
+        nav a {
+            color: white;
+            padding: 14px 20px;
+            display: block;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            background-color: #575757;
+        }
+
         .content {
             padding: 20px;
+            width: 70%;
         }
-        .menu-item {
-            border: 1px solid #ccc;
-            padding: 15px;
-            margin-bottom: 20px;
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+        #search {
+            margin-bottom: 60px;
+            padding: 20px;
+            width: 50%;
+            border: 1px solid #ddd;
+            border-radius: 30px;
+            font-size: 16px;
         }
-        .menu-item h3 {
+
+        .restaurant-item {
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .restaurant-details {
+            flex: 1;
+        }
+
+        .restaurant-details h3 {
             margin: 0;
-            font-size: 1.5rem;
-            color: #333;
+            font-size: 1.2em;
         }
-        .menu-item p {
-            margin: 5px 0;
+
+        .restaurant-details p {
+            margin: 5px 0 0 0;
             color: #555;
         }
+
+        .heart-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 3rem;
+        }
+
+        .heart-btn:hover {
+            transform: scale(1.5);
+        }
+
+        .heart-btn.favorite {
+            color: red;
+        }
+
+        .heart-btn:not(.favorite) {
+            color: #ccc;
+        }
+
         .button {
-            display: inline-block;
-            padding: 10px 15px;
-            font-size: 1rem;
+            background-color: #a2e067;
             color: white;
-            background-color: #008080;
+            padding: 8px 16px;
             text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
+            border-radius: 20px;
+            font-size: 14px;
+            display: inline-block;
+            text-align: center;
         }
+
         .button:hover {
-            background-color: #005f5f;
+            background-color: #44ad2d;
         }
-        .button:active {
-            background-color: #004747;
+
+        .cart {
+            width: 30%;
+            background-color: #ffffff;
+            border-left: 2px solid #ddd;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .cart h2 {
+            margin-top: 0;
+        }
+
+        .cart-item {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item p {
+            margin: 5px 0;
+        }
+
+        .cart-total {
+            margin-top: 20px;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
 
 <header>
-    <h1 th:text="'Ítems de la Carta: ' + ${cartaMenu.nombreCarta}"></h1>
+    <div class="logo">
+        Bienvenido, <span th:text="${cliente.nombre}">Cliente</span>
+    </div>
+    <div class="menu-icon" onclick="toggleMenu(event)"></div>
 </header>
 
-<h2>"CLIENTE"</h2>
+<nav id="menu">
+    <a href="#" th:href="@{/cliente/perfilCliente}">Perfil</a>
+    <a href="#" th:href="@{/cliente/{id}/favoritos(id=${cliente.id})}">Favoritos</a>
+    <a href="#" th:href="@{/cliente/historialPedidos}">Historial de pedidos</a>
+    <a href="#" th:href="@{/cliente/ajustes}">Ajustes</a>
+    <a href="#" th:href="@{/login}">Cerrar Sesión</a>
+</nav>
 
 <div class="content">
-    <div th:if="${items != null and items.size() == 0}">
-        <p>No hay ítems disponibles en esta carta actualmente.</p>
+    <h2>Restaurantes Disponibles</h2>
+    <input type="text" id="search" placeholder="Buscar restaurante por nombre..." onkeyup="filterRestaurants()">
+    <div id="restaurantList">
+        <div th:each="restaurante : ${restaurantes}" class="restaurant-item">
+            <div class="restaurant-details">
+                <h3 th:text="${restaurante.nombre}">Nombre del Restaurante</h3>
+                <p th:text="${restaurante.direccion}">Dirección del Restaurante</p>
+                <a href="#" th:href="@{/Cliente/{clienteId}/restaurante/{restauranteId}/menu(clienteId=${cliente.id}, restauranteId=${restaurante.id})}" class="button">Ver Cartas</a>
+            </div>
+            <button class="heart-btn" onclick="toggleFavorite(this)">
+                <span>&#x2661;</span>
+            </button>
+        </div>
     </div>
-    <div th:each="item : ${items}" class="menu-item">
-        <h3 th:text="${item.nombre}">Nombre del ítem</h3>
-        <p th:text="'Precio: ' + ${item.precio} + ' €'">Precio</p>
-        <p th:text="'Tipo: ' + ${item.tipo}">Tipo</p>
-
-        <form th:action="@{/Cliente/{clienteId}/restaurante/{restauranteId}/menu/{cartaId}/agregarPedido(clienteId=${clienteId},restauranteId=${restauranteId}, cartaId=${cartaId})}" method="post">
-            <input type="hidden" name="itemIds" th:value="${item.id}" />
-
-            <input type="number" name="cantidad" min="1" value="1" required />
-            <button type="submit" class="button">Agregar al pedido</button>
-        </form>
-    </div>
-    <a th:href="@{/Cliente/{clienteId}/restaurante/{restauranteId}/menu(clienteId=${clienteId}, restauranteId=${restauranteId})}" class="button">Volver a Cartas</a>
 </div>
+
+<div class="cart">
+    <h2>Carrito</h2>
+    <div id="cartItems">
+        <p>Tu carrito está vacío.</p>
+    </div>
+    <div class="cart-total">
+        Total: <span id="cartTotal">0</span> €
+    </div>
+    <button class="button" onclick="checkout()">Realizar Pedido</button>
+</div>
+
+<script>
+    let cart = []; // Array para almacenar los ítems del carrito
+
+    function toggleMenu(event) {
+        const menu = document.getElementById('menu');
+        const menuStyle = menu.style.right;
+
+        if (menuStyle === '0px') {
+            menu.style.right = '-250px';
+        } else {
+            menu.style.right = '0';
+        }
+
+        event.stopPropagation();
+    }
+
+    function closeMenu(event) {
+        const menu = document.getElementById('menu');
+        if (!menu.contains(event.target) && !document.querySelector('.menu-icon').contains(event.target)) {
+            menu.style.right = '-250px';
+        }
+    }
+
+    function filterRestaurants() {
+        const searchInput = document.getElementById('search').value.toLowerCase();
+        const restaurantList = document.getElementById('restaurantList');
+        const restaurants = restaurantList.getElementsByClassName('restaurant-item');
+
+        for (let i = 0; i < restaurants.length; i++) {
+            const restaurantName = restaurants[i].getElementsByTagName('h3')[0].textContent.toLowerCase();
+            const restaurantNamePrefix = restaurantName.substring(0, searchInput.length);
+
+            if (searchInput === '' || restaurantNamePrefix.startsWith(searchInput)) {
+                restaurants[i].style.display = '';
+            } else {
+                restaurants[i].style.display = 'none';
+            }
+        }
+    }
+
+    function loadFavorites() {
+        const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        const restaurantItems = document.getElementsByClassName('restaurant-item');
+
+        Array.from(restaurantItems).forEach(item => {
+            const restaurantName = item.getElementsByTagName('h3')[0].textContent;
+            const button = item.getElementsByClassName('heart-btn')[0];
+            if (favorites.includes(restaurantName)) {
+                button.classList.add('favorite');
+                button.innerHTML = '<span>&#x2665;</span>';
+            }
+        });
+    }
+
+    function toggleFavorite(button) {
+        const restaurantItem = button.parentElement;
+        const restaurantName = restaurantItem.getElementsByTagName('h3')[0].textContent;
+        let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+
+        if (button.classList.contains('favorite')) {
+            button.classList.remove('favorite');
+            button.innerHTML = '<span>&#x2661;</span>';
+            favorites = favorites.filter(name => name !== restaurantName);
+        } else {
+            button.classList.add('favorite');
+            button.innerHTML = '<span>&#x2665;</span>';
+            favorites.push(restaurantName);
+        }
+
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+    }
+
+    function addToCart(itemName, itemPrice) {
+        const existingItem = cart.find(item => item.name === itemName);
+
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cart.push({ name: itemName, price: itemPrice, quantity: 1 });
+        }
+
+        updateCart();
+    }
+
+    function updateCart() {
+        const cartItemsContainer = document.getElementById('cartItems');
+        const cartTotalElement = document.getElementById('cartTotal');
+
+        cartItemsContainer.innerHTML = '';
+
+        if (cart.length === 0) {
+            cartItemsContainer.innerHTML = '<p>Tu carrito está vacío.</p>';
+            cartTotalElement.textContent = '0';
+            return;
+        }
+
+        let total = 0;
+
+        cart.forEach(item => {
+            total += item.price * item.quantity;
+
+            const cartItemElement = document.createElement('div');
+            cartItemElement.classList.add('cart-item');
+
+            cartItemElement.innerHTML = `
+                <p><strong>${item.name}</strong></p>
+                <p>Precio: ${item.price} €</p>
+                <p>Cantidad: ${item.quantity}</p>
+                <button class="button" style="background-color: red;" onclick="removeFromCart('${item.name}')">Eliminar</button>
+            `;
+
+            cartItemsContainer.appendChild(cartItemElement);
+        });
+
+        cartTotalElement.textContent = total.toFixed(2);
+    }
+
+    function removeFromCart(itemName) {
+        cart = cart.filter(item => item.name !== itemName);
+        updateCart();
+    }
+
+    function checkout() {
+        if (cart.length === 0) {
+            alert('El carrito está vacío. Por favor, agrega ítems antes de realizar el pedido.');
+            return;
+        }
+
+        alert('Pedido realizado con éxito. ¡Gracias por tu compra!');
+
+        cart = [];
+        updateCart();
+    }
+
+    document.addEventListener('DOMContentLoaded', loadFavorites);
+    document.addEventListener('click', closeMenu);
+</script>
 
 </body>
 </html>

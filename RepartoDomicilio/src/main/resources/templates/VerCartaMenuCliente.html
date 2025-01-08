@@ -84,7 +84,6 @@
     </div>
     <div th:each="carta : ${cartasMenu}" class="menu-card">
         <h3 th:text="${carta.nombreCarta}">Nombre de la Carta</h3>
-        <!--- <p th:text="'Descripción: ' + ${carta.descripcion}">Descripción</p> -->
         <a th:href="@{/Cliente/{clienteId}/restaurante/{restauranteId}/menu/{cartaId}(clienteId=${clienteId}, restauranteId=${restaurante.id}, cartaId=${carta.id})}" class="button">Ver Ítems</a>
     </div>
         <a th:href="@{/Cliente/{id}(id=${cliente.dni})}"  class="button">Volver</a>
