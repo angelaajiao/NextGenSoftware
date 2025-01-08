@@ -1,5 +1,6 @@
 package es.uclm.repartodomicilio.business.controller;
 import es.uclm.repartodomicilio.business.persistence.CartaMenuDAO;
+import es.uclm.repartodomicilio.business.persistence.ClienteDAO;
 import es.uclm.repartodomicilio.business.persistence.ItemMenuDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,6 +53,7 @@ public class GestorRestaurantes {
     public static final String STRING_CARTAMENU = "cartaMenu";
     public static final String STRING_CARTASMENU = "cartasMenu";
     public static final String STRING_ITEMS = "items";
+    public static final String STRING_CLIENTE = "cliente";
     private static final String VISTA_REGISTRO_RESTAURANTE = "registroRestaurante";
     private static final String VISTA_LISTAR_RESTAURANTES = "listarRestaurantes";
     private static final String REDIRECT_RESTAURANTE = "redirect:/restaurante/";
@@ -60,12 +62,14 @@ public class GestorRestaurantes {
 
     // Creamos logger para evitar usar System.out.println()
     private static final Logger logger = LoggerFactory.getLogger(GestorRestaurantes.class);
+    private final ClienteDAO clienteDAO;
 
     // Constructor para poder eliminar el Autowired
-    public GestorRestaurantes(RestauranteDAO restauranteDAO, CartaMenuDAO cartaMenuDAO, ItemMenuDAO itemMenuDAO){
+    public GestorRestaurantes(RestauranteDAO restauranteDAO, CartaMenuDAO cartaMenuDAO, ItemMenuDAO itemMenuDAO, ClienteDAO clienteDAO){
         this.restauranteDAO = restauranteDAO;
         this.cartaMenuDAO = cartaMenuDAO;
         this.itemMenuDAO = itemMenuDAO;
+        this.clienteDAO = clienteDAO;
     }
 
     //Obtener los datos de la carta
@@ -94,9 +98,13 @@ public class GestorRestaurantes {
         Restaurante restaurante = restauranteDAO.findById(id)
                 .orElseThrow(() -> new RestauranteNoEncontradoException(ERROR_RESTAURANTE_NO_ENCONTRADO));
 
+        Cliente cliente = clienteDAO.findById(id)
+                .orElseThrow(() -> new ClienteNoEncontradoException("No existe el cliente"));
+
         logger.info("Restaurante encontrado: {}", restaurante.getNombre());
 
         List<CartaMenu> cartasMenu = restaurante.getCartasMenu();
+
 
         if (cartasMenu.isEmpty()) {
             logger.warn("Restaurante no tiene cartas de menú disponibles.");
@@ -109,6 +117,7 @@ public class GestorRestaurantes {
         }
 
         model.addAttribute(STRING_RESTAURANTE, restaurante);
+        model.addAttribute(STRING_CLIENTE, cliente);
 
         return esUsuarioRegistrado ? "verCartaMenuCliente" : "verCartaMenuAnonimo";
     }
