@@ -9,9 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import es.uclm.repartodomicilio.business.persistence.RestauranteDAO;
-
 import java.util.List;
-import java.util.stream.Collectors;
 
 class ClienteNoEncontradoException extends RuntimeException {
     public ClienteNoEncontradoException(String message) {
@@ -25,7 +23,7 @@ public class GestorClientes {
     private final RestauranteDAO restauranteDAO;
     public static final String STRING_CLIENTE = "cliente";
     public static final String STRING_RESTAURANTE = "restaurantes";
-    public static final String STRING_CLIENTES = "clientes";
+    public static final String STRING_FAVORITOS = "favoritos";
     public static final String ERROR_CLIENTE_NO_ENCONTRADO = "Cliente no encontrado";
     private static final String ERROR_RESTAURANTE_NO_ENCONTRADO = "Restaurante no encontrado";
     // Creamos logger para evitar usar System.out.println()
@@ -81,7 +79,7 @@ public class GestorClientes {
         // Asegurarse de cargar los favoritos
         List<Restaurante> favoritos = cliente.getFavoritos();
         model.addAttribute(STRING_CLIENTE, cliente);
-        model.addAttribute("favoritos", favoritos);
+        model.addAttribute(STRING_FAVORITOS, favoritos);
 
         return "VistaFavoritos";
     }
@@ -106,10 +104,10 @@ public class GestorClientes {
     @PostMapping("/cliente/{id}/favoritos/eliminar")
     public String eliminarFavorito(@PathVariable Long id, @RequestParam Long restauranteId) {
         Cliente cliente = clienteDAO.findById(id)
-                .orElseThrow(() -> new ClienteNoEncontradoException("Cliente no encontrado"));
+                .orElseThrow(() -> new ClienteNoEncontradoException(ERROR_CLIENTE_NO_ENCONTRADO));
 
         Restaurante restaurante = restauranteDAO.findById(restauranteId)
-                .orElseThrow(() -> new RestauranteNoEncontradoException("Restaurante no encontrado"));
+                .orElseThrow(() -> new RestauranteNoEncontradoException(ERROR_RESTAURANTE_NO_ENCONTRADO));
 
         cliente.getFavoritos().remove(restaurante);
         clienteDAO.save(cliente);
@@ -121,21 +119,21 @@ public class GestorClientes {
     @GetMapping("/Cliente/{id}")
     public String mostrarCliente(@PathVariable String id, Model model) {
         // Buscar cliente por ID o DNI
-        Cliente cliente = clienteDAO.findByDni(id) // Si estás usando DNI como identificador
-                .orElseThrow(() -> new ClienteNoEncontradoException("Cliente no encontrado con ID: " + id));
+        Cliente cliente = clienteDAO.findByDni(id)
+                .orElseThrow(() -> new ClienteNoEncontradoException(ERROR_CLIENTE_NO_ENCONTRADO));
 
         List<Restaurante> restaurantes = restauranteDAO.findAll();
         List<Restaurante> favoritos = cliente.getFavoritos();
 
         // Log para verificar los favoritos del cliente
         logger.info("Favoritos del cliente {}: {}", cliente.getId(), favoritos.stream()
-                .map(Restaurante::getNombre) // Mostrar los nombres de los restaurantes favoritos
-                .collect(Collectors.toList()));
+                .map(Restaurante::getNombre) // Mostrar los restaurantes favoritos
+                .toList());
 
         // Pasar los datos al modelo
-        model.addAttribute("cliente", cliente);
-        model.addAttribute("restaurantes", restaurantes);
-        model.addAttribute("favoritos", favoritos);
+        model.addAttribute(STRING_CLIENTE, cliente);
+        model.addAttribute(STRING_RESTAURANTE, restaurantes);
+        model.addAttribute(STRING_FAVORITOS, favoritos);
 
         return "VistaCliente";
     }

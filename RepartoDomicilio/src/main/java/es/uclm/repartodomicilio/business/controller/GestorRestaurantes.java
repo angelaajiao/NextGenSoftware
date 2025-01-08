@@ -37,13 +37,11 @@ class ItemNoEncontradoException extends RuntimeException {
 
 @Controller
 public class GestorRestaurantes {
-    private final RestauranteDAO restauranteDAO;
-
-    private final CartaMenuDAO cartaMenuDAO;
-
-    private final ItemMenuDAO itemMenuDAO;
-
     // constantes que necesitaremos
+    private final RestauranteDAO restauranteDAO;
+    private final CartaMenuDAO cartaMenuDAO;
+    private final ItemMenuDAO itemMenuDAO;
+    private final ClienteDAO clienteDAO;
     private static final String ERROR_RESTAURANTE_NO_ENCONTRADO = "Restaurante no encontrado";
     private static final String ERROR_CARTA_NO_ENCONTRADA = "Carta de menú no encontrada";
     private static final String ERROR_CARTA_NO_PERTENECE = "La carta de menú no pertenece al restaurante indicado.";
@@ -62,7 +60,6 @@ public class GestorRestaurantes {
 
     // Creamos logger para evitar usar System.out.println()
     private static final Logger logger = LoggerFactory.getLogger(GestorRestaurantes.class);
-    private final ClienteDAO clienteDAO;
 
     // Constructor para poder eliminar el Autowired
     public GestorRestaurantes(RestauranteDAO restauranteDAO, CartaMenuDAO cartaMenuDAO, ItemMenuDAO itemMenuDAO, ClienteDAO clienteDAO){
