@@ -181,7 +181,7 @@
                 <p th:text="${restaurante.direccion}">Dirección del Restaurante</p>
                 <a href="#" th:href="@{/restaurante/{id}/menu(id=${restaurante.id})}" class="button">Ver Menú</a>
             </div>
-            <form th:action="@{/cliente/{id}/favoritos/agregar(id=${cliente.id})}" method="post" class="favorite-form">
+            <form th:action="@{/Cliente/{id}(id=${cliente.id})}" method="post" class="favorite-form">
                 <input type="hidden" name="restauranteId" th:value="${restaurante.id}" />
                 <button type="submit" class="heart-btn" th:classappend="${favoritos.contains(restaurante) ? 'favorite' : ''}">
                     <span th:text="${favoritos.contains(restaurante) ? '&#10084;' : '&#9825;'}">&#9825;</span>
@@ -248,26 +248,6 @@
                 button.innerHTML = '<span>&#x2661;</span>'; // Corazón gris
             }
         });
-    }
-
-    function toggleFavorite(button, restaurantId) {
-        const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-
-        if (favorites.includes(restaurantId)) {
-            // Quitar de favoritos
-            const index = favorites.indexOf(restaurantId);
-            favorites.splice(index, 1);
-            button.classList.remove('favorite');
-            button.innerHTML = '<span>&#x2661;</span>'; // Corazón gris
-        } else {
-            // Agregar a favoritos
-            favorites.push(restaurantId);
-            button.classList.add('favorite');
-            button.innerHTML = '<span>&#x2665;</span>'; // Corazón rojo
-        }
-
-        // Guardar en localStorage
-        localStorage.setItem('favorites', JSON.stringify(favorites));
     }
 
     document.addEventListener('DOMContentLoaded', loadFavorites);

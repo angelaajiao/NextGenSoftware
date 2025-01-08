@@ -93,7 +93,7 @@ public class GestorClientes {
         return "VistaFavoritos";
     }*/
 
-    @PostMapping("/cliente/{id}/favoritos/agregar")
+    @PostMapping("/Cliente/{id}")
     public String agregarFavorito(@PathVariable Long id, @RequestParam Long restauranteId) {
         Cliente cliente = clienteDAO.findById(id)
                 .orElseThrow(() -> new ClienteNoEncontradoException("Cliente no encontrado"));
@@ -101,8 +101,9 @@ public class GestorClientes {
         Restaurante restaurante = restauranteDAO.findById(restauranteId)
                 .orElseThrow(() -> new RestauranteNoEncontradoException("Restaurante no encontrado"));
 
+        // Verificar si el restaurante ya está en la lista de favoritos del cliente
         if (!cliente.getFavoritos().contains(restaurante)) {
-            cliente.getFavoritos().add(restaurante);
+            cliente.getFavoritos().add(restaurante); // Solo agrega si no está ya en la lista
             clienteDAO.save(cliente);
         }
 
