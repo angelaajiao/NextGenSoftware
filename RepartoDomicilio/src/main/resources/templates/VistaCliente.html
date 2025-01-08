@@ -180,11 +180,14 @@
                 <h3 th:text="${restaurante.nombre}">Nombre del Restaurante</h3>
                 <p th:text="${restaurante.direccion}">Dirección del Restaurante</p>
                 <a href="#" th:href="@{/restaurante/{id}/menu(id=${restaurante.id})}" class="button">Ver Menú</a>
-
             </div>
-            <button class="heart-btn" onclick="toggleFavorite(this)">
-                <span>&#x2661;</span>
-            </button>
+            <form th:action="@{/cliente/{id}/favoritos/agregar(id=${cliente.id})}" method="post" class="favorite-form">
+                <input type="hidden" name="restauranteId" th:value="${restaurante.id}" />
+                <button type="submit" class="heart-btn" th:classappend="${favoritos.contains(restaurante) ? 'favorite' : ''}">
+                    <span th:text="${favoritos.contains(restaurante) ? '&#10084;' : '&#9825;'}">&#9825;</span>
+                </button>
+            </form>
+
         </div>
     </div>
 </div>
@@ -228,34 +231,42 @@
     }
 
     function loadFavorites() {
+        // Obtener los favoritos almacenados en localStorage
         const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
         const restaurantItems = document.getElementsByClassName('restaurant-item');
 
+        // Recorrer cada restaurante y actualizar el estado del botón
         Array.from(restaurantItems).forEach(item => {
-            const restaurantName = item.getElementsByTagName('h3')[0].textContent;
-            const button = item.getElementsByClassName('heart-btn')[0];
-            if (favorites.includes(restaurantName)) {
+            const button = item.querySelector('.heart-btn');
+            const restaurantId = parseInt(button.getAttribute('data-id'));
+
+            if (favorites.includes(restaurantId)) {
                 button.classList.add('favorite');
-                button.innerHTML = '<span>&#x2665;</span>';
+                button.innerHTML = '<span>&#x2665;</span>'; // Corazón rojo
+            } else {
+                button.classList.remove('favorite');
+                button.innerHTML = '<span>&#x2661;</span>'; // Corazón gris
             }
         });
     }
 
-    function toggleFavorite(button) {
-        const restaurantItem = button.parentElement;
-        const restaurantName = restaurantItem.getElementsByTagName('h3')[0].textContent;
-        let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    function toggleFavorite(button, restaurantId) {
+        const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 
-        if (button.classList.contains('favorite')) {
+        if (favorites.includes(restaurantId)) {
+            // Quitar de favoritos
+            const index = favorites.indexOf(restaurantId);
+            favorites.splice(index, 1);
             button.classList.remove('favorite');
-            button.innerHTML = '<span>&#x2661;</span>';
-            favorites = favorites.filter(name => name !== restaurantName);
+            button.innerHTML = '<span>&#x2661;</span>'; // Corazón gris
         } else {
+            // Agregar a favoritos
+            favorites.push(restaurantId);
             button.classList.add('favorite');
-            button.innerHTML = '<span>&#x2665;</span>';
-            favorites.push(restaurantName);
+            button.innerHTML = '<span>&#x2665;</span>'; // Corazón rojo
         }
 
+        // Guardar en localStorage
         localStorage.setItem('favorites', JSON.stringify(favorites));
     }
 

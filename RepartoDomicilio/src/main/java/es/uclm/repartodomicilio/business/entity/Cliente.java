@@ -1,6 +1,7 @@
 package es.uclm.repartodomicilio.business.entity;
 
 import jakarta.persistence.*;
+import java.util.*;
 
 @Entity
 public class Cliente {
@@ -26,6 +27,14 @@ public class Cliente {
     @Column (nullable = false)
     private Direccion direccion;
 
+    @ManyToMany
+    @JoinTable(
+            name = "cliente_favoritos",
+            joinColumns = @JoinColumn(name = "cliente_id"),
+            inverseJoinColumns = @JoinColumn(name = "restaurante_id")
+    )
+    private List<Restaurante> favoritos = new ArrayList<>();
+
     // constructor vacío requerido por JPA
     public Cliente(){}
 
@@ -40,8 +49,6 @@ public class Cliente {
     }
 
     //Métodos get y set
-
-
     public Long getId() { return id; }
 
     public void setId(Long id) { this.id = id; }
@@ -89,6 +96,11 @@ public class Cliente {
         this.direccion = direccion;
     }
 
+    public List<Restaurante> getFavoritos() {
+        return favoritos;
+    }
 
-
+    public void setFavoritos(List<Restaurante> favoritos) {
+        this.favoritos = favoritos;
+    }
 }

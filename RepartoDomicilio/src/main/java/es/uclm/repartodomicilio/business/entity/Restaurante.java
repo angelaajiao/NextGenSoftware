@@ -25,6 +25,9 @@ public class Restaurante {
     @OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CartaMenu> cartasMenu = new ArrayList<>();
 
+    @ManyToMany(mappedBy = "favoritos")
+    private List<Cliente> clientesFavoritos = new ArrayList<>();
+
     //Constructor vacío requerido por JPA
     public Restaurante(){}
 
@@ -78,6 +81,14 @@ public class Restaurante {
 
     public void setCartasMenu(List<CartaMenu> cartasMenu) {
         this.cartasMenu = cartasMenu;
+    }
+
+    public List<Cliente> getClientesFavoritos() {
+        return clientesFavoritos;
+    }
+
+    public void setClientesFavoritos(List<Cliente> clientesFavoritos) {
+        this.clientesFavoritos = clientesFavoritos;
     }
 }
 

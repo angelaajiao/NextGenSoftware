@@ -1,6 +1,5 @@
 package es.uclm.repartodomicilio.business.controller;
 
-import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import es.uclm.repartodomicilio.business.entity.Cliente;
@@ -12,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import es.uclm.repartodomicilio.business.persistence.RestauranteDAO;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 class ClienteNoEncontradoException extends RuntimeException {
     public ClienteNoEncontradoException(String message) {
         super(message);
@@ -69,15 +70,20 @@ public class GestorClientes {
         return "Inicio";
     }
     // Método para la vista de favoritos
-    @GetMapping("cliente/{id}/favoritos")
+    @GetMapping("/cliente/{id}/favoritos")
     public String mostrarFavoritos(@PathVariable Long id, Model model) {
         Cliente cliente = clienteDAO.findById(id)
-                .orElseThrow(() -> new ClienteNoEncontradoException("No hemos encontrado el cliente"));
-        model.addAttribute(STRING_CLIENTE, cliente);
+                .orElseThrow(() -> new ClienteNoEncontradoException("Cliente no encontrado"));
+
+        // Asegurarse de cargar los favoritos
+        List<Restaurante> favoritos = cliente.getFavoritos();
+        model.addAttribute("cliente", cliente);
+        model.addAttribute("favoritos", favoritos);
+
         return "VistaFavoritos";
     }
 
-    @PostMapping("cliente/{id}/favoritos")
+    /*@PostMapping("cliente/{id}/favoritos")
     public String mostrarFavs(@PathVariable Long id, Model model) {
         Cliente cliente = clienteDAO.findById(id)
                 .orElseThrow(() -> new ClienteNoEncontradoException("No hemos encontrado el cliente"));
@@ -85,19 +91,57 @@ public class GestorClientes {
         model.addAttribute(STRING_CLIENTE, cliente);
 
         return "VistaFavoritos";
+    }*/
+
+    @PostMapping("/cliente/{id}/favoritos/agregar")
+    public String agregarFavorito(@PathVariable Long id, @RequestParam Long restauranteId) {
+        Cliente cliente = clienteDAO.findById(id)
+                .orElseThrow(() -> new ClienteNoEncontradoException("Cliente no encontrado"));
+
+        Restaurante restaurante = restauranteDAO.findById(restauranteId)
+                .orElseThrow(() -> new RestauranteNoEncontradoException("Restaurante no encontrado"));
+
+        if (!cliente.getFavoritos().contains(restaurante)) {
+            cliente.getFavoritos().add(restaurante);
+            clienteDAO.save(cliente);
+        }
+
+        return "redirect:/Cliente/" + cliente.getDni();
     }
 
-    //Loggeo
+    @PostMapping("/cliente/{id}/favoritos/eliminar")
+    public String eliminarFavorito(@PathVariable Long id, @RequestParam Long restauranteId) {
+        Cliente cliente = clienteDAO.findById(id)
+                .orElseThrow(() -> new ClienteNoEncontradoException("Cliente no encontrado"));
+
+        Restaurante restaurante = restauranteDAO.findById(restauranteId)
+                .orElseThrow(() -> new RestauranteNoEncontradoException("Restaurante no encontrado"));
+
+        cliente.getFavoritos().remove(restaurante);
+        clienteDAO.save(cliente);
+
+        return "redirect:/Cliente/" + cliente.getDni();
+    }
+
+
     @GetMapping("/Cliente/{id}")
     public String mostrarCliente(@PathVariable String id, Model model) {
         // Buscar cliente por ID o DNI
         Cliente cliente = clienteDAO.findByDni(id) // Si estás usando DNI como identificador
                 .orElseThrow(() -> new ClienteNoEncontradoException("Cliente no encontrado con ID: " + id));
 
-        // Añadir atributos al modelo
-        model.addAttribute(STRING_CLIENTE, cliente);
         List<Restaurante> restaurantes = restauranteDAO.findAll();
-        model.addAttribute(STRING_RESTAURANTE, restaurantes);
+        List<Restaurante> favoritos = cliente.getFavoritos();
+
+        // Log para verificar los favoritos del cliente
+        logger.info("Favoritos del cliente {}: {}", cliente.getId(), favoritos.stream()
+                .map(Restaurante::getNombre) // Mostrar los nombres de los restaurantes favoritos
+                .collect(Collectors.toList()));
+
+        // Pasar los datos al modelo
+        model.addAttribute("cliente", cliente);
+        model.addAttribute("restaurantes", restaurantes);
+        model.addAttribute("favoritos", favoritos);
 
         return "VistaCliente";
     }

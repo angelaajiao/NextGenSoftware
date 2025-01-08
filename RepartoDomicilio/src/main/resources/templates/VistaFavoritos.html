@@ -34,12 +34,11 @@
             border: none;
             cursor: pointer;
             font-size: 2.5rem;
+            color: red;
         }
         .heart-btn:hover {
             transform: scale(1.5);
-        }
-        .heart-btn.favorited {
-            color: red;
+            color: darkred;
         }
     </style>
 </head>
@@ -48,54 +47,34 @@
     <h1 style="color: black;">Restaurantes Favoritos</h1>
 </header>
 
-<div class="content" id="favoritesContent">
+<div class="content">
     <h2>Mis Restaurantes Favoritos</h2>
-    <div id="favoriteRestaurants"></div>
+
+    <!-- Si no hay favoritos -->
+    <div th:if="${favoritos.isEmpty()}">
+        <p>No tienes restaurantes favoritos.</p>
+    </div>
+
+    <!-- Lista de favoritos -->
+    <div th:each="favorito : ${favoritos}" class="restaurant-item">
+        <div>
+            <h3 th:text="${favorito.nombre}"></h3>
+            <p th:text="${favorito.direccion}"></p>
+        </div>
+        <!-- Botón para eliminar el favorito -->
+        <form th:action="@{/cliente/{id}/favoritos/eliminar(id=${cliente.id})}" method="post" onsubmit="return confirmDeletion()">
+            <input type="hidden" name="restauranteId" th:value="${favorito.id}" />
+            <button type="submit" class="heart-btn">&#10084;</button>
+        </form>
+    </div>
 </div>
 
+<a th:href="@{/Cliente/{id}(id=${cliente.dni})}">Volver a Inicio</a>
+
 <script>
-    // Cargar los favoritos desde localStorage y mostrarlos
-    function loadFavoriteRestaurants() {
-        const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-        const favoritesContainer = document.getElementById('favoriteRestaurants');
-
-        favoritesContainer.innerHTML = '';
-
-        if (favorites.length === 0) {
-            favoritesContainer.innerHTML = '<p>No tienes restaurantes favoritos.</p>';
-            return;
-        }
-
-        favorites.forEach((name, index) => {
-            const restaurantDiv = document.createElement('div');
-            restaurantDiv.classList.add('restaurant-item');
-            restaurantDiv.innerHTML = `
-                <h3>${name}</h3>
-                <button class="heart-btn favorited" onclick="toggleFavorite(${index})">&#10084;</button>
-            `;
-            favoritesContainer.appendChild(restaurantDiv);
-        });
+    function confirmDeletion() {
+        return confirm("¿Estás seguro de que quieres eliminar este restaurante de tus favoritos?");
     }
-
-    // Alternar favorito
-    function toggleFavorite(index) {
-        let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-        const button = document.querySelectorAll('.heart-btn')[index];
-
-        if (favorites[index]) {
-            favorites.splice(index, 1); // Eliminar favorito
-            button.classList.remove('favorited'); // Cambiar el color del corazón
-        } else {
-            favorites.push(favorites[index]); // Añadir favorito
-            button.classList.add('favorited'); // Cambiar el color del corazón
-        }
-
-        localStorage.setItem('favorites', JSON.stringify(favorites)); // Actualizar almacenamiento
-        loadFavoriteRestaurants(); // Actualizar vista
-    }
-
-    document.addEventListener('DOMContentLoaded', loadFavoriteRestaurants);
 </script>
-<a th:href="@{/Cliente/{id}(id=${cliente.dni})}">Volver</a>
 </body>
 </html>

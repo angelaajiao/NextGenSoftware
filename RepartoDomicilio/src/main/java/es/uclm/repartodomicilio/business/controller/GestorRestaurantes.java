@@ -50,6 +50,7 @@ public class GestorRestaurantes {
     public static final String STRING_RESTAURANTE = "restaurante";
     public static final String STRING_RESTAURANTES = "restaurantes";
     public static final String STRING_CARTAMENU = "cartaMenu";
+    public static final String STRING_CARTASMENU = "cartasMenu";
     public static final String STRING_ITEMS = "items";
     private static final String VISTA_REGISTRO_RESTAURANTE = "registroRestaurante";
     private static final String VISTA_LISTAR_RESTAURANTES = "listarRestaurantes";
@@ -169,10 +170,10 @@ public class GestorRestaurantes {
         if (cartasMenu.isEmpty()) {
             logger.warn("Restaurante no tiene cartas de menú disponibles.");
             model.addAttribute("mensaje", "Este restaurante no tiene cartas de menú disponibles.");
-            model.addAttribute(STRING_CARTAMENU, Collections.emptyList());
+            model.addAttribute(STRING_CARTASMENU, Collections.emptyList());
         } else {
             logger.info("Cartas de menú encontradas: {}", cartasMenu.size());
-            model.addAttribute(STRING_CARTAMENU, cartasMenu);
+            model.addAttribute(STRING_CARTASMENU, cartasMenu);
             model.addAttribute("mensaje", "");
         }
 
